@@ -14,7 +14,7 @@ class ProfesseurSeeder extends Seeder
      */
     public function run(): void
     {
-        // Récupérer une filière existante
+        // Recupere filliere existante
         $filliere = Filliere::where('nom', 'Développement Web')->first();
 
         if ($filliere) {

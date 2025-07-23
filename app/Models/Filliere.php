@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StatutPresence extends Model
+class Filliere extends Model
 {
     //
 }

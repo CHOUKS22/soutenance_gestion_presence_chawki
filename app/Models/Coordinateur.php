@@ -6,5 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Coordinateur extends Model
 {
-    //
+    protected $fillable = [
+        'user_id',
+        'role',
+        'user_id'
+    ];
+
+    /**
+     * Relation avec le modèle User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

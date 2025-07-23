@@ -17,34 +17,29 @@ class AnneeClasseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Récupérer les données existantes
-        $anneeAcademique = AnneeAcademique::where('libelle', 'Année académique 2024-2025')->first();
-        $classe = Classe::where('nom', 'Licence 1')->first();
-        $coordinateur = Coordinateur::first();
+        $annees = [
+            'Année académique 2023-2024',
+            'Année académique 2024-2025',
+            'Année académique 2025-2026',
+        ];
 
-        // Créer une association si les données existent
-        if ($anneeAcademique && $classe && $coordinateur) {
-            AnneeClasse::create([
-                'annee_academique_id' => $anneeAcademique->id,
-                'classe_id' => $classe->id,
-                'coordinateur_id' => $coordinateur->id,
-            ]);
-        }
+        $classe = Classe::first();
+        $coord = Coordinateur::first();
 
-        // Créer d'autres associations si possible
-        $anneeAcademique2 = AnneeAcademique::where('libelle', 'Année académique 2023-2024')->first();
-        if ($anneeAcademique2 && $classe && $coordinateur) {
-            // Vérifier que l'association n'existe pas déjà
-            $exists = AnneeClasse::where('annee_academique_id', $anneeAcademique2->id)
-                ->where('classe_id', $classe->id)
-                ->exists();
-
-            if (!$exists) {
-                AnneeClasse::create([
-                    'annee_academique_id' => $anneeAcademique2->id,
-                    'classe_id' => $classe->id,
-                    'coordinateur_id' => $coordinateur->id,
-                ]);
+        if ($classe && $coord) {
+            foreach ($annees as $libelleaAnnee) {
+                $annee = AnneeAcademique::where('libelle', $libelleaAnnee)->first();
+                if ($annee) {
+                    AnneeClasse::FirstOrCreate(
+                        [
+                            'annee_academique_id' => $annee->id,
+                            'classe_id' => $classe->id,
+                        ],
+                        [
+                            'coordinateur_id' => $coord->id,
+                        ]
+                    );
+                }
             }
         }
     }

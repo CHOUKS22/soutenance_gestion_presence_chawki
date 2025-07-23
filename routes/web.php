@@ -3,10 +3,8 @@
 //  Controlleurs des utilisateurs
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\EtudiantController;
-use App\Http\Controllers\ProfesseurController;
-use App\Http\Controllers\CoordinateurController;
-use App\Http\Controllers\ParentController;
+use App\Http\Controllers\Etudiant\DashboardController as EtudiantDashboardController;
+use App\Http\Controllers\Parent\DashboardController as ParentDashboardController;
 use App\Http\Controllers\DashboardController;
 
 //Controlleurs Coordinateur
@@ -18,14 +16,15 @@ use App\Http\Controllers\Coordinateur\PresenceAbsenceController;
 use App\Http\Controllers\Professeur\DashboardProfesseurController;
 // Controlleurs Admin
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AnneeAcademiqueController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AnneAcademiqueController;
 use App\Http\Controllers\Admin\ClasseController;
-use App\Http\Controllers\Admin\EtudiantController as AdminEtudiantController;
+use App\Http\Controllers\Admin\EtudiantController;
 use App\Http\Controllers\Admin\ParentController as AdminParentController;
 use App\Http\Controllers\Admin\ProfesseurController as AdminProfesseurController;
 use App\Http\Controllers\Admin\CoordinateurController as AdminCoordinateurController;
 use App\Http\Controllers\Admin\ClasseController as AdminClasseController;
-use App\Http\Controllers\Admin\AnneAcademiqueController as AdminAnneeAcademiqueController;
 use App\Http\Controllers\Admin\SemestreController as AdminSemestreController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
 use App\Http\Controllers\Admin\StatutSeance as AdminStatutSeanceController;
@@ -33,6 +32,7 @@ use App\Http\Controllers\Admin\StatutPresenceController as AdminStatutPresenceCo
 use App\Http\Controllers\Admin\AnneeClasseController as AdminAnneeClasseController;
 use App\Http\Controllers\Coordinateur\EtudiantClasseController;
 use App\Http\Controllers\Coordinateur\MatiereController;
+use App\Models\AnneeAcademique;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboards par role
     Route::middleware(['Etudiant'])->group(function () {
-        // Route::get('/etudiant/dashboard', [EtudiantController::class, 'dashboard'])->name('etudiant.dashboard');
+        Route::get('/etudiant/dashboard', [EtudiantDashboardController::class, 'dashboard'])->name('etudiant.dashboard');
     });
 
     Route::middleware(['Professeur'])->group(function () {
@@ -61,18 +61,18 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['Coordinateur'])->group(function () {
         Route::get('/coordinateur/dashboard', [DashboardCoordinateurController::class, 'index'])->name('coordinateur.dashboard');
-        Route::get('/gestion-seances', [SeanceController::class, 'index'])->name('gestion-seances.index');
-        Route::get('/gestion-seances/create', [SeanceController::class, 'create'])->name('gestion-seances.create');
-        Route::post('/gestion-seances', [SeanceController::class, 'store'])->name('gestion-seances.store');
-        Route::get('/gestion-seances/{seance}', [SeanceController::class, 'show'])->name('gestion-seances.show');
-        Route::get('/gestion-seances/{seance}/edit', [SeanceController::class, 'edit'])->name('gestion-seances.edit');
-        Route::patch('/gestion-seances/{seance}', [SeanceController::class, 'update'])->name('gestion-seances.update');
-        Route::put('/gestion-seances/{seance}', [SeanceController::class, 'update'])->name('gestion-seances.update');
-        Route::delete('/gestion-seances/{seance}', [SeanceController::class, 'destroy'])->name('gestion-seances.destroy');
+        Route::get('/seances', [SeanceController::class, 'index'])->name('seances.index');
+        Route::get('/seances/create', [SeanceController::class, 'create'])->name('seances.create');
+        Route::post('/seances', [SeanceController::class, 'store'])->name('seances.store');
+        Route::get('/seances/{seance}', [SeanceController::class, 'show'])->name('seances.show');
+        Route::get('/seances/{seance}/edit', [SeanceController::class, 'edit'])->name('seances.edit');
+        Route::patch('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
+        Route::put('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
+        Route::delete('/seances/{seance}', [SeanceController::class, 'destroy'])->name('seances.destroy');
         Route::resource('matieres', MatiereController::class);
-        Route::resource('gestion-etudiants-classes', EtudiantClasseController::class);
-        Route::get('/gestion-etudiants-classes/inscrire-plusieurs', [EtudiantClasseController::class, 'inscrirePlusieurs'])->name('gestion-etudiants-classes.inscrire-plusieurs');
-        Route::post('/gestion-etudiants-classes/enregistrer-plusieurs', [EtudiantClasseController::class, 'enregistrerPlusieurs'])->name('gestion-etudiants-classes.enregistrer-plusieurs');
+        Route::resource('etudiants-classes', EtudiantClasseController::class);
+        Route::get('/etudiants-classes/inscrire-plusieurs', [EtudiantClasseController::class, 'inscrirePlusieurs'])->name('etudiants-classes.inscrire-plusieurs');
+        Route::post('/etudiants-classes/enregistrer-plusieurs', [EtudiantClasseController::class, 'enregistrerPlusieurs'])->name('etudiants-classes.enregistrer-plusieurs');
         Route::post('/presence/present', [PresenceAbsenceController::class, 'marquerPresent'])->name('presence.present');
         Route::post('/presence/retard', [PresenceAbsenceController::class, 'marquerRetard'])->name('presence.retard');
         Route::post('/presence/absent', [PresenceAbsenceController::class, 'marquerAbsent'])->name('presence.absent');
@@ -86,30 +86,28 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['Parent'])->group(function () {
-
-        // Route::get('/parent/dashboard', [ParentController::class, 'dashboard'])->name('parent.dashboard');
+        Route::get('/parent/dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
     });
 
     Route::middleware(['Administrateur'])->group(function () {
         Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
         Route::resource('admins', AdminDashboardController::class);
         Route::resource('users', UserController::class);
-        Route::resource('gestion-etudiants', AdminEtudiantController::class);
-        Route::resource('gestion-parents', AdminParentController::class);
-        Route::resource('gestion-professeurs', AdminProfesseurController::class);
-        Route::resource('gestion-coordinateurs', AdminCoordinateurController::class);
-        Route::resource('gestion-admins', AdminController::class);
-        Route::resource('gestion-classes', AdminClasseController::class);
-        Route::resource('gestion-annees-academiques', AdminAnneeAcademiqueController::class);
-        Route::resource('gestion-semestres', AdminSemestreController::class);
-        Route::resource('gestion-roles', AdminRoleController::class);
-        Route::resource('gestion-statuts-seances', AdminStatutSeanceController::class);
-        Route::resource('gestion-statuts-presences', AdminStatutPresenceController::class);
-        Route::resource('gestion-annees-classes', AdminAnneeClasseController::class);
+        Route::resource('etudiants', EtudiantController::class);
+        Route::resource('parents', AdminParentController::class);
+        Route::resource('professeurs', AdminProfesseurController::class);
+        Route::resource('coordinateurs', AdminCoordinateurController::class);
+        Route::resource('admins', AdminController::class);
+        Route::resource('classes', ClasseController::class)->parameters(['classes' => 'classe']);;
+        Route::resource('annees-academiques', AnneAcademiqueController::class)->parameters(['annees-academiques' => 'anneeAcademique']);
+        Route::resource('semestres', AdminSemestreController::class);
+        Route::resource('roles', AdminRoleController::class);
+        Route::resource('statuts-seances', AdminStatutSeanceController::class);
+        Route::resource('statuts-presences', AdminStatutPresenceController::class);
+        Route::resource('annees-classes', AdminAnneeClasseController::class);
         // Routes pour l'assignation d'étudiants aux parents
-        Route::post('/gestion-parents/assign-etudiant', [AdminParentController::class, 'assignEtudiant'])->name('gestion-parents.assign-etudiant');
-        Route::post('/gestion-parents/unassign-etudiant', [AdminParentController::class, 'unassignEtudiant'])->name('gestion-parents.unassign-etudiant');
-
+        Route::post('/parents/assign-etudiant', [AdminParentController::class, 'assignEtudiant'])->name('parents.assign-etudiant');
+        Route::post('/parents/unassign-etudiant', [AdminParentController::class, 'unassignEtudiant'])->name('parents.unassign-etudiant');
     });
 
     // Routes de profil (accessible à tous les utilisateurs connectés)

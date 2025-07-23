@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Statut_presence;
 use App\Models\StatutPresence;
 use Illuminate\Database\Seeder;
 
@@ -29,7 +30,7 @@ class StatutPresenceSeeder extends Seeder
         ];
 
         foreach ($statuts as $statut) {
-            StatutPresence::firstOrCreate(
+            Statut_presence::firstOrCreate(
                 ['libelle' => $statut['libelle']],
                 $statut
             );
