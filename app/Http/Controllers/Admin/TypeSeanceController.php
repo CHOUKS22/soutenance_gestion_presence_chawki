@@ -15,11 +15,11 @@ class TypeSeanceController extends Controller
         return view('admin.types-seances.index', compact('types_seances'));
     }
 
-    // Details d'un type
-    public function show(Type_seance $type_seance)
-    {
-        return view('admin.types-seances.show', compact('type_seance'));
-    }
+    // // Details d'un type
+    // public function show(Type_seance $type_seance)
+    // {
+    //     return view('admin.types-seances.show', compact('type_seance'));
+    // }
 
     // Formulaire de creation
     public function create()

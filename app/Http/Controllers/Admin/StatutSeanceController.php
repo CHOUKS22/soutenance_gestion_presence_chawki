@@ -19,12 +19,12 @@ class StatutSeanceController extends Controller
     }
 
     // Affiche les details d'un statut
-    public function show(Statut_seance $gestionStatutSeance)
+    public function show(Statut_seance $statuts_seance)
     {
-        $gestionStatutSeance->load('seances');
+        $statuts_seance->load('seances');
 
         return view('admin.statuts-seances.show', [
-            'statutSeance' => $gestionStatutSeance
+            'statutSeance' => $statuts_seance
         ]);
     }
 
@@ -48,36 +48,36 @@ class StatutSeanceController extends Controller
     }
 
     // Formulaire d'edition
-    public function edit(Statut_seance $gestionStatutSeance)
+    public function edit(Statut_seance $statuts_seance)
     {
         return view('admin.statuts-seances.edit', [
-            'statutSeance' => $gestionStatutSeance
+            'statutSeance' => $statuts_seance
         ]);
     }
 
     // Met a jour le statut
-    public function update(Request $request, Statut_seance $gestionStatutSeance)
+    public function update(Request $request, Statut_seance $statuts_seance)
     {
         $validated = $request->validate([
-            'libelle' => 'required|string|max:255|unique:statuts_seances,libelle,' . $gestionStatutSeance->id,
+            'libelle' => 'required|string|max:255|unique:statuts_seances,libelle,' . $statuts_seance->id,
             'description' => 'nullable|string|max:1000',
         ]);
 
-        $gestionStatutSeance->update($validated);
+        $statuts_seance->update($validated);
 
-        return redirect()->route('statuts-seances.index')->with('success', 'Statut de seance modifie avec succes.');
+        return redirect()->route('statuts-seances.index')->with('success', 'Statut de séance modifié avec succès.');
     }
 
     // Supprime le statut si non utilise
-    public function destroy(Statut_seance $gestionStatutSeance)
+    public function destroy(Statut_seance $statuts_seance)
     {
-        if ($gestionStatutSeance->seances()->count() > 0) {
+        if ($statuts_seance->seances()->count() > 0) {
             return redirect()->route('statuts-seances.index')
-                ->with('error', 'Impossible de supprimer ce statut car il est utilise.');
+                ->with('error', 'Impossible de supprimer ce statut car il est utilisé.');
         }
 
-        $gestionStatutSeance->delete();
+        $statuts_seance->delete();
 
-        return redirect()->route('statuts-seances.index')->with('success', 'Statut de seance supprime avec succes.');
+        return redirect()->route('statuts-seances.index')->with('success', 'Statut de séance supprimé avec succès.');
     }
 }

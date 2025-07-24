@@ -12,4 +12,9 @@ class Statut_seance extends Model
         'libelle',
         'description'
     ];
+
+    public function seances()
+    {
+        return $this->hasMany(Seance::class);
+    }
 }

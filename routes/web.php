@@ -72,14 +72,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['Coordinateur'])->group(function () {
         Route::get('/coordinateur/dashboard', [DashboardCoordinateurController::class, 'index'])->name('coordinateur.dashboard');
-        Route::get('/seances', [SeanceController::class, 'index'])->name('seances.index');
-        Route::get('/seances/create', [SeanceController::class, 'create'])->name('seances.create');
-        Route::post('/seances', [SeanceController::class, 'store'])->name('seances.store');
-        Route::get('/seances/{seance}', [SeanceController::class, 'show'])->name('seances.show');
-        Route::get('/seances/{seance}/edit', [SeanceController::class, 'edit'])->name('seances.edit');
-        Route::patch('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
-        Route::put('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
-        Route::delete('/seances/{seance}', [SeanceController::class, 'destroy'])->name('seances.destroy');
+        // Route::get('/seances', [SeanceController::class, 'index'])->name('seances.index');
+        // Route::get('/seances/create', [SeanceController::class, 'create'])->name('seances.create');
+        // Route::post('/seances', [SeanceController::class, 'store'])->name('seances.store');
+        // Route::get('/seances/{seance}', [SeanceController::class, 'show'])->name('seances.show');
+        // Route::get('/seances/{seance}/edit', [SeanceController::class, 'edit'])->name('seances.edit');
+        // Route::patch('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
+        // Route::put('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
+        // Route::delete('/seances/{seance}', [SeanceController::class, 'destroy'])->name('seances.destroy');
         Route::resource('etudiants-classes', GestionEtudiantClasseController::class);
         Route::get('/etudiants-classes/inscrire-plusieurs', [GestionEtudiantClasseController::class, 'inscrirePlusieurs'])->name('etudiants-classes.inscrire-plusieurs');
         Route::post('/etudiants-classes/enregistrer-plusieurs', [GestionEtudiantClasseController::class, 'enregistrerPlusieurs'])->name('etudiants-classes.enregistrer-plusieurs');
@@ -89,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/presence/plusieurs-presents', [PresenceAbsenceController::class, 'marquerPlusieursPresents'])->name('presence.plusieurs.presents');
         Route::post('/presence/plusieurs-absents', [PresenceAbsenceController::class, 'marquerPlusieursAbsents'])->name('presence.plusieurs.absents');
         Route::get('/presence/statistiques', [PresenceAbsenceController::class, 'statistiques'])->name('presence.statistiques');
+        Route::resource('/seances', SeanceController::class);
         Route::get('/seances/prochaines', [SeanceController::class, 'prochaines'])->name('seances.prochaines');
         Route::get('/seances/historique', [SeanceController::class, 'historique'])->name('seances.historique');
         Route::get('/seances/aujourd-hui', [SeanceController::class, 'aujourdhui'])->name('seances.aujourdhui');
@@ -121,14 +122,14 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('professeurs', ProfesseurController::class);
         Route::resource('coordinateurs', CoordinateurController::class);
         Route::resource('admins', AdminController::class);
-        Route::resource('classes', ClasseController::class)->parameters(['classes' => 'classe']);;
+        Route::resource('classes', ClasseController::class)->parameters(['classes' => 'classe']);
         Route::resource('annees-academiques', AnneAcademiqueController::class)->parameters(['annees-academiques' => 'anneeAcademique']);
         Route::resource('semestres', SemestreController::class);
         Route::resource('roles', RoleController::class);
         Route::resource('statuts-seances', StatutSeanceController::class);
         Route::resource('statuts-presences', StatutPresenceController::class)->parameters(['statuts-presences' => 'statuts_presence']);
         Route::resource('annees-classes', AnneeClasseController::class)->parameters(['annees-classes' => 'anneeClasse']);
-        Route::resource('types-seances', TypeSeanceController::class);
+        Route::resource('types-seances', TypeSeanceController::class)->parameters(['types-seances' => 'type_seance']);
 
         // Routes pour l'assignation d'étudiants aux parents
         Route::post('/parents/assign-etudiant', [ParentController::class, 'assignEtudiant'])->name('parents.assign-etudiant');

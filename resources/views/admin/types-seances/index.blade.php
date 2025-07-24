@@ -19,7 +19,7 @@
                 <h2 class="text-xl font-bold text-gray-800">Liste des Types de Séances</h2>
             </div>
 
-            @if($type_seance->count() > 0)
+            @if($types_seances->count() > 0)
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead class="bg-gray-50">
@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            @foreach($type_seance as $typeSeance)
+                            @foreach($types_seances as $typeSeance)
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">
@@ -59,11 +59,11 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center space-x-2">
-                                            <a href="{{ route('types-seances.show', $typeSeance->id) }}"
+                                            {{-- <a href="{{ route('types-seances.show', $typeSeance->id) }}"
                                                class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
                                                title="Voir les détails">
                                                 <i class="fas fa-eye text-sm"></i>
-                                            </a>
+                                            </a> --}}
                                             <a href="{{ route('types-seances.edit', $typeSeance->id) }}"
                                                class="bg-yellow-600 text-white p-2 rounded-lg hover:bg-yellow-700 transition-colors"
                                                title="Modifier">
