@@ -8,7 +8,7 @@
     <div class="alert alert-danger">
         <h4>Erreur</h4>
         <p>La séance demandée n'a pas été trouvée.</p>
-        <a href="{{ route('gestion-seances.index') }}" class="btn btn-primary">Retour à la liste</a>
+        <a href="{{ route('seances.index') }}" class="btn btn-primary">Retour à la liste</a>
     </div>
 @else
 <div class="min-h-screen bg-gray-50">
@@ -16,7 +16,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
-                <a href="{{ route('gestion-seances.index') }}"
+                <a href="{{ route('seances.index') }}"
                    class="text-gray-600 hover:text-gray-800 transition-colors">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </a>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="flex space-x-3">
-                <a href="{{ route('gestion-seances.edit', $seance) }}"
+                <a href="{{ route('seances.edit', $seance) }}"
                    class="bg-yellow-600 text-white px-6 py-3 rounded-lg hover:bg-yellow-700 transition-colors flex items-center space-x-2 shadow-lg">
                     <i class="fas fa-edit"></i>
                     <span>Modifier</span>
@@ -136,15 +136,15 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        @if($etudiant->statut_presence === 'Présent')
+                                        @if($etudiant->statuts_presence === 'Présent')
                                             <span class="inline-flex px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">
                                                 <i class="fas fa-check-circle mr-1"></i>Présent
                                             </span>
-                                        @elseif($etudiant->statut_presence === 'En retard')
+                                        @elseif($etudiant->statuts_presence === 'En retard')
                                             <span class="inline-flex px-2 py-1 text-xs font-semibold bg-orange-100 text-orange-800 rounded-full">
                                                 <i class="fas fa-clock mr-1"></i>En retard
                                             </span>
-                                        @elseif($etudiant->statut_presence === 'Absent')
+                                        @elseif($etudiant->statuts_presence === 'Absent')
                                             <span class="inline-flex px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
                                                 <i class="fas fa-times-circle mr-1"></i>Absent
                                             </span>
@@ -306,7 +306,7 @@
             <!-- Actions -->
             <div class="mt-6 pt-6 border-t border-gray-200">
                 <div class="flex flex-wrap gap-3">
-                    <a href="{{ route('gestion-seances.edit', $seance) }}"
+                    <a href="{{ route('seances.edit', $seance) }}"
                        class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors flex items-center">
                         <i class="fas fa-edit mr-2"></i>Modifier la séance
                     </a>
@@ -314,7 +314,7 @@
                             class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
                         <i class="fas fa-print mr-2"></i>Imprimer
                     </button>
-                    <a href="{{ route('gestion-seances.index') }}"
+                    <a href="{{ route('seances.index') }}"
                        class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
                         <i class="fas fa-list mr-2"></i>Retour à la liste
                     </a>

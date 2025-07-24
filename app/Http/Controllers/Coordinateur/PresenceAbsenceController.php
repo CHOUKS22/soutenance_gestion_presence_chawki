@@ -7,6 +7,7 @@ use App\Models\Presence;
 use App\Models\Absence;
 use App\Models\Etudiant;
 use App\Models\Seance;
+use App\Models\Statut_presence;
 use App\Models\StatutPresence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class PresenceAbsenceController extends Controller
         }
         $etudiants = $etudiants->unique('id');
 
-        $statutsPresence = StatutPresence::all();
+        $statutsPresence = Statut_presence::all();
 
         // Récupérer les présences et absences déjà marquées
         $presencesMarquees = Presence::where('seance_id', $seanceId)

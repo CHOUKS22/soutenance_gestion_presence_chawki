@@ -9,7 +9,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
-                <a href="{{ route('gestion-seances.show', $seance) }}"
+                <a href="{{ route('seances.show', $seance) }}"
                    class="text-gray-600 hover:text-gray-800 transition-colors">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </a>
@@ -19,7 +19,7 @@
 
         <!-- Formulaire -->
         <div class="bg-white rounded-xl shadow-md p-8">
-            <form method="POST" action="{{ route('gestion-seances.update', $seance) }}" class="space-y-6">
+            <form method="POST" action="{{ route('seances.update', $seance) }}" class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -205,7 +205,7 @@
 
                 <!-- Boutons d'action -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                    <a href="{{ route('gestion-seances.show', $seance) }}"
+                    <a href="{{ route('seances.show', $seance) }}"
                        class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                         Annuler
                     </a>

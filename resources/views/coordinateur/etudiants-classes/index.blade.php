@@ -7,11 +7,11 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Gestion des Inscriptions</h1>
         <div class="flex space-x-2">
-            <a href="{{ route('gestion-etudiants-classes.inscrire-plusieurs') }}"
+            <a href="{{ route('etudiants-classes.inscrire-plusieurs') }}"
                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                 <i class="fas fa-users mr-2"></i>Inscription groupée
             </a>
-            <a href="{{ route('gestion-etudiants-classes.create') }}"
+            <a href="{{ route('etudiants-classes.create') }}"
                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 <i class="fas fa-plus mr-2"></i>Nouvelle inscription
             </a>
@@ -62,15 +62,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                <a href="{{ route('gestion-etudiants-classes.show', $inscription->id) }}"
+                                <a href="{{ route('etudiants-classes.show', $inscription->id) }}"
                                    class="text-blue-600 hover:text-blue-900">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('gestion-etudiants-classes.edit', $inscription->id) }}"
+                                <a href="{{ route('etudiants-classes.edit', $inscription->id) }}"
                                    class="text-yellow-600 hover:text-yellow-900">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('gestion-etudiants-classes.destroy', $inscription->id) }}"
+                                <form action="{{ route('etudiants-classes.destroy', $inscription->id) }}"
                                       method="POST" class="inline"
                                       onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?')">
                                     @csrf

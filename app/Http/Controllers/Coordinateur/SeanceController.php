@@ -53,7 +53,7 @@ class SeanceController extends Controller
         try {
             $request->validate([
                 'classe_id' => 'required|exists:classes,id',
-                'matieres_id' => 'required|exists:matieres,id',
+                'matiere_id' => 'required|exists:matieres,id',
                 'professeur_id' => 'required|exists:professeurs,id',
                 'statut_seance_id' => 'required|exists:statuts_seances,id',
                 'semestre_id' => 'required|exists:semestres,id',
@@ -64,7 +64,7 @@ class SeanceController extends Controller
 
             $seance = Seance::create($request->only([
                 'classe_id',
-                'matieres_id',
+                'matiere_id',
                 'professeur_id',
                 'statut_seance_id',
                 'semestre_id',
@@ -73,7 +73,7 @@ class SeanceController extends Controller
                 'date_fin'
             ]));
 
-            return redirect()->route('gestion-seances.index')->with('success', 'Séance créée avec succès.');
+            return redirect()->route('seances.index')->with('success', 'Séance créée avec succès.');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Erreur lors de la création de la séance: ' . $e->getMessage());
         }
@@ -164,7 +164,7 @@ class SeanceController extends Controller
     {
         $request->validate([
             'classe_id' => 'required|exists:classes,id',
-            'matieres_id' => 'required|exists:matieres,id',
+            'matiere_id' => 'required|exists:matieres,id',
             'professeur_id' => 'required|exists:professeurs,id',
             'statut_seance_id' => 'required|exists:statuts_seances,id',
             'semestre_id' => 'required|exists:semestres,id',
@@ -175,7 +175,7 @@ class SeanceController extends Controller
 
         $seance->update($request->all());
 
-        return redirect()->route('gestion-seances.index')->with('success', 'Séance mise à jour avec succès.');
+        return redirect()->route('seances.index')->with('success', 'Séance mise à jour avec succès.');
     }
 
     /**
@@ -184,64 +184,7 @@ class SeanceController extends Controller
     public function destroy(Seance $seance)
     {
         $seance->delete();
-        return redirect()->route('gestion-seances.index')->with('success', 'Séance supprimée avec succès.');
+        return redirect()->route('seances.index')->with('success', 'Séance supprimée avec succès.');
     }
 
-    /**
-     * Afficher les séances à venir
-     */
-    public function prochaines()
-    {
-        $seances = Seance::with(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])
-                          ->where('date_debut', '>', now())
-                          ->orderBy('date_debut', 'asc')
-                          ->paginate(10);
-
-        return view('coordinateur.seances.prochaines', compact('seances'));
-    }
-
-    /**
-     * Afficher l'historique des séances
-     */
-    public function historique()
-    {
-        $seances = Seance::with(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])
-                          ->where('date_fin', '<', now())
-                          ->orderBy('date_debut', 'desc')
-                          ->paginate(10);
-
-        return view('coordinateur.seances.historique', compact('seances'));
-    }
-
-    /**
-     * Afficher les séances d'aujourd'hui
-     */
-    public function aujourdhui()
-    {
-        $today = now()->startOfDay();
-        $endOfDay = now()->endOfDay();
-
-        $seances = Seance::with(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])
-                          ->whereBetween('date_debut', [$today, $endOfDay])
-                          ->orderBy('date_debut', 'asc')
-                          ->get();
-
-        return view('coordinateur.seances.aujourdhui', compact('seances'));
-    }
-
-    /**
-     * Afficher les séances de cette semaine
-     */
-    public function cetteSemaine()
-    {
-        $startOfWeek = now()->startOfWeek();
-        $endOfWeek = now()->endOfWeek();
-
-        $seances = Seance::with(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])
-                          ->whereBetween('date_debut', [$startOfWeek, $endOfWeek])
-                          ->orderBy('date_debut', 'asc')
-                          ->paginate(10);
-
-        return view('coordinateur.seances.cette-semaine', compact('seances'));
-    }
 }

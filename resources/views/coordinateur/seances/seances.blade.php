@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex space-x-3">
-            <a href="{{ route('gestion-seances.create') }}"
+            <a href="{{ route('seances.create') }}"
                class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 shadow-lg">
                 <i class="fas fa-plus"></i>
                 <span>Nouvelle Séance</span>
@@ -42,7 +42,7 @@
                class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
                 <i class="fas fa-history mr-2"></i>Historique
             </a>
-            <a href="{{ route('gestion-seances.index') }}"
+            <a href="{{ route('seances.index') }}"
                class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors font-medium border-2 border-indigo-300">
                 <i class="fas fa-list mr-2"></i>Toutes
             </a>
@@ -197,15 +197,15 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                    <a href="{{ route('gestion-seances.show', $seance) }}"
+                                    <a href="{{ route('seances.show', $seance) }}"
                                        class="text-blue-600 hover:text-blue-900 transition-colors">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('gestion-seances.edit', $seance) }}"
+                                    <a href="{{ route('seances.edit', $seance) }}"
                                        class="text-yellow-600 hover:text-yellow-900 transition-colors">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form method="POST" action="{{ route('gestion-seances.destroy', $seance) }}"
+                                    <form method="POST" action="{{ route('seances.destroy', $seance) }}"
                                           class="inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette séance ?')">
                                         @csrf
                                         @method('DELETE')
@@ -231,7 +231,7 @@
                 <i class="fas fa-calendar-alt text-4xl text-gray-400 mb-4"></i>
                 <h3 class="text-lg font-medium text-gray-900 mb-2">Aucune séance trouvée</h3>
                 <p class="text-gray-500 mb-6">Commencez par créer votre première séance.</p>
-                <a href="{{ route('gestion-seances.create') }}"
+                <a href="{{ route('seances.create') }}"
                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                     <i class="fas fa-plus mr-2"></i>
                     Créer une séance

@@ -30,7 +30,7 @@ class GestionEtudiantClasseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'annee_classe_id' => 'required|exists:annee_classes,id',
+            'annee_classe_id' => 'required|exists:annees_classes,id',
             'etudiant_id' => 'required|exists:etudiants,id',
         ]);
 
@@ -48,7 +48,7 @@ class GestionEtudiantClasseController extends Controller
             'etudiant_id' => $request->etudiant_id,
         ]);
 
-        return redirect()->route('gestion-etudiants-classes.index')
+        return redirect()->route('etudiants-classes.index')
             ->with('success', 'Inscription créée avec succès.');
     }
 
@@ -93,7 +93,7 @@ class GestionEtudiantClasseController extends Controller
             'etudiant_id' => $request->etudiant_id,
         ]);
 
-        return redirect()->route('gestion-etudiants-classes.index')
+        return redirect()->route('etudiants-classes.index')
             ->with('success', 'Inscription modifiée avec succès.');
     }
 
@@ -102,7 +102,7 @@ class GestionEtudiantClasseController extends Controller
         $inscription = AnneeClasseEtudiant::findOrFail($id);
         $inscription->delete();
 
-        return redirect()->route('gestion-etudiants-classes.index')
+        return redirect()->route('etudiants-classes.index')
             ->with('success', 'Inscription supprimée avec succès.');
     }
 
@@ -147,7 +147,7 @@ class GestionEtudiantClasseController extends Controller
             $message .= ", {$errorCount} déjà existantes";
         }
 
-        return redirect()->route('gestion-etudiants-classes.index')
+        return redirect()->route('etudiants-classes.index')
             ->with('success', $message);
     }
 }

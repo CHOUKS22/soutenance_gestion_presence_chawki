@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mx-auto px-4">
     <div class="flex items-center mb-6">
-        <a href="{{ route('gestion-etudiants-classes.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">
+        <a href="{{ route('etudiants-classes.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">
             <i class="fas fa-arrow-left text-xl"></i>
         </a>
         <h1 class="text-2xl font-bold text-gray-800">Inscription Groupée d'Étudiants</h1>
@@ -22,7 +22,7 @@
     @endif
 
     <div class="bg-white rounded-lg shadow-sm p-6">
-        <form method="POST" action="{{ route('gestion-etudiants-classes.enregistrer-plusieurs') }}">
+        <form method="POST" action="{{ route('etudiants-classes.enregistrer-plusieurs') }}">
             @csrf
 
             <!-- Sélection de la classe -->
@@ -89,7 +89,7 @@
             </div>
 
             <div class="flex justify-end space-x-3">
-                <a href="{{ route('gestion-etudiants-classes.index') }}"
+                <a href="{{ route('etudiants-classes.index') }}"
                    class="px-4 py-2 border text-gray-700 rounded hover:bg-gray-50">
                     Annuler
                 </a>

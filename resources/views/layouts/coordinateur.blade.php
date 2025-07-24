@@ -28,11 +28,14 @@
                     <a href="{{ route('coordinateur.dashboard') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100 {{ request()->routeIs('coordinateur.dashboard') ? 'bg-gray-100 font-semibold' : '' }}">
                         <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
                     </a>
-                    <a href="{{ route('matieres.index') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
+                    {{-- <a href="{{ route('matieres.index') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
                         <i class="fas fa-book mr-3"></i>Mes Matières
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
+                    </a> --}}
+                    <a href="{{route('seances.index')}}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
                         <i class="fas fa-calendar-alt mr-3"></i>Mes Séances
+                    </a>
+                    <a href="{{ route('etudiants-classes.index') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
+                        <i class="fas fa-users mr-3"></i>Inscrptions Étudiants
                     </a>
                     <a href="#" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
                         <i class="fas fa-users mr-3"></i>Mes Classes

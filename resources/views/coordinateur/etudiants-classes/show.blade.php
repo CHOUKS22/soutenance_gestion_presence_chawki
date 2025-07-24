@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mx-auto px-4">
     <div class="flex items-center mb-6">
-        <a href="{{ route('gestion-etudiants-classes.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">
+        <a href="{{ route('etudiants-classes.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">
             <i class="fas fa-arrow-left text-xl"></i>
         </a>
         <h1 class="text-2xl font-bold text-gray-800">Détails de l'Inscription #{{ $inscription->id }}</h1>
@@ -84,12 +84,12 @@
 
         <!-- Actions -->
         <div class="flex justify-end space-x-3 mt-8 pt-6 border-t">
-            <a href="{{ route('gestion-etudiants-classes.edit', $inscription->id) }}"
+            <a href="{{ route('etudiants-classes.edit', $inscription->id) }}"
                class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">
                 <i class="fas fa-edit mr-1"></i>
                 Modifier
             </a>
-            <form action="{{ route('gestion-etudiants-classes.destroy', $inscription->id) }}"
+            <form action="{{ route('etudiants-classes.destroy', $inscription->id) }}"
                   method="POST" class="inline"
                   onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?')">
                 @csrf

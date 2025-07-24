@@ -39,7 +39,7 @@
         @endforeach
     </div>
 
-    <!-- Séances d'aujourd'hui et Matières récentes -->
+    {{-- <!-- Séances d'aujourd'hui et Matières récentes -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Séances d'aujourd'hui -->
         <div class="bg-white rounded-lg shadow">
@@ -96,7 +96,7 @@
                 @endforelse
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Ligne supplémentaire -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -112,34 +112,6 @@
             </div>
         </div>
 
-        <!-- Prochaines Séances -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="p-6 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Prochaines Séances</h3>
-                <p class="text-sm text-gray-600">Séances à venir (7 prochains jours)</p>
-            </div>
-            <div class="p-6">
-                @forelse($prochainesSeances as $seance)
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-calendar text-orange-600"></i>
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <p class="text-sm font-medium text-gray-900">{{ $seance->matiere->nom ?? 'Matière inconnue' }}</p>
-                            <p class="text-xs text-gray-500">
-                                {{ \Carbon\Carbon::parse($seance->date_debut)->format('d/m/Y') }} |
-                                {{ $seance->classe->nom ?? 'Classe inconnue' }}
-                            </p>
-                        </div>
-                    </div>
-                @empty
-                    <div class="text-center py-8">
-                        <i class="fas fa-clock text-gray-300 text-4xl mb-4"></i>
-                        <p class="text-gray-500">Aucune séance programmée</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
 
         <!-- Actions rapides -->
         <div class="bg-white rounded-lg shadow">
