@@ -131,14 +131,14 @@
                     </a>
 
                     <!-- Parents -->
-                    <a href="#"
+                    <a href="{{ route('parents.index') }}"
                         class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('parents.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
                         <i class="fas fa-user-friends mr-4 text-lg"></i>
                         <span class="font-medium">Parents</span>
                     </a>
 
                     <!-- Professeurs -->
-                    <a href="#"
+                    <a href="{{ route('professeurs.index') }}"
                         class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('professeurs.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
                         <i class="fas fa-chalkboard-teacher mr-4 text-lg"></i>
                         <span class="font-medium">Professeurs</span>
@@ -172,6 +172,12 @@
                         <i class="fas fa-school mr-4 text-lg"></i>
                         <span class="font-medium">Classes</span>
                     </a>
+                    <a href="{{ route('matieres.index') }}"
+                        class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('classes.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
+                        <i class="fas fa-book mr-3"></i>
+                        <span class="font-medium">Matières</span>
+                    </a>
+                    
 
                     <!-- Années-Classes -->
                     <a href="{{ route('annees-classes.index') }}"
@@ -188,7 +194,7 @@
                     </a>
 
                     <!-- Semestres -->
-                    <a href="#"
+                    <a href="{{ route('semestres.index') }}"
                         class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('semestres.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
                         <i class="fas fa-calendar-week mr-4 text-lg"></i>
                         <span class="font-medium">Semestres</span>
@@ -203,21 +209,21 @@
                     </div>
 
                     <!-- Types de séances -->
-                    <a href="#"
+                    <a href="{{route('types-seances.index')}}"
                         class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('types-seances.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
                         <i class="fas fa-tags mr-4 text-lg"></i>
                         <span class="font-medium">Types de séances</span>
                     </a>
 
                     <!-- Statuts de séances -->
-                    <a href="#"
+                    <a href="{{route('statuts-seances.index')}}"
                         class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('statuts-seances.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
                         <i class="fas fa-flag mr-4 text-lg"></i>
                         <span class="font-medium">Statuts de séances</span>
                     </a>
 
                     <!-- Statuts de présences -->
-                    <a href="#"
+                    <a href="   {{ route('statuts-presences.index') }}"
                         class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('statuts-presences.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
                         <i class="fas fa-user-check mr-4 text-lg"></i>
                         <span class="font-medium">Statuts de présences</span>

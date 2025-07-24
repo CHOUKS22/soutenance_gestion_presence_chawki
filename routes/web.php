@@ -10,8 +10,9 @@ use App\Http\Controllers\DashboardController;
 //Controlleurs Coordinateur
 use App\Http\Controllers\Coordinateur\SeanceController;
 use App\Http\Controllers\Coordinateur\DashboardCoordinateurController;
+// use App\Http\Controllers\Coordinateur\GestionMatiereController;
 use App\Http\Controllers\Coordinateur\PresenceAbsenceController;
-
+use App\Http\Controllers\Coordinateur\GestionEtudiantClasseController;
 //Controlleurs Professeur
 use App\Http\Controllers\Professeur\DashboardProfesseurController;
 // Controlleurs Admin
@@ -21,17 +22,18 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AnneAcademiqueController;
 use App\Http\Controllers\Admin\ClasseController;
 use App\Http\Controllers\Admin\EtudiantController;
-use App\Http\Controllers\Admin\ParentController as AdminParentController;
-use App\Http\Controllers\Admin\ProfesseurController as AdminProfesseurController;
-use App\Http\Controllers\Admin\CoordinateurController as AdminCoordinateurController;
-use App\Http\Controllers\Admin\ClasseController as AdminClasseController;
-use App\Http\Controllers\Admin\SemestreController as AdminSemestreController;
-use App\Http\Controllers\Admin\RoleController as AdminRoleController;
-use App\Http\Controllers\Admin\StatutSeance as AdminStatutSeanceController;
-use App\Http\Controllers\Admin\StatutPresenceController as AdminStatutPresenceController;
-use App\Http\Controllers\Admin\AnneeClasseController as AdminAnneeClasseController;
+use App\Http\Controllers\Admin\ParentController;
+use App\Http\Controllers\Admin\ProfesseurController;
+use App\Http\Controllers\Admin\CoordinateurController;
+use App\Http\Controllers\Admin\SemestreController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StatutSeance;
+use App\Http\Controllers\Admin\StatutPresenceController;
+use App\Http\Controllers\Admin\AnneeClasseController;
+use App\Http\Controllers\Admin\StatutSeanceController;
+use App\Http\Controllers\Admin\TypeSeanceController;
 use App\Http\Controllers\Coordinateur\EtudiantClasseController;
-use App\Http\Controllers\Coordinateur\MatiereController;
+use App\Http\Controllers\Admin\MatiereController;
 use App\Models\AnneeAcademique;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +51,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/etudiant/dashboard', [EtudiantDashboardController::class, 'dashboard'])->name('etudiant.dashboard');
     });
 
+
+
+
+
+
     Route::middleware(['Professeur'])->group(function () {
         Route::get('/professeur/dashboard', [DashboardProfesseurController::class, 'index'])->name('professeur.dashboard');
         // Routes temporaires pour les liens du dashboard (à remplacer par les vrais contrôleurs plus tard)
@@ -58,6 +65,10 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/professeur/matieres', function() { return redirect()->route('professeur.dashboard'); })->name('professeur.matieres.index');
         // Route::get('/professeur/matieres/{id}', function($id) { return redirect()->route('professeur.dashboard'); })->name('professeur.matieres.show');
     });
+
+
+
+
 
     Route::middleware(['Coordinateur'])->group(function () {
         Route::get('/coordinateur/dashboard', [DashboardCoordinateurController::class, 'index'])->name('coordinateur.dashboard');
@@ -69,10 +80,9 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
         Route::put('/seances/{seance}', [SeanceController::class, 'update'])->name('seances.update');
         Route::delete('/seances/{seance}', [SeanceController::class, 'destroy'])->name('seances.destroy');
-        Route::resource('matieres', MatiereController::class);
-        Route::resource('etudiants-classes', EtudiantClasseController::class);
-        Route::get('/etudiants-classes/inscrire-plusieurs', [EtudiantClasseController::class, 'inscrirePlusieurs'])->name('etudiants-classes.inscrire-plusieurs');
-        Route::post('/etudiants-classes/enregistrer-plusieurs', [EtudiantClasseController::class, 'enregistrerPlusieurs'])->name('etudiants-classes.enregistrer-plusieurs');
+        Route::resource('etudiants-classes', GestionEtudiantClasseController::class);
+        Route::get('/etudiants-classes/inscrire-plusieurs', [GestionEtudiantClasseController::class, 'inscrirePlusieurs'])->name('etudiants-classes.inscrire-plusieurs');
+        Route::post('/etudiants-classes/enregistrer-plusieurs', [GestionEtudiantClasseController::class, 'enregistrerPlusieurs'])->name('etudiants-classes.enregistrer-plusieurs');
         Route::post('/presence/present', [PresenceAbsenceController::class, 'marquerPresent'])->name('presence.present');
         Route::post('/presence/retard', [PresenceAbsenceController::class, 'marquerRetard'])->name('presence.retard');
         Route::post('/presence/absent', [PresenceAbsenceController::class, 'marquerAbsent'])->name('presence.absent');
@@ -85,30 +95,51 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/seances/cette-semaine', [SeanceController::class, 'cetteSemaine'])->name('seances.cette-semaine');
     });
 
+
+
+
+
+
+
     Route::middleware(['Parent'])->group(function () {
         Route::get('/parent/dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
     });
+
+
+
+
+
+
 
     Route::middleware(['Administrateur'])->group(function () {
         Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
         Route::resource('admins', AdminDashboardController::class);
         Route::resource('users', UserController::class);
         Route::resource('etudiants', EtudiantController::class);
-        Route::resource('parents', AdminParentController::class);
-        Route::resource('professeurs', AdminProfesseurController::class);
-        Route::resource('coordinateurs', AdminCoordinateurController::class);
+        Route::resource('parents', ParentController::class);
+        Route::resource('matieres', MatiereController::class);
+        Route::resource('professeurs', ProfesseurController::class);
+        Route::resource('coordinateurs', CoordinateurController::class);
         Route::resource('admins', AdminController::class);
         Route::resource('classes', ClasseController::class)->parameters(['classes' => 'classe']);;
         Route::resource('annees-academiques', AnneAcademiqueController::class)->parameters(['annees-academiques' => 'anneeAcademique']);
-        Route::resource('semestres', AdminSemestreController::class);
-        Route::resource('roles', AdminRoleController::class);
-        Route::resource('statuts-seances', AdminStatutSeanceController::class);
-        Route::resource('statuts-presences', AdminStatutPresenceController::class);
-        Route::resource('annees-classes', AdminAnneeClasseController::class);
+        Route::resource('semestres', SemestreController::class);
+        Route::resource('roles', RoleController::class);
+        Route::resource('statuts-seances', StatutSeanceController::class);
+        Route::resource('statuts-presences', StatutPresenceController::class)->parameters(['statuts-presences' => 'statuts_presence']);
+        Route::resource('annees-classes', AnneeClasseController::class)->parameters(['annees-classes' => 'anneeClasse']);
+        Route::resource('types-seances', TypeSeanceController::class);
+
         // Routes pour l'assignation d'étudiants aux parents
-        Route::post('/parents/assign-etudiant', [AdminParentController::class, 'assignEtudiant'])->name('parents.assign-etudiant');
-        Route::post('/parents/unassign-etudiant', [AdminParentController::class, 'unassignEtudiant'])->name('parents.unassign-etudiant');
+        Route::post('/parents/assign-etudiant', [ParentController::class, 'assignEtudiant'])->name('parents.assign-etudiant');
+        Route::post('/parents/unassign-etudiant', [ParentController::class, 'unassignEtudiant'])->name('parents.unassign-etudiant');
     });
+
+
+
+
+
+
 
     // Routes de profil (accessible à tous les utilisateurs connectés)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
