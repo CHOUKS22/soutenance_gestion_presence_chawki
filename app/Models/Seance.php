@@ -25,8 +25,8 @@ class Seance extends Model
         'date' => 'date',
         'heure_debut' => 'datetime:H:i',
         'heure_fin' => 'datetime:H:i',
+        'date_debut' => 'datetime',
     ];
-
     public function typeSeance()
     {
         return $this->belongsTo(Type_seance::class);
@@ -58,5 +58,13 @@ class Seance extends Model
     public function semestre()
     {
         return $this->belongsTo(Semestre::class);
+    }
+    public function presences()
+    {
+        return $this->hasMany(Presence::class);
+    }
+    public function absences()
+    {
+        return $this->hasMany(Absence::class);
     }
 }

@@ -37,7 +37,7 @@
                                 Classe <span class="text-red-500">*</span>
                             </label>
                             <select name="classe_id" id="classe_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('classe_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('classe_id') border-red-500 @enderror">
                                 <option value="">Sélectionner une classe</option>
                                 @foreach($classes as $classe)
                                     <option value="{{ $classe->id }}" {{ (old('classe_id', $seance->classe_id) == $classe->id) ? 'selected' : '' }}>
@@ -56,7 +56,7 @@
                                 Matière <span class="text-red-500">*</span>
                             </label>
                             <select name="matiere_id" id="matiere_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('matiere_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('matiere_id') border-red-500 @enderror">
                                 <option value="">Sélectionner une matière</option>
                                 @foreach($matieres as $matiere)
                                     <option value="{{ $matiere->id }}" {{ (old('matiere_id', $seance->matiere_id) == $matiere->id) ? 'selected' : '' }}>
@@ -75,7 +75,7 @@
                                 Professeur <span class="text-red-500">*</span>
                             </label>
                             <select name="professeur_id" id="professeur_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('professeur_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('professeur_id') border-red-500 @enderror">
                                 <option value="">Sélectionner un professeur</option>
                                 @foreach($professeurs as $professeur)
                                     <option value="{{ $professeur->id }}" {{ (old('professeur_id', $seance->professeur_id) == $professeur->id) ? 'selected' : '' }}>
@@ -94,7 +94,7 @@
                                 Type de Séance <span class="text-red-500">*</span>
                             </label>
                             <select name="type_seance_id" id="type_seance_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('type_seance_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('type_seance_id') border-red-500 @enderror">
                                 <option value="">Sélectionner un type</option>
                                 @foreach($types as $type)
                                     <option value="{{ $type->id }}" {{ (old('type_seance_id', $seance->type_seance_id) == $type->id) ? 'selected' : '' }}>
@@ -113,7 +113,7 @@
                                 Statut <span class="text-red-500">*</span>
                             </label>
                             <select name="statut_seance_id" id="statut_seance_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('statut_seance_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('statut_seance_id') border-red-500 @enderror">
                                 <option value="">Sélectionner un statut</option>
                                 @foreach($statuts as $statut)
                                     <option value="{{ $statut->id }}" {{ (old('statut_seance_id', $seance->statut_seance_id) == $statut->id) ? 'selected' : '' }}>
@@ -132,7 +132,7 @@
                                 Semestre <span class="text-red-500">*</span>
                             </label>
                             <select name="semestre_id" id="semestre_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('semestre_id') border-red-500 @enderror">
+                                    class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('semestre_id') border-red-500 @enderror">
                                 <option value="">Sélectionner un semestre</option>
                                 @foreach($semestres as $semestre)
                                     <option value="{{ $semestre->id }}" {{ (old('semestre_id', $seance->semestre_id) == $semestre->id) ? 'selected' : '' }}>
@@ -162,7 +162,7 @@
                             </label>
                             <input type="datetime-local" name="date_debut" id="date_debut" required
                                    value="{{ old('date_debut', \Carbon\Carbon::parse($seance->date_debut)->format('Y-m-d\TH:i')) }}"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('date_debut') border-red-500 @enderror">
+                                   class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('date_debut') border-red-500 @enderror">
                             @error('date_debut')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -175,7 +175,7 @@
                             </label>
                             <input type="datetime-local" name="date_fin" id="date_fin" required
                                    value="{{ old('date_fin', \Carbon\Carbon::parse($seance->date_fin)->format('Y-m-d\TH:i')) }}"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('date_fin') border-red-500 @enderror">
+                                   class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('date_fin') border-red-500 @enderror">
                             @error('date_fin')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -196,7 +196,7 @@
                         </label>
                         <textarea name="description" id="description" rows="4"
                                   placeholder="Décrivez le contenu ou les objectifs de cette séance..."
-                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description', $seance->description) }}</textarea>
+                                  class="w-full px-3 py-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description', $seance->description) }}</textarea>
                         @error('description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -206,7 +206,7 @@
                 <!-- Boutons d'action -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                     <a href="{{ route('seances.show', $seance) }}"
-                       class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                       class="px-6 py-3 border  text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                         Annuler
                     </a>
                     <button type="submit"

@@ -23,8 +23,23 @@ class Classe extends Model
     /**
      * Relation avec le modèle Etudiant
      */
+
     public function etudiants()
     {
-        return $this->hasMany(Etudiant::class);
+        return $this->belongsToMany(Etudiant::class, 'annee_classe_etudiant')
+            ->withTimestamps();
+    }
+
+    public function anneesClasses()
+    {
+        return $this->hasMany(AnneeClasse::class);
+    }
+    public function seances()
+    {
+        return $this->hasMany(Seance::class);
+    }
+    public function annees()
+    {
+        return $this->hasMany(AnneeClasse::class, 'classe_id');
     }
 }

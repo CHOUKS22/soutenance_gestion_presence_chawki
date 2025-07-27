@@ -93,30 +93,6 @@
         </div>
     </div>
 
-    <!-- Bloc des étudiants -->
-    <div class="mt-8">
-        <div class="bg-white shadow rounded-lg p-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-semibold text-gray-800">Étudiants de la classe</h2>
-                <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center">
-                    <i class="fas fa-plus mr-2"></i>Ajouter un étudiant
-                </button>
-            </div>
-
-            <!-- Aucun étudiant -->
-            <div class="text-center py-12">
-                <div class="mx-auto w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                    <i class="fas fa-user-graduate text-gray-400 text-2xl"></i>
-                </div>
-                <h3 class="text-lg font-medium text-gray-900">Aucun étudiant inscrit</h3>
-                <p class="text-gray-500 mb-6">Cette classe n'a pas encore d'étudiants inscrits.</p>
-                <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 flex items-center space-x-2">
-                    <i class="fas fa-plus"></i>
-                    <span>Inscrire des étudiants</span>
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Modal pour la suppression -->

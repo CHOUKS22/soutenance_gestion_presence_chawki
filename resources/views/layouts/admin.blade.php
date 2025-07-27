@@ -177,7 +177,7 @@
                         <i class="fas fa-book mr-3"></i>
                         <span class="font-medium">Matières</span>
                     </a>
-                    
+
 
                     <!-- Années-Classes -->
                     <a href="{{ route('annees-classes.index') }}"
@@ -252,9 +252,9 @@
                 <div class="px-6 py-4 flex justify-between items-center">
                     <div class="text-lg font-semibold text-gray-700 hidden md:block">Tableau de bord</div>
                     <div class="flex items-center space-x-4">
-                        <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full">
+                        {{-- <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full">
                             <i class="fas fa-bell"></i>
-                        </button>
+                        </button> --}}
                         <div class="relative">
                             <button id="userMenuButton"
                                 class="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-100">

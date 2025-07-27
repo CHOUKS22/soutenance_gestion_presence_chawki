@@ -32,29 +32,47 @@
                 </div>
             </div>
             <div class="p-6 flex-1">
-                <h2 class="text-lg font-bold text-gray-800 mb-6"></h2>
+                <h2 class="text-lg font-bold text-gray-800 mb-6">Navigation</h2>
                 <nav class="space-y-4"> <!-- Espace vertical augmenté -->
-                    <a href="{{ route('professeur.dashboard') }}"
+                    <a href="{{ route('etudiant.dashboard') }}"
                         class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('coordinateur.dashboard') ? 'bg-gray-100 font-semibold' : '' }}">
                         <i class="fas fa-tachometer-alt mr-4"></i> <!-- icône décalé -->
                         <span class="text-base">Dashboard</span>
                     </a>
-                    <a href="{{ route('professeur.seances.index') }}"
+
+                    {{-- <a href="{{ route('seances.index') }}"
                         class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
                         <i class="fas fa-calendar-alt mr-4"></i>
                         <span class="text-base">Séances</span>
                     </a>
 
-                    <a href="{{ route('professeur.etudiants.index') }}"
+                    <a href="{{ route('etudiants-classes.index') }}"
                         class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
-                    <i class="fas fa-users mr-4"></i>
-                    <span class="text-base">Mes etudiants</span>
+                        <i class="fas fa-users mr-4"></i>
+                        <span class="text-base">Inscriptions Étudiants</span>
                     </a>
 
-                    {{-- <a href="{{ route('coordinateur.etudiants') }}"
+                    <a href="{{ route('classes.classe') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-users mr-4"></i>
+                        <span class="text-base">Mes Classes</span>
+                    </a>
+
+                    <a href="{{ route('coordinateur.etudiants') }}"
                         class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
                         <i class="fas fa-user-graduate mr-4"></i>
-                    <span class="text-base">Mes Étudiants</span>
+                        <span class="text-base">Mes Étudiants</span>
+                    </a>
+
+                    <a href="{{ route('emploi.index') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-user-graduate mr-4"></i>
+                        <span class="text-base">Emploie du temps</span>
+                    </a>
+                     <a href="{{ route('justifications.index') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <i class="fas fa-user-graduate mr-4"></i>
+                        <span class="text-base">Justifier absence</span>
                     </a> --}}
                 </nav>
             </div>
@@ -67,7 +85,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h1 class="text-2xl font-semibold text-gray-900">@yield('title', 'Dashboard')</h1>
-                            <p class="text-sm text-gray-600 mt-1">@yield('subtitle', 'Bienvenue dans votre espace professeur')</p>
+                            <p class="text-sm text-gray-600 mt-1">@yield('subtitle', 'Bienvenue dans votre espace etudiant')</p>
                         </div>
                         <div class="flex items-center space-x-4">
                             <!-- Notifications -->

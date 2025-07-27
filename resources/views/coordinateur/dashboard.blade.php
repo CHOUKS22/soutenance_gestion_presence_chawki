@@ -1,139 +1,209 @@
 @extends('layouts.coordinateur')
 
-@section('title', 'Dashboard Coordinateur')
-@section('subtitle', 'Vue d\'ensemble de vos classes et activités')
+@section('title', 'Espace Coordinateur')
+@section('subtitle', 'Suivi centralisé des classes, séances et étudiants')
 
 @section('content')
-<div class="space-y-6">
-    <!-- Message informatif -->
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div class="flex items-center">
-            <i class="fas fa-info-circle text-blue-600 mr-3"></i>
+    <div class="space-y-10">
+
+        <!-- Hero - Bienvenue -->
+        <div
+            class="bg-gradient-to-r from-indigo-700 to-blue-600 text-white p-8 rounded-2xl shadow-lg flex justify-between items-center">
             <div>
-                <h4 class="text-sm font-medium text-blue-800">Données filtrées</h4>
-                <p class="text-sm text-blue-600">Les statistiques ci-dessous concernent uniquement les classes que vous coordonnez.</p>
+                <h1 class="text-3xl font-extrabold">Bonjour {{ auth()->user()->prenom }},</h1>
+                <p class="text-white/90 text-sm mt-1">Vous êtes connecté en tant que coordinateur.</p>
+            </div>
+            <div>
+                <i class="fas fa-user-cog text-5xl opacity-60"></i>
             </div>
         </div>
-    </div>
 
-    <!-- Statistiques rapides -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-        @foreach ([
-            ['label' => 'Mes Matières', 'icon' => 'fa-book', 'bg' => 'blue', 'value' => $totalMatieres],
-            ['label' => 'Mes Séances', 'icon' => 'fa-calendar-day', 'bg' => 'green', 'value' => $totalSeances],
-            ['label' => 'Mes Classes', 'icon' => 'fa-users', 'bg' => 'purple', 'value' => $totalClasses],
-            ['label' => 'Mes Étudiants', 'icon' => 'fa-graduation-cap', 'bg' => 'yellow', 'value' => $totalEtudiants],
-            ['label' => 'Taux de Présence', 'icon' => 'fa-chart-pie', 'bg' => 'indigo', 'value' => $tauxPresence . '%'],
-        ] as $stat)
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-{{ $stat['bg'] }}-100 rounded-lg flex items-center justify-center">
-                    <i class="fas {{ $stat['icon'] }} text-{{ $stat['bg'] }}-600 text-xl"></i>
+        <!-- Statistiques -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            @php
+                $stats = [
+                    [
+                        'label' => 'Matières',
+                        'icon' => 'fa-book',
+                        'color' => 'bg-blue-100',
+                        'iconColor' => 'text-blue-600',
+                        'count' => $totalMatieres,
+                    ],
+                    [
+                        'label' => 'Séances',
+                        'icon' => 'fa-calendar-day',
+                        'color' => 'bg-green-100',
+                        'iconColor' => 'text-green-600',
+                        'count' => $totalSeances,
+                    ],
+                    [
+                        'label' => 'Classes',
+                        'icon' => 'fa-users',
+                        'color' => 'bg-purple-100',
+                        'iconColor' => 'text-purple-600',
+                        'count' => $totalClasses,
+                    ],
+                    [
+                        'label' => 'Étudiants',
+                        'icon' => 'fa-user-graduate',
+                        'color' => 'bg-yellow-100',
+                        'iconColor' => 'text-yellow-600',
+                        'count' => $totalEtudiants,
+                    ],
+                    [
+                        'label' => 'Présence',
+                        'icon' => 'fa-chart-line',
+                        'color' => 'bg-indigo-100',
+                        'iconColor' => 'text-indigo-600',
+                        'count' => $tauxPresence . '%',
+                    ],
+                ];
+            @endphp
+
+            @foreach ($stats as $stat)
+                <div class="bg-white rounded-xl shadow p-5 text-center hover:shadow-md transition">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-full {{ $stat['color'] }} flex items-center justify-center">
+                        <i class="fas {{ $stat['icon'] }} {{ $stat['iconColor'] }} text-lg"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm">{{ $stat['label'] }}</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">{{ $stat['count'] }}</p>
                 </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{{ $stat['label'] }}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stat['value'] }}</p>
-                </div>
-            </div>
+            @endforeach
         </div>
-        @endforeach
-    </div>
-
-    {{-- <!-- Séances d'aujourd'hui et Matières récentes -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Séances d'aujourd'hui -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="p-6 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Séances d'Aujourd'hui</h3>
-                <p class="text-sm text-gray-600">Planning de vos séances</p>
-            </div>
-            <div class="p-6">
-                @forelse($seancesAujourdhui->take(3) as $seance)
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-clock text-blue-600"></i>
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <p class="text-sm font-medium text-gray-900">{{ $seance->matiere->nom ?? 'Matière inconnue' }}</p>
-                            <p class="text-xs text-gray-500">
-                                {{ $seance->date_debut ? \Carbon\Carbon::parse($seance->date_debut)->format('H:i') : '00:00' }} -
-                                {{ $seance->date_fin ? \Carbon\Carbon::parse($seance->date_fin)->format('H:i') : '00:00' }} |
-                                {{ $seance->classe->nom ?? 'Classe inconnue' }}
-                            </p>
-                        </div>
-                    </div>
-                @empty
-                    <div class="text-center py-8">
-                        <i class="fas fa-calendar-alt text-gray-300 text-4xl mb-4"></i>
-                        <p class="text-gray-500">Aucune séance programmée aujourd'hui</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
-
-        <!-- Matières récentes -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="p-6 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Matières Récentes</h3>
-                <p class="text-sm text-gray-600">Matières récemment créées</p>
-            </div>
-            <div class="p-6">
-                @forelse($matieresRecentes->take(3) as $matiere)
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-book text-green-600"></i>
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <p class="text-sm font-medium text-gray-900">{{ $matiere->nom }}</p>
-                            <p class="text-xs text-gray-500">Créée le {{ $matiere->created_at->format('d/m/Y') }}</p>
-                        </div>
-                    </div>
-                @empty
-                    <div class="text-center py-8">
-                        <i class="fas fa-book text-gray-300 text-4xl mb-4"></i>
-                        <p class="text-gray-500">Aucune matière créée</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
-    </div> --}}
-
-    <!-- Ligne supplémentaire -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Présences Récentes -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="p-6 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Présences Récentes</h3>
-                <p class="text-sm text-gray-600">Dernières prises de présence</p>
-            </div>
-            <div class="p-6 text-center py-8">
-                <i class="fas fa-check-circle text-gray-300 text-4xl mb-4"></i>
-                <p class="text-gray-500">Aucune présence enregistrée</p>
-            </div>
-        </div>
-
 
         <!-- Actions rapides -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="p-6 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Actions Rapides</h3>
-                <p class="text-sm text-gray-600">Raccourcis fréquents</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Actions rapides -->
+            <div class="bg-white rounded-2xl shadow p-6 space-y-4">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Actions rapides</h3>
+                @php
+                    $actions = [
+                        [
+                            'label' => 'Créer une séance',
+                            'icon' => 'fa-plus',
+                            'route' => route('seances.create'),
+                            'color' => 'bg-blue-600',
+                        ],
+                        [
+                            'label' => 'Gérer les matières',
+                            'icon' => 'fa-book',
+                            'route' => route('matieres.index'),
+                            'color' => 'bg-green-600',
+                        ],
+                        [
+                            'label' => 'Liste des étudiants',
+                            'icon' => 'fa-user-graduate',
+                            'route' => route('etudiants.index'),
+                            'color' => 'bg-purple-600',
+                        ],
+                        [
+                            'label' => 'Voir les séances',
+                            'icon' => 'fa-calendar-alt',
+                            'route' => route('seances.index'),
+                            'color' => 'bg-indigo-600',
+                        ],
+                    ];
+                @endphp
+                <div class="grid grid-cols-2 gap-4">
+                    @foreach ($actions as $action)
+                        <a href="{{ $action['route'] }}"
+                            class="group flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition">
+                            <div
+                                class="w-12 h-12 rounded-full {{ $action['color'] }} text-white flex items-center justify-center mb-2">
+                                <i class="fas {{ $action['icon'] }}"></i>
+                            </div>
+                            <p class="text-sm font-medium text-gray-700 text-center group-hover:underline">
+                                {{ $action['label'] }}
+                            </p>
+                        </a>
+                    @endforeach
+                </div>
+
             </div>
-            <div class="p-6 space-y-3 text-center">
-                <button class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    <i class="fas fa-plus mr-2"></i>Créer une Séance
-                </button>
-                <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                    <i class="fas fa-book mr-2"></i>Ajouter une Matière
-                </button>
-                <button class="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
-                    <i class="fas fa-calendar-alt mr-2"></i>Gérer les Séances
-                </button>
-                <button class="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
-                    <i class="fas fa-list mr-2"></i>Gérer les Matières
-                </button>
+            <!-- Séances du jour -->
+            <div class="bg-white rounded-2xl shadow p-6 col-span-2">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Séances du jour</h3>
+                @forelse($seancesAujourdhui as $seance)
+                    <div class="border rounded-lg p-4 mb-4 hover:bg-gray-50 transition">
+                        <div class="flex justify-between items-center mb-1">
+                            <span
+                                class="font-semibold text-gray-700">{{ $seance->matiere->nom ?? 'Matière inconnue' }}</span>
+                            <span class="text-sm text-gray-500">
+                                {{ \Carbon\Carbon::parse($seance->date_debut)->format('H:i') }} -
+                                {{ \Carbon\Carbon::parse($seance->date_fin)->format('H:i') }}
+                            </span>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            {{ $seance->classe->nom ?? 'Classe inconnue' }} |
+                            {{ \Carbon\Carbon::parse($seance->date_debut)->format('d/m/Y') }}
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center text-gray-400 py-12">
+                        <i class="fas fa-calendar-times text-4xl mb-3"></i><br>
+                        Aucune séance prévue aujourd'hui
+                    </div>
+                @endforelse
             </div>
         </div>
+        <div class="bg-white rounded-2xl shadow p-6 max-h-[300px] overflow-auto">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Taux de présence par classe</h3>
+            <canvas id="presenceChart" class="w-full max-h-52"></canvas>
+        </div>
+
     </div>
-</div>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('presenceChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {!! $chartLabels !!},
+                datasets: [{
+                    label: 'Taux de présence (%)',
+                    data: {!! $chartData !!},
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: value => value + '%',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

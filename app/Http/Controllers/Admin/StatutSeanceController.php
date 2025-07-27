@@ -31,7 +31,7 @@ class StatutSeanceController extends Controller
     // Formulaire de creation
     public function create()
     {
-        return view('admin.statuts-seances.statut-seance-create');
+        return view('admin.statuts-seances.create');
     }
 
     // Enregistre un nouveau statut

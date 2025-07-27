@@ -19,5 +19,8 @@ class Coordinateur extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+    public function anneesClasses()
+    {
+        return $this->hasMany(AnneeClasse::class);
+    }
 }

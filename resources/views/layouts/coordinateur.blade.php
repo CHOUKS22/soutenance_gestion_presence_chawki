@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,36 +18,73 @@
     <!-- Tailwind / App Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="font-sans antialiased bg-gray-100">
     <div class="min-h-screen flex">
 
         <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r border-gray-200 hidden md:block">
-            <div class="p-6">
-                <h2 class="text-lg font-bold text-gray-800 mb-4">Navigation</h2>
-                <nav class="space-y-2">
-                    <a href="{{ route('coordinateur.dashboard') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100 {{ request()->routeIs('coordinateur.dashboard') ? 'bg-gray-100 font-semibold' : '' }}">
-                        <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
+        <aside class="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col">
+            <div class="p-6 border-b">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="{{ asset('images/logos/ifran.jpeg') }}" alt="Logo"
+                        class="w-20 h-20 object-cover rounded">
+                </div>
+            </div>
+            <div class="p-6 flex-1">
+                <h2 class="text-lg font-bold text-gray-800 mb-6"></h2>
+                <nav class="space-y-4"> <!-- Espace vertical augmenté -->
+                    <a href="{{ route('coordinateur.dashboard') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('coordinateur.dashboard') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-tachometer-alt mr-4"></i>
+                        <span class="text-base">Dashboard</span>
                     </a>
-                    {{-- <a href="{{ route('matieres.index') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
-                        <i class="fas fa-book mr-3"></i>Mes Matières
+
+                    <a href="{{ route('seances.index') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('seances.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-calendar-alt mr-4"></i>
+                        <span class="text-base">Séances</span>
+                    </a>
+
+                    <a href="{{ route('etudiants-classes.index') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('etudiants-classes.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-user-plus mr-4"></i>
+                        <span class="text-base">Inscriptions Étudiants</span>
+                    </a>
+
+                    <a href="{{ route('classes.classe') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('classes.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-chalkboard-teacher mr-4"></i>
+                        <span class="text-base">Mes Classes</span>
+                    </a>
+
+                    {{-- <a href="{{ route('coordinateur.etudiants') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('coordinateur.etudiants') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-users mr-4"></i>
+                        <span class="text-base">Mes Étudiants</span>
                     </a> --}}
-                    <a href="{{route('seances.index')}}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
-                        <i class="fas fa-calendar-alt mr-3"></i>Mes Séances
+
+                    <a href="{{ route('emploi.index') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('emploi.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-clock mr-4"></i>
+                        <span class="text-base">Emploi du temps</span>
                     </a>
-                    <a href="{{ route('etudiants-classes.index') }}" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
-                        <i class="fas fa-users mr-3"></i>Inscrptions Étudiants
+
+                    <a href="{{ route('justifications.index') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Justifier absence</span>
                     </a>
-                    <a href="#" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
-                        <i class="fas fa-users mr-3"></i>Mes Classes
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-2 text-gray-700 rounded hover:bg-gray-100">
-                        <i class="fas fa-user-graduate mr-3"></i>Mes Étudiants
+
+                    <a href="{{ route('statistiques.assiduite') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Statistiques
+                        </span>
                     </a>
                 </nav>
             </div>
         </aside>
-
         <!-- Contenu principal -->
         <main class="flex-1 overflow-hidden">
             <!-- Header -->
@@ -59,7 +97,8 @@
                         </div>
                         <div class="flex items-center space-x-4">
                             <!-- Notifications -->
-                            <button class="relative p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                            <button
+                                class="relative p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
                                 <i class="fas fa-bell text-lg"></i>
                                 <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                             </button>
@@ -72,29 +111,36 @@
 
                             <!-- Menu utilisateur -->
                             <div class="relative">
-                                <button id="userMenuButton" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <button id="userMenuButton"
+                                    class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200">
                                     <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                                        @if(auth()->user()->photo)
-                                            <img src="{{ asset('storage/' . auth()->user()->photo) }}" alt="Photo de profil" class="w-full h-full object-cover rounded-full">
+                                        @if (auth()->user()->photo)
+                                            <img src="{{ asset('storage/' . auth()->user()->photo) }}"
+                                                alt="Photo de profil" class="w-full h-full object-cover rounded-full">
                                         @else
                                             <i class="fas fa-user text-white text-sm"></i>
                                         @endif
                                     </div>
-                                    <span class="text-sm font-medium text-gray-700 hidden md:block">{{ Auth::user()->prenom ?? 'Utilisateur' }}</span>
+                                    <span
+                                        class="text-sm font-medium text-gray-700 hidden md:block">{{ Auth::user()->prenom ?? 'Utilisateur' }}</span>
                                     <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
                                 </button>
 
                                 <!-- Menu déroulant -->
-                                <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
+                                <div id="userMenu"
+                                    class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
                                     <div class="py-2">
                                         <div class="px-4 py-3 border-b border-gray-200">
-                                            <p class="text-sm font-medium text-gray-800">{{ auth()->user()->nom ?? 'Nom' }} {{ auth()->user()->prenom ?? '' }}</p>
+                                            <p class="text-sm font-medium text-gray-800">
+                                                {{ auth()->user()->nom ?? 'Nom' }} {{ auth()->user()->prenom ?? '' }}
+                                            </p>
                                             <p class="text-xs text-gray-500">{{ auth()->user()->email ?? '' }}</p>
                                         </div>
                                         <div class="border-t border-gray-200 my-1"></div>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                            <button type="submit"
+                                                class="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                                 <i class="fas fa-sign-out-alt mr-3"></i>Se déconnecter
                                             </button>
                                         </form>
@@ -108,13 +154,13 @@
 
             <!-- Contenu principal -->
             <div class="p-6 overflow-y-auto" style="height: calc(100vh - 80px);">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                         {{ session('success') }}
                     </div>
                 @endif
 
-                @if(session('error'))
+                @if (session('error'))
                     <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                         {{ session('error') }}
                     </div>
@@ -147,5 +193,8 @@
             });
         }
     </script>
+    @yield('scripts')
+
 </body>
+
 </html>

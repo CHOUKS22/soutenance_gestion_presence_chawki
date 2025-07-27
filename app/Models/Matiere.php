@@ -13,5 +13,8 @@ class Matiere extends Model
         'description',
     ];
 
-
+    public function seances()
+    {
+        return $this->hasMany(Seance::class);
+    }
 }

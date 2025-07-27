@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnneeClasse extends Model
 {
-protected $table = 'annees_classes';
+    protected $table = 'annees_classes';
 
     protected $fillable = [
         'annee_academique_id',
@@ -39,10 +39,9 @@ protected $table = 'annees_classes';
     {
         return $this->belongsTo(Coordinateur::class, 'coordinateur_id');
     }
-
-    // Relation many-to-many avec les étudiants via la table pivot
     public function etudiants()
-{
-    return $this->belongsToMany(Etudiant::class, 'annee_classe_etudiant');
-}
+    {
+        return $this->belongsToMany(Etudiant::class, 'annee_classe_etudiant')
+            ->withTimestamps();
+    }
 }

@@ -38,4 +38,13 @@ class Etudiant extends Model
     {
         return $this->hasMany(AnneeClasseEtudiant::class);
     }
+    public function classes()
+    {
+        return $this->belongsToMany(Classe::class, 'annee_classe_etudiant')
+            ->withTimestamps();
+    }
+    public function anneeClasses()
+{
+    return $this->belongsToMany(AnneeClasse::class, 'annee_classe_etudiant');
+}
 }

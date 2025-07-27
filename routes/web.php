@@ -10,11 +10,24 @@ use App\Http\Controllers\DashboardController;
 //Controlleurs Coordinateur
 use App\Http\Controllers\Coordinateur\SeanceController;
 use App\Http\Controllers\Coordinateur\DashboardCoordinateurController;
-// use App\Http\Controllers\Coordinateur\GestionMatiereController;
+use App\Http\Controllers\Coordinateur\ClasseCoordinateur;
+use App\Http\Controllers\Coordinateur\EtudiantCoordinateur;
 use App\Http\Controllers\Coordinateur\PresenceAbsenceController;
 use App\Http\Controllers\Coordinateur\GestionEtudiantClasseController;
+
+use App\Http\Controllers\Coordinateur\EmploiDuTempsController;
+use App\Http\Controllers\Coordinateur\JustificationController;
+use App\Http\Controllers\Coordinateur\StatistiquesPresenceController;
+use App\Http\Controllers\Professeur\PresenceProfesseurController;
+use App\Http\Controllers\Professeur\ProfesseurEtudiantController;
+
+
+
 //Controlleurs Professeur
 use App\Http\Controllers\Professeur\DashboardProfesseurController;
+use App\Http\Controllers\Professeur\SeanceProfesseurController;
+
+
 // Controlleurs Admin
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AnneeAcademiqueController;
@@ -27,19 +40,17 @@ use App\Http\Controllers\Admin\ProfesseurController;
 use App\Http\Controllers\Admin\CoordinateurController;
 use App\Http\Controllers\Admin\SemestreController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\StatutSeance;
 use App\Http\Controllers\Admin\StatutPresenceController;
 use App\Http\Controllers\Admin\AnneeClasseController;
 use App\Http\Controllers\Admin\StatutSeanceController;
 use App\Http\Controllers\Admin\TypeSeanceController;
-use App\Http\Controllers\Coordinateur\EtudiantClasseController;
 use App\Http\Controllers\Admin\MatiereController;
 use App\Models\AnneeAcademique;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Routes proteges par authentification
@@ -56,14 +67,12 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    Route::middleware(['Professeur'])->group(function () {
+    Route::prefix('professeur')->middleware(['Professeur'])->group(function () {
         Route::get('/professeur/dashboard', [DashboardProfesseurController::class, 'index'])->name('professeur.dashboard');
-        // Routes temporaires pour les liens du dashboard (à remplacer par les vrais contrôleurs plus tard)
-        // Route::get('/professeur/seances', function() { return redirect()->route('professeur.dashboard'); })->name('professeur.seances.index');
-        // Route::get('/professeur/seances/create', function() { return redirect()->route('professeur.dashboard'); })->name('professeur.seances.create');
-        // Route::get('/professeur/seances/{id}', function($id) { return redirect()->route('professeur.dashboard'); })->name('professeur.seances.show');
-        // Route::get('/professeur/matieres', function() { return redirect()->route('professeur.dashboard'); })->name('professeur.matieres.index');
-        // Route::get('/professeur/matieres/{id}', function($id) { return redirect()->route('professeur.dashboard'); })->name('professeur.matieres.show');
+        Route::get('/professeur/seances', [SeanceProfesseurController::class, 'index'])->name('professeur.seances.index');
+        Route::get('seances/{seance}/presences', [PresenceProfesseurController::class, 'index'])->name('professeur.presences.index');
+        Route::post('seances/{seance}/presences', [PresenceProfesseurController::class, 'store'])->name('professeur.presences.store');
+        Route::get('/professeur/etudiants', [ProfesseurEtudiantController::class, 'index'])->name('professeur.etudiants.index');
     });
 
 
@@ -71,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::middleware(['Coordinateur'])->group(function () {
+        Route::get('/emploi-du-temps', [EmploiDuTempsController::class, 'index'])->name('emploi.index');
         Route::get('/coordinateur/dashboard', [DashboardCoordinateurController::class, 'index'])->name('coordinateur.dashboard');
         Route::resource('etudiants-classes', GestionEtudiantClasseController::class);
         Route::get('/etudiants-classes/inscrire-plusieurs', [GestionEtudiantClasseController::class, 'inscrirePlusieurs'])->name('etudiants-classes.inscrire-plusieurs');
@@ -82,7 +92,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/presence/plusieurs-absents', [PresenceAbsenceController::class, 'marquerPlusieursAbsents'])->name('presence.plusieurs.absents');
         Route::get('/presence/statistiques', [PresenceAbsenceController::class, 'statistiques'])->name('presence.statistiques');
         Route::resource('/seances', SeanceController::class);
-
+        Route::get('/seances/{id}/presences', [SeanceController::class, 'presences'])->name('seances.presences');
+        Route::get('/coordinateurclasse', [ClasseCoordinateur::class, 'classe'])->name('classes.classe');
+        Route::get('/etudiants-coord', [EtudiantCoordinateur::class, 'etudiant'])->name('coordinateur.etudiants');
+        Route::get('/justifications', [JustificationController::class, 'index'])->name('justifications.index');
+        Route::get('/justifications/{absence}/create', [JustificationController::class, 'create'])->name('justifications.create');
+        Route::post('/justifications/{absence}/store', [JustificationController::class, 'store'])->name('justifications.store');
+        Route::get('/statistiques/assiduite', [StatistiquesPresenceController::class, 'assiduiteEtudiantParMatiere'])->name('statistiques.assiduite');
     });
 
 

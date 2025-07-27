@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Coordinateur;
 
 use App\Http\Controllers\Controller;
@@ -12,6 +13,7 @@ use App\Models\Presence;
 use App\Models\Professeur;
 use App\Models\Statut_seance;
 use App\Models\Semestre;
+use App\Models\Statut_presence;
 use App\Models\Type_seance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,18 +26,17 @@ class SeanceController extends Controller
      */
     public function index()
     {
-        $seances = Seance::with(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])
-                          ->orderBy('date_debut', 'desc')
-                          ->paginate(10);
+        $seances = Seance::with(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance', 'presences','absences'])
+            ->orderBy('date_debut', 'desc')
+            ->paginate(10);
         return view('coordinateur.seances.seances', compact('seances'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $classes = Classe::all();
+       $classes = Classe::with('anneesClasses.anneeAcademique')->get();
         $matieres = Matiere::all();
         $professeurs = Professeur::all();
         $statuts = Statut_seance::all();
@@ -44,7 +45,6 @@ class SeanceController extends Controller
 
         return view('coordinateur.seances.seance-create', compact('classes', 'matieres', 'professeurs', 'statuts', 'semestres', 'types'));
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -78,7 +78,6 @@ class SeanceController extends Controller
             return redirect()->back()->withInput()->with('error', 'Erreur lors de la création de la séance: ' . $e->getMessage());
         }
     }
-
     /**
      * Display the specified resource.
      */
@@ -100,12 +99,12 @@ class SeanceController extends Controller
 
         if ($anneeClasse) {
             // Récupérer les étudiants via la table pivot
-            $etudiants = Etudiant::whereHas('anneeClasseEtudiants', function($query) use ($anneeClasse) {
+            $etudiants = Etudiant::whereHas('anneeClasseEtudiants', function ($query) use ($anneeClasse) {
                 $query->where('annee_classe_id', $anneeClasse->id);
             })
-            ->with(['user'])
-            ->orderBy('id')
-            ->get();
+                ->with(['user'])
+                ->orderBy('id')
+                ->get();
         }
 
         // Récupérer les présences et absences pour cette séance
@@ -120,7 +119,7 @@ class SeanceController extends Controller
             ->toArray();
 
         // Enrichir les étudiants avec leur statut de présence
-        $etudiants = $etudiants->map(function($etudiant) use ($presences, $absences) {
+        $etudiants = $etudiants->map(function ($etudiant) use ($presences, $absences) {
             if (isset($presences[$etudiant->id])) {
                 $etudiant->statut_presence = $presences[$etudiant->id];
             } elseif (in_array($etudiant->id, $absences)) {
@@ -139,12 +138,76 @@ class SeanceController extends Controller
             'absents' => $etudiants->where('statut_presence', 'Absent')->count(),
             'non_definis' => $etudiants->where('statut_presence', 'Non défini')->count(),
         ];
-
-        return view('coordinateur.seances.seance-show', compact('seance', 'etudiants', 'statistiques'));
+        $presences = Presence::where('seance_id', $seance->id)
+            ->with('statutPresence') // pour avoir le libellé
+            ->get()
+            ->keyBy('etudiant_id');
+        return view('coordinateur.seances.seance-show', compact('seance', 'etudiants', 'statistiques', 'presences'));
     }
-     /**
-     * Show the form for editing the specified resource.
-     */
+    public function presences($gestion_seance)
+    {
+        // Essayer de résoudre manuellement le modèle
+        $seance = Seance::find($gestion_seance);
+
+        $seance->load(['classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance']);
+
+        // Récupérer les étudiants inscrits dans cette classe
+        // Récupérer l'AnneeClasse pour cette classe (la plus récente)
+        $anneeClasse = AnneeClasse::where('classe_id', $seance->classe_id)
+            ->with('anneeAcademique')
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $etudiants = collect();
+
+        if ($anneeClasse) {
+            // Récupérer les étudiants via la table pivot
+            $etudiants = Etudiant::whereHas('anneeClasseEtudiants', function ($query) use ($anneeClasse) {
+                $query->where('annee_classe_id', $anneeClasse->id);
+            })
+                ->with(['user'])
+                ->orderBy('id')
+                ->get();
+        }
+
+        // Récupérer les présences et absences pour cette séance
+        $presences = Presence::where('seance_id', $seance->id)
+            ->with('statutPresence')
+            ->get()
+            ->pluck('statutPresence.libelle', 'etudiant_id')
+            ->toArray();
+
+        $absences = Absence::where('seance_id', $seance->id)
+            ->pluck('etudiant_id')
+            ->toArray();
+
+        // Enrichir les étudiants avec leur statut de présence
+        $etudiants = $etudiants->map(function ($etudiant) use ($presences, $absences) {
+            if (isset($presences[$etudiant->id])) {
+                $etudiant->statut_presence = $presences[$etudiant->id];
+            } elseif (in_array($etudiant->id, $absences)) {
+                $etudiant->statut_presence = 'Absent';
+            } else {
+                $etudiant->statut_presence = 'Non défini';
+            }
+            return $etudiant;
+        });
+
+        // Calculer les statistiques de présence
+        $statistiques = [
+            'total' => $etudiants->count(),
+            'presents' => $etudiants->where('statut_presence', 'Présent')->count(),
+            'retards' => $etudiants->where('statut_presence', 'En retard')->count(),
+            'absents' => $etudiants->where('statut_presence', 'Absent')->count(),
+            'non_definis' => $etudiants->where('statut_presence', 'Non défini')->count(),
+        ];
+        $presences = Presence::where('seance_id', $seance->id)
+            ->with('statutPresence') // pour avoir le libellé
+            ->get()
+            ->keyBy('etudiant_id');
+            $statutsPresence = Statut_presence::all();
+        return view('coordinateur.seances.presences', compact('seance', 'etudiants', 'statistiques', 'presences', 'statutsPresence'));
+    }
     public function edit(Seance $seance)
     {
         $classes = Classe::all();
@@ -156,7 +219,6 @@ class SeanceController extends Controller
 
         return view('coordinateur.seances.seance-edit', compact('seance', 'classes', 'matieres', 'professeurs', 'statuts', 'semestres', 'types'));
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -186,5 +248,4 @@ class SeanceController extends Controller
         $seance->delete();
         return redirect()->route('seances.index')->with('success', 'Séance supprimée avec succès.');
     }
-
 }

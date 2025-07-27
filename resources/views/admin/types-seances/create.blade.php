@@ -6,7 +6,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
-                <a href="{{ route('gestion-types-seances.index') }}"
+                <a href="{{ route('types-seances.index') }}"
                    class="text-gray-600 hover:text-gray-800 transition-colors">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </a>
@@ -16,7 +16,7 @@
 
         <!-- Formulaire -->
         <div class="bg-white rounded-xl shadow-md p-8">
-            <form method="POST" action="{{ route('gestion-types-seances.store') }}" class="space-y-6">
+            <form method="POST" action="{{ route('types-seances.store') }}" class="space-y-6">
                 @csrf
 
                 <!-- Section: Informations principales -->
@@ -35,7 +35,7 @@
                             <input type="text" name="nom" id="nom" required
                                    value="{{ old('nom') }}"
                                    placeholder="Ex: Cours magistral, Travaux dirigés, Travaux pratiques..."
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nom') border-red-500 @enderror">
+                                   class="w-full px-4 py-3 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nom') border-red-500 @enderror">
                             @error('nom')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -48,51 +48,18 @@
                             </label>
                             <textarea name="description" id="description" rows="4" required
                                       placeholder="Décrivez le type de séance, ses objectifs et ses caractéristiques..."
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                                      class="w-full px-4 py-3 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
                             @error('description')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
-                            <p class="text-gray-500 text-sm mt-1">
-                                Une description claire aide à distinguer les différents types de séances
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Exemples et conseils -->
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-lightbulb mr-3 text-yellow-600"></i>
-                        Exemples de Types de Séances
-                    </h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-4 bg-blue-50 rounded-lg">
-                            <h4 class="font-semibold text-blue-900 mb-2">Cours Magistral</h4>
-                            <p class="text-sm text-blue-700">Enseignement théorique dispensé par le professeur à l'ensemble de la classe.</p>
-                        </div>
-
-                        <div class="p-4 bg-green-50 rounded-lg">
-                            <h4 class="font-semibold text-green-900 mb-2">Travaux Dirigés (TD)</h4>
-                            <p class="text-sm text-green-700">Séances d'exercices et d'applications pratiques en petits groupes.</p>
-                        </div>
-
-                        <div class="p-4 bg-purple-50 rounded-lg">
-                            <h4 class="font-semibold text-purple-900 mb-2">Travaux Pratiques (TP)</h4>
-                            <p class="text-sm text-purple-700">Séances de manipulation et d'expérimentation en laboratoire.</p>
-                        </div>
-
-                        <div class="p-4 bg-orange-50 rounded-lg">
-                            <h4 class="font-semibold text-orange-900 mb-2">Contrôle Continu</h4>
-                            <p class="text-sm text-orange-700">Séances d'évaluation et de contrôle des connaissances.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Boutons d'action -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                    <a href="{{ route('gestion-types-seances.index') }}"
-                       class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    <a href="{{ route('types-seances.index') }}"
+                       class="px-6 py-3 border  text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                         Annuler
                     </a>
                     <button type="submit"

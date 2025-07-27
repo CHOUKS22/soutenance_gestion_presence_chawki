@@ -50,7 +50,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Nom</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Étudiants</th>
+                            {{-- <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Étudiants</th> --}}
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Créée le</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">Actions</th>
                         </tr>
@@ -59,9 +59,9 @@
                         @forelse($classes as $classe)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 text-sm text-gray-800">{{ $classe->nom }}</td>
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <span class="text-xs text-green-800 bg-green-100 px-2 py-1 rounded-full">0 étudiants</span>
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-4 text-sm text-gray-700">
                                     {{ $classe->created_at->format('d/m/Y à H:i') }}
                                 </td>
