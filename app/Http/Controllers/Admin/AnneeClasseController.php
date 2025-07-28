@@ -15,8 +15,7 @@ class AnneeClasseController extends Controller
     public function index()
     {
         $anneesClasses = AnneeClasse::with(['anneeAcademique', 'classe', 'coordinateur', 'etudiants'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy('created_at', 'desc')->paginate(8);
 
         return view('admin.annees-classes.index', compact('anneesClasses'));
     }

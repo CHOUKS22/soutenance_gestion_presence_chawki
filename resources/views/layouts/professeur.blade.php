@@ -45,11 +45,11 @@
                         <span class="text-base">Séances</span>
                     </a>
 
-                    <a href="{{ route('professeur.etudiants.index') }}"
+                    {{-- <a href="{{ route('professeur.etudiants.index') }}"
                         class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">
                     <i class="fas fa-users mr-4"></i>
                     <span class="text-base">Mes etudiants</span>
-                    </a>
+                    </a> --}}
 
                     {{-- <a href="{{ route('coordinateur.etudiants') }}"
                         class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition">

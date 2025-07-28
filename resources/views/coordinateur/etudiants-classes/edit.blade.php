@@ -8,7 +8,6 @@
         <a href="{{ route('etudiants-classes.index') }}" class="text-gray-600 hover:text-gray-800 mr-4">
             <i class="fas fa-arrow-left text-xl"></i>
         </a>
-        <h1 class="text-2xl font-bold text-gray-800">Modifier l'Inscription #{{ $inscription->id }}</h1>
     </div>
 
     @if($errors->any())

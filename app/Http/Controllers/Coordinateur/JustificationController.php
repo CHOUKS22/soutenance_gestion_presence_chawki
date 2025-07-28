@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Coordinateur;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absence;
-use App\Models\Absence_justifie;
 use App\Models\Justification;
-use App\Models\AbsenceJustifie;
 use Illuminate\Support\Facades\Auth;
 
 class JustificationController extends Controller
@@ -18,7 +16,11 @@ class JustificationController extends Controller
         $absences = Absence::whereNotIn('id', function ($query) {
             $query->select('absence_id')->from('absence_justifie');
         })
-            ->with(['etudiant.user', 'seance.classe', 'seance.matiere'])
+            ->with([
+                'etudiant.user',
+                'seance.anneeClasse.classe', // correction ici
+                'seance.matiere'
+            ])
             ->orderByDesc('created_at')
             ->paginate(10, ['*'], 'non_justifiees');
 
@@ -26,7 +28,12 @@ class JustificationController extends Controller
         $justifiees = Absence::whereIn('id', function ($query) {
             $query->select('absence_id')->from('absence_justifie');
         })
-            ->with(['etudiant.user', 'seance.classe', 'seance.matiere', 'justifications'])
+            ->with([
+                'etudiant.user',
+                'seance.anneeClasse.classe', // correction ici aussi
+                'seance.matiere',
+                'justifications'
+            ])
             ->orderByDesc('created_at')
             ->paginate(10, ['*'], 'justifiees');
 
@@ -35,12 +42,13 @@ class JustificationController extends Controller
             'absencesJustifiees' => $justifiees,
         ]);
     }
+
     public function create($absence_id)
     {
         // On récupère l'absence avec ses relations pour l'afficher dans le formulaire
         $absence = Absence::with([
             'etudiant.user',
-            'seance.classe',
+            'seance.anneeClasse.classe', // correction ici
             'seance.matiere'
         ])->findOrFail($absence_id);
 

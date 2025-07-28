@@ -26,10 +26,18 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($absencesNonJustifiees as $absence)
                         <tr>
-                            <td class="px-6 py-4">{{ $absence->etudiant->user->nom }} {{ $absence->etudiant->user->prenom }}</td>
-                            <td class="px-6 py-4">{{ $absence->seance->classe->nom }}</td>
-                            <td class="px-6 py-4">{{ $absence->seance->matiere->nom }}</td>
-                            <td class="px-6 py-4">{{ $absence->seance->date_debut->format('d/m/Y') }}</td>
+                            <td class="px-6 py-4">
+                                {{ $absence->etudiant->user->nom }} {{ $absence->etudiant->user->prenom }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->seance->anneeClasse->classe->nom ?? 'N/A' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->seance->matiere->nom ?? 'N/A' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->seance->date_debut->format('d/m/Y') }}
+                            </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('justifications.create', $absence->id) }}"
                                    class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded">
@@ -65,10 +73,18 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($absencesJustifiees as $absence)
                         <tr>
-                            <td class="px-6 py-4">{{ $absence->etudiant->user->nom }} {{ $absence->etudiant->user->prenom }}</td>
-                            <td class="px-6 py-4">{{ $absence->seance->classe->nom }}</td>
-                            <td class="px-6 py-4">{{ $absence->seance->matiere->nom }}</td>
-                            <td class="px-6 py-4">{{ $absence->seance->date_debut->format('d/m/Y') }}</td>
+                            <td class="px-6 py-4">
+                                {{ $absence->etudiant->user->nom }} {{ $absence->etudiant->user->prenom }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->seance->anneeClasse->classe->nom ?? 'N/A' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->seance->matiere->nom ?? 'N/A' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->seance->date_debut->format('d/m/Y') }}
+                            </td>
                             <td class="px-6 py-4 text-sm text-gray-700">
                                 {{ $absence->justifications->first()->motif ?? 'N/A' }}
                             </td>

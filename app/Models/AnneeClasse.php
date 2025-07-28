@@ -44,4 +44,8 @@ class AnneeClasse extends Model
         return $this->belongsToMany(Etudiant::class, 'annee_classe_etudiant')
             ->withTimestamps();
     }
+    public function seances()
+    {
+        return $this->hasMany(Seance::class);
+    }
 }

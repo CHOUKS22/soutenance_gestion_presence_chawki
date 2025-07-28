@@ -1,4 +1,4 @@
-@extends('layouts.coordinateur')
+@extends('layouts.professeur')
 
 @section('title', 'Détails de la Séance')
 @section('subtitle', 'Informations de la séance')
@@ -8,13 +8,13 @@
         <div class="alert alert-danger">
             <h4>Erreur</h4>
             <p>La séance demandée n'a pas été trouvée.</p>
-            <a href="{{ route('seances.index') }}" class="btn btn-primary">Retour à la liste</a>
+            <a href="{{ route('professeur.seances.index') }}" class="btn btn-primary">Retour à la liste</a>
         </div>
     @else
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
-                <a href="{{ route('seances.index') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
+                <a href="{{ route('professeur.seances.index') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </a>
                 <div>
@@ -28,11 +28,6 @@
                 </div>
             </div>
             <div class="flex space-x-3">
-                <a href="{{ route('seances.edit', $seance) }}"
-                   class="bg-yellow-600 text-white px-6 py-3 rounded-lg hover:bg-yellow-700 transition-colors flex items-center space-x-2 shadow-lg">
-                    <i class="fas fa-edit"></i>
-                    <span>Modifier</span>
-                </a>
             </div>
         </div>
 
@@ -145,11 +140,7 @@
                     <!-- Actions -->
                     <div class="mt-6 pt-6 border-t border-gray-200">
                         <div class="flex flex-wrap gap-3">
-                            <a href="{{ route('seances.edit', $seance) }}"
-                               class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors flex items-center">
-                                <i class="fas fa-edit mr-2"></i>Modifier la séance
-                            </a>
-                            <a href="{{ route('seances.index') }}"
+                            <a href="{{ route('professeur.seances.index') }}"
                                class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
                                 <i class="fas fa-list mr-2"></i>Retour à la liste
                             </a>

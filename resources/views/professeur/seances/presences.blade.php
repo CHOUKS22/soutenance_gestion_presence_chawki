@@ -1,4 +1,4 @@
-@extends('layouts.coordinateur')
+@extends('layouts.professeur')
 
 @section('title', 'Détails de la liste de présence')
 @section('subtitle', 'Gestion des présences')
@@ -10,7 +10,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('seances.index') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
+                    <a href="{{ route('professeur.seances.index') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
                         <i class="fas fa-arrow-left text-xl"></i>
                     </a>
                     <div>
@@ -172,7 +172,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
                                             <div class="flex justify-center space-x-1">
                                                 <!-- Formulaire pour Présent -->
-                                                <form method="POST" action="{{ route('presence.present') }}"
+                                                <form method="POST" action="{{ route('professeur.presence.present') }}"
                                                     class="inline">
                                                     @csrf
                                                     <input type="hidden" name="etudiant_id" value="{{ $etudiant->id }}">
@@ -185,7 +185,7 @@
                                                 </form>
 
                                                 <!-- Formulaire pour En retard -->
-                                                <form method="POST" action="{{ route('presence.retard') }}"
+                                                <form method="POST" action="{{ route('professeur.presence.retard') }}"
                                                     class="inline">
                                                     @csrf
                                                     <input type="hidden" name="etudiant_id" value="{{ $etudiant->id }}">
@@ -198,7 +198,7 @@
                                                 </form>
 
                                                 <!-- Formulaire pour Absent -->
-                                                <form method="POST" action="{{ route('presence.absent') }}"
+                                                <form method="POST" action="{{ route('professeur.presence.absent') }}"
                                                     class="inline">
                                                     @csrf
                                                     <input type="hidden" name="etudiant_id"
@@ -226,8 +226,8 @@
                         <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun étudiant inscrit</h3>
                         <p class="text-gray-500 mb-4">
                             Il n'y a aucun étudiant inscrit dans la classe
-                            <strong>{{ $seance->classe->nom ?? 'N/A' }}</strong>
-                            pour l'année académique active.
+                            <strong>{{ $seance->anneeClasse->classe->nom ?? 'N/A' }}</strong>
+                            pour cette année académique.
                         </p>
                     </div>
             </div>

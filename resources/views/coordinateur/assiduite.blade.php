@@ -5,7 +5,6 @@
 @section('content')
 <div class="max-w-5xl mx-auto mt-8 space-y-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-4">Note d’assiduité par matière</h1>
 
     <form method="GET" action="{{ route('statistiques.assiduite') }}" class="bg-white p-6 rounded-lg shadow-md">
         <label for="etudiant_id" class="block mb-2 font-medium text-gray-700">Choisir un étudiant :</label>

@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\AnneeClasseController;
 use App\Http\Controllers\Admin\StatutSeanceController;
 use App\Http\Controllers\Admin\TypeSeanceController;
 use App\Http\Controllers\Admin\MatiereController;
+use App\Http\Controllers\Professeur\PresenceAbsenceProfesseurController;
 use App\Models\AnneeAcademique;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -70,9 +71,11 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('professeur')->middleware(['Professeur'])->group(function () {
         Route::get('/professeur/dashboard', [DashboardProfesseurController::class, 'index'])->name('professeur.dashboard');
         Route::get('/professeur/seances', [SeanceProfesseurController::class, 'index'])->name('professeur.seances.index');
-        Route::get('seances/{seance}/presences', [PresenceProfesseurController::class, 'index'])->name('professeur.presences.index');
-        Route::post('seances/{seance}/presences', [PresenceProfesseurController::class, 'store'])->name('professeur.presences.store');
-        Route::get('/professeur/etudiants', [ProfesseurEtudiantController::class, 'index'])->name('professeur.etudiants.index');
+        Route::get('/professeur/seances/{seance}', [SeanceProfesseurController::class, 'show'])->name('professeur.seances.show');
+        Route::get('/professeur/seances/{id}/presences', [SeanceProfesseurController::class, 'presences'])->name('professeur.seances.presences');
+        Route::post('/professeur/presence/present', [PresenceAbsenceProfesseurController::class, 'marquerPresent'])->name('professeur.presence.present');
+        Route::post('/professeur/presence/retard', [PresenceAbsenceProfesseurController::class, 'marquerRetard'])->name('professeur.presence.retard');
+        Route::post('/professeur/presence/absent', [PresenceAbsenceProfesseurController::class, 'marquerAbsent'])->name('professeur.presence.absent');
     });
 
 
@@ -88,8 +91,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/presence/present', [PresenceAbsenceController::class, 'marquerPresent'])->name('presence.present');
         Route::post('/presence/retard', [PresenceAbsenceController::class, 'marquerRetard'])->name('presence.retard');
         Route::post('/presence/absent', [PresenceAbsenceController::class, 'marquerAbsent'])->name('presence.absent');
-        Route::post('/presence/plusieurs-presents', [PresenceAbsenceController::class, 'marquerPlusieursPresents'])->name('presence.plusieurs.presents');
-        Route::post('/presence/plusieurs-absents', [PresenceAbsenceController::class, 'marquerPlusieursAbsents'])->name('presence.plusieurs.absents');
+        // Route::post('/presence/plusieurs-presents', [PresenceAbsenceController::class, 'marquerPlusieursPresents'])->name('presence.plusieurs.presents');
+        // Route::post('/presence/plusieurs-absents', [PresenceAbsenceController::class, 'marquerPlusieursAbsents'])->name('presence.plusieurs.absents');
         Route::get('/presence/statistiques', [PresenceAbsenceController::class, 'statistiques'])->name('presence.statistiques');
         Route::resource('/seances', SeanceController::class);
         Route::get('/seances/{id}/presences', [SeanceController::class, 'presences'])->name('seances.presences');
@@ -99,6 +102,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/justifications/{absence}/create', [JustificationController::class, 'create'])->name('justifications.create');
         Route::post('/justifications/{absence}/store', [JustificationController::class, 'store'])->name('justifications.store');
         Route::get('/statistiques/assiduite', [StatistiquesPresenceController::class, 'assiduiteEtudiantParMatiere'])->name('statistiques.assiduite');
+        Route::get('/statistiques/taux-presence-etudiant', [StatistiquesPresenceController::class, 'tauxPresenceEtudiant'])->name('statistiques.taux-presence-etudiant');
+        Route::get('/coordinateur/classes/selection', [StatistiquesPresenceController::class, 'selectionClasse'])->name('presence.selection');
+        Route::get('/coordinateur/classes/{classe}/taux-presence', [StatistiquesPresenceController::class, 'graphiquePresence'])->name('presence.graphique');
+        Route::get('/classes/taux-presence', [StatistiquesPresenceController::class, 'tauxPresenceParClasse'])->name('coordinateur.presences.parClasse');
+        Route::get('/coordinateur/classes/volume-cours', [StatistiquesPresenceController::class, 'volumeCoursParSemestre'])->name('coordinateur.presences.volumeCours');
+        Route::get('/coordinateur/classes/volume-cours-cumule', [StatistiquesPresenceController::class, 'volumeCoursCumule'])
+            ->name('coordinateur.presences.volumeCoursCumule');
     });
 
 
@@ -135,7 +145,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('statuts-presences', StatutPresenceController::class)->parameters(['statuts-presences' => 'statuts_presence']);
         Route::resource('annees-classes', AnneeClasseController::class)->parameters(['annees-classes' => 'anneeClasse']);
         Route::resource('types-seances', TypeSeanceController::class)->parameters(['types-seances' => 'type_seance']);
-
         // Routes pour l'assignation d'étudiants aux parents
         Route::post('/parents/assign-etudiant', [ParentController::class, 'assignEtudiant'])->name('parents.assign-etudiant');
         Route::post('/parents/unassign-etudiant', [ParentController::class, 'unassignEtudiant'])->name('parents.unassign-etudiant');

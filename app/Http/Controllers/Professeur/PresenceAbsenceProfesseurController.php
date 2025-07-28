@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Coordinateur;
+namespace App\Http\Controllers\Professeur;
 
 use App\Http\Controllers\Controller;
 use App\Models\Presence;
@@ -12,7 +12,7 @@ use App\Models\StatutPresence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PresenceAbsenceController extends Controller
+class PresenceAbsenceProfesseurController extends Controller
 {
     /**
      * Afficher la page de gestion des présences pour une séance
@@ -40,7 +40,7 @@ class PresenceAbsenceController extends Controller
                                   ->get()
                                   ->keyBy('etudiant_id');
 
-        return view('coordinateur.presences.index', compact(
+        return view('professeur.seances.index', compact(
             'seance',
             'etudiants',
             'statutsPresence',
@@ -141,6 +141,7 @@ class PresenceAbsenceController extends Controller
     /**
      * Marquer plusieurs étudiants comme présents
      */
+
     // public function marquerPlusieursPresents(Request $request)
     // {
     //     $request->validate([
@@ -212,59 +213,59 @@ class PresenceAbsenceController extends Controller
     /**
      * Afficher les statistiques de présence
      */
-    public function statistiques()
-    {
-        // Statistiques générales
-        $totalPresences = Presence::count();
-        $totalAbsences = Absence::count();
-        $presentsToday = Presence::whereHas('seance', function($query) {
-            $query->whereDate('date_debut', today());
-        })->count();
+    // public function statistiques()
+    // {
+    //     // Statistiques générales
+    //     $totalPresences = Presence::count();
+    //     $totalAbsences = Absence::count();
+    //     $presentsToday = Presence::whereHas('seance', function($query) {
+    //         $query->whereDate('date_debut', today());
+    //     })->count();
 
-        $statistiquesParClasse = Seance::with(['classe', 'presences.statutPresence', 'absences'])
-                                      ->get()
-                                      ->groupBy('classe_id')
-                                      ->map(function($seances, $classeId) {
-                                          $classe = $seances->first()->classe;
-                                          $totalPresences = $seances->sum(function($seance) {
-                                              return $seance->presences->count();
-                                          });
-                                          $totalAbsences = $seances->sum(function($seance) {
-                                              return $seance->absences->count();
-                                          });
+    //     $statistiquesParClasse = Seance::with(['classe', 'presences.statutPresence', 'absences'])
+    //                                   ->get()
+    //                                   ->groupBy('classe_id')
+    //                                   ->map(function($seances, $classeId) {
+    //                                       $classe = $seances->first()->classe;
+    //                                       $totalPresences = $seances->sum(function($seance) {
+    //                                           return $seance->presences->count();
+    //                                       });
+    //                                       $totalAbsences = $seances->sum(function($seance) {
+    //                                           return $seance->absences->count();
+    //                                       });
 
-                                          $presents = $seances->sum(function($seance) {
-                                              return $seance->presences->filter(function($presence) {
-                                                  return $presence->statutPresence &&
-                                                         $presence->statutPresence->libelle === 'Présent';
-                                              })->count();
-                                          });
+    //                                       $presents = $seances->sum(function($seance) {
+    //                                           return $seance->presences->filter(function($presence) {
+    //                                               return $presence->statutPresence &&
+    //                                                      $presence->statutPresence->libelle === 'Présent';
+    //                                           })->count();
+    //                                       });
 
-                                          $retards = $seances->sum(function($seance) {
-                                              return $seance->presences->filter(function($presence) {
-                                                  return $presence->statutPresence &&
-                                                         $presence->statutPresence->libelle === 'En retard';
-                                              })->count();
-                                          });
+    //                                       $retards = $seances->sum(function($seance) {
+    //                                           return $seance->presences->filter(function($presence) {
+    //                                               return $presence->statutPresence &&
+    //                                                      $presence->statutPresence->libelle === 'En retard';
+    //                                           })->count();
+    //                                       });
 
-                                          $total = $totalPresences + $totalAbsences;
+    //                                       $total = $totalPresences + $totalAbsences;
 
-                                          return [
-                                              'classe' => $classe,
-                                              'total_presences' => $totalPresences,
-                                              'total_absences' => $totalAbsences,
-                                              'presents' => $presents,
-                                              'retards' => $retards,
-                                              'taux_presence' => $total > 0 ?
-                                                  round(($presents / $total) * 100, 1) : 0
-                                          ];
-                                      });
+    //                                       return [
+    //                                           'classe' => $classe,
+    //                                           'total_presences' => $totalPresences,
+    //                                           'total_absences' => $totalAbsences,
+    //                                           'presents' => $presents,
+    //                                           'retards' => $retards,
+    //                                           'taux_presence' => $total > 0 ?
+    //                                               round(($presents / $total) * 100, 1) : 0
+    //                                       ];
+    //                                   });
 
-        return view('coordinateur.presences.statistiques', compact(
-            'totalPresences',
-            'totalAbsences',
-            'presentsToday',
-            'statistiquesParClasse'
-        ));
-    }
+    //     return view('coordinateur.presences.statistiques', compact(
+    //         'totalPresences',
+    //         'totalAbsences',
+    //         'presentsToday',
+    //         'statistiquesParClasse'
+    //     ));
+    // }
 }

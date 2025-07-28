@@ -5,7 +5,6 @@
 @section('content')
 <div class="container mx-auto px-4">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Gestion des Inscriptions</h1>
         <div class="flex space-x-2">
             <a href="{{ route('etudiants-classes.inscrire-plusieurs') }}"
                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">

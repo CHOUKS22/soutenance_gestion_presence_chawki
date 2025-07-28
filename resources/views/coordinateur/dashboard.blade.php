@@ -22,13 +22,13 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             @php
                 $stats = [
-                    [
-                        'label' => 'Matières',
-                        'icon' => 'fa-book',
-                        'color' => 'bg-blue-100',
-                        'iconColor' => 'text-blue-600',
-                        'count' => $totalMatieres,
-                    ],
+                    // [
+                    //     'label' => 'Matières',
+                    //     'icon' => 'fa-book',
+                    //     'color' => 'bg-blue-100',
+                    //     'iconColor' => 'text-blue-600',
+                    //     'count' => $totalMatieres,
+                    // ],
                     [
                         'label' => 'Séances',
                         'icon' => 'fa-calendar-day',
@@ -207,3 +207,4 @@
         });
     </script>
 @endsection
+

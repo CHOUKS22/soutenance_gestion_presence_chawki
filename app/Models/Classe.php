@@ -42,4 +42,8 @@ class Classe extends Model
     {
         return $this->hasMany(AnneeClasse::class, 'classe_id');
     }
+    public function anneeClasseEtudiants()
+    {
+        return $this->hasMany(AnneeClasseEtudiant::class, 'classe_id');
+    }
 }

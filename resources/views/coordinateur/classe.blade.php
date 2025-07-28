@@ -5,8 +5,6 @@
 
 @section('content')
 <div class="max-w-5xl mx-auto py-10 px-6">
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-8">Mes Classes</h1>
-
     <!-- Filtres de selection -->
     <form method="GET" class="flex flex-wrap items-end gap-6 mb-10">
         <div class="w-64">
@@ -55,7 +53,7 @@
                             <li class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
                                 <div class="text-gray-900 font-semibold">{{ $etudiant->user->prenom }} {{ $etudiant->user->nom }}</div>
                                 <div class="text-gray-500 text-sm">Email : {{ $etudiant->user->email }}</div>
-                                <div class="text-gray-400 text-xs mt-1">ID : {{ $etudiant->id }}</div>
+                                {{-- <div class="text-gray-400 text-xs mt-1">ID : {{ $etudiant->id }}</div> --}}
                             </li>
                         @endforeach
                     </ul>

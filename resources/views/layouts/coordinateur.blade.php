@@ -82,6 +82,36 @@
                         <span class="text-base">Statistiques
                         </span>
                     </a>
+                    <a href="{{ route('statistiques.taux-presence-etudiant') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Statistiques
+                        </span>
+                    </a>
+                    <a href="{{ route('presence.selection') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Statistiques
+                        </span>
+                    </a>
+                    <a href="{{ route('coordinateur.presences.parClasse') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Statistiques
+                        </span>
+                    </a>
+                    <a href="{{ route('coordinateur.presences.volumeCours') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Statistiques
+                        </span>
+                    </a>
+                     <a href="{{ route('coordinateur.presences.volumeCoursCumule') }}"
+                        class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition {{ request()->routeIs('justifications.*') ? 'bg-gray-100 font-semibold' : '' }}">
+                        <i class="fas fa-file-signature mr-4"></i>
+                        <span class="text-base">Statistiques
+                        </span>
+                    </a>
                 </nav>
             </div>
         </aside>
