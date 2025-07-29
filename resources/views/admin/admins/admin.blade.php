@@ -33,7 +33,7 @@
 
         <!-- Formulaire d'ajout, cache par defaut -->
         <div id="formAdd" class="bg-white rounded-lg shadow-md p-6 mb-6 hidden">
-            <h2 class="text-xl font-semibold mb-4">Ajout infos Admin</h2>
+            <h3 class="text-xl font-semibold mb-4">Ajout infos Admin</h3>
             @if($usersAdmins->count() > 0)
                 <form method="POST" action="{{ route('admins.store') }}">
                     @csrf
@@ -92,7 +92,7 @@
         <!-- Liste des admins -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-6">
-                <h2 class="text-xl font-semibold mb-4">Liste des Admins</h2>
+                <h3 class="text-xl font-semibold mb-4">Liste des Admins</h3>
                 @if($admins->count() > 0)
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">

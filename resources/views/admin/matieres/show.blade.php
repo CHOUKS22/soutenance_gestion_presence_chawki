@@ -85,10 +85,10 @@
 
             <!-- Statistiques -->
             <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="fas fa-chart-bar mr-3 text-green-600"></i>
                     Statistiques
-                </h2>
+                </h3>
 
                 <div class="space-y-4">
                     <!-- Nombre de séances -->
@@ -146,10 +146,10 @@
         <!-- Séances récentes -->
         @if($matiere->seances && $matiere->seances->count() > 0)
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <p class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="fas fa-calendar-alt mr-3 text-indigo-600"></i>
                     Séances Récentes
-                </h2>
+                </p>
 
                 <div class="overflow-x-auto">
                     <table class="w-full">
@@ -203,10 +203,10 @@
 
         <!-- Informations d'audit -->
         <div class="bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <p class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-history mr-3 text-purple-600"></i>
                 Informations d'Audit
-            </h2>
+            </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>

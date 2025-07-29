@@ -61,7 +61,7 @@
             </div>
             <!-- Informations de modification -->
             <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                <h3 class="text-sm font-medium text-gray-800 mb-2">Informations de modification</h3>
+                <h2 class="text-sm font-medium text-gray-800 mb-2">Informations de modification</h2>
                 <div class="text-sm text-gray-600 space-y-1">
                     <p><span class="font-medium">Créé le:</span> {{ $statutSeance->created_at ? $statutSeance->created_at->format('d/m/Y à H:i') : 'Non disponible' }}</p>
                     <p><span class="font-medium">Dernière modification:</span> {{ $statutSeance->updated_at ? $statutSeance->updated_at->format('d/m/Y à H:i') : 'Non disponible' }}</p>

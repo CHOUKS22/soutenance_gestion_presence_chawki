@@ -67,9 +67,9 @@
 
                     <!-- Infos personnelles -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <p class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-user mr-2"></i> Informations personnelles
-                        </h3>
+                        </p>
                         <div class="space-y-3">
                             <div>
                                 <label class="text-sm font-medium text-gray-600">Nom</label>
@@ -94,9 +94,9 @@
 
                     <!-- Infos de contact -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <p class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-address-book mr-2"></i> Informations de contact
-                        </h3>
+                        </p>
                         <div class="space-y-3">
                             <div>
                                 <label class="text-sm font-medium text-gray-600">Email</label>
@@ -107,9 +107,9 @@
 
                     <!-- Infos système -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <p class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-cog mr-2"></i> Informations système
-                        </h3>
+                        </p>
                         <div class="space-y-3">
                             <div>
                                 <label class="text-sm font-medium text-gray-600">Rôle système</label>
@@ -128,9 +128,9 @@
 
                     <!-- Statistiques -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <p class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-chart-bar mr-2"></i> Statistiques
-                        </h3>
+                        </p>
                         <div class="space-y-3">
                             <div class="flex justify-between items-center">
                                 <label class="text-sm font-medium text-gray-600">Compte créé depuis</label>

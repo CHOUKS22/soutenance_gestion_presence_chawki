@@ -104,7 +104,7 @@
 
             {{-- dates de creation / modif --}}
             <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                <h3 class="text-sm font-medium text-gray-800 mb-2">Informations</h3>
+                <h2 class="text-sm font-medium text-gray-800 mb-2">Informations</h2>
                 <div class="text-sm text-gray-600 space-y-1">
                     <p><span class="font-medium">Cree le:</span> {{ $semestre->created_at->format('d/m/Y à H:i') }}</p>
                     <p><span class="font-medium">Modifie le:</span> {{ $semestre->updated_at->format('d/m/Y à H:i') }}</p>
@@ -151,7 +151,7 @@
                     <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
                 </div>
                 <div class="ml-3">
-                    <h3 class="text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                    <h4 class="text-lg font-medium text-gray-900">Confirmer la suppression</h4>
                 </div>
             </div>
 

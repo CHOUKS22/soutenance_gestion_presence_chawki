@@ -8,7 +8,7 @@
     <!-- Sélection des enfants -->
     @if ($etudiants->count())
         <div class="bg-white p-6 rounded-xl shadow-md border">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">Sélectionner un enfant :</h2>
+            <h1 class="text-lg font-semibold text-gray-700 mb-4">Sélectionner un enfant :</h1>
             <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @foreach ($etudiants as $etudiant)
                     <label class="relative block cursor-pointer border rounded-lg shadow-sm hover:shadow-lg transition p-4 bg-gray-50 group {{ request('etudiant_id') == $etudiant->id ? 'ring-2 ring-blue-500' : '' }}">
@@ -80,7 +80,7 @@
 
             <!-- Retards -->
             <div class="bg-orange-100 p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-bold text-orange-800 mb-4">Retards</h3>
+                <p class="text-lg font-bold text-orange-800 mb-4">Retards</p>
                 @forelse($retards as $retard)
                     <div class="mb-2 p-3 bg-white rounded shadow-sm border">
                         <div class="font-semibold">{{ $retard->seance->matiere->nom }}</div>
@@ -95,7 +95,7 @@
 
             <!-- Absences Non Justifiées -->
             <div class="bg-red-100 p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-bold text-red-800 mb-4">Absences Non Justifiées</h3>
+                <p class="text-lg font-bold text-red-800 mb-4">Absences Non Justifiées</p>
                 @forelse($absencesNonJustifiees as $absence)
                     <div class="mb-2 p-3 bg-white rounded shadow-sm border">
                         <div class="font-semibold">{{ $absence->seance->matiere->nom }}</div>
@@ -110,7 +110,7 @@
 
             <!-- Absences Justifiées -->
             <div class="bg-yellow-100 p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-bold text-yellow-800 mb-4">Absences Justifiées</h3>
+                <p class="text-lg font-bold text-yellow-800 mb-4">Absences Justifiées</p>
                 @forelse($absencesJustifiees as $absence)
                     <div class="mb-2 p-3 bg-white rounded shadow-sm border">
                         <div class="font-semibold">{{ $absence->seance->matiere->nom }}</div>
@@ -126,7 +126,7 @@
 
         <!-- Emploi du temps avec filtre par semaine -->
         <div class="bg-white p-6 rounded-lg shadow-md border">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Emploi du Temps</h2>
+            <p class="text-xl font-semibold text-gray-800 mb-4">Emploi du Temps</p>
 
             <form method="GET" class="mb-4 flex flex-wrap items-center gap-3">
                 <input type="hidden" name="etudiant_id" value="{{ $etudiantSelectionne->id }}">

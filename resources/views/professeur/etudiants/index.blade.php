@@ -6,7 +6,7 @@
 @section('content')
 <div class="bg-white p-6 rounded-2xl shadow-xl">
     <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-semibold text-gray-800">Étudiants de vos classes</h2>
+        <h1 class="text-2xl font-semibold text-gray-800">Étudiants de vos classes</h1>
         <div class="text-sm text-gray-500">{{ now()->format('d/m/Y') }}</div>
     </div>
 

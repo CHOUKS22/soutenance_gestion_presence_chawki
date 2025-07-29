@@ -148,10 +148,10 @@
 
                 <!-- Horaires -->
                 <div class="pb-6 border-b">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-clock mr-2 text-green-500"></i>
                         Horaires
-                    </h2>
+                    </h3>
 
                     <div class="grid md:grid-cols-2 gap-4">
                         <div>
@@ -176,10 +176,10 @@
 
                 <!-- Bloc conditionnel pour report -->
                 <div id="reportFields" class="hidden pb-6 border-b">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-exclamation-circle mr-2 text-yellow-500"></i>
                         Informations de report
-                    </h2>
+                    </h4>
 
                     <div class="grid md:grid-cols-2 gap-4">
                         <div>

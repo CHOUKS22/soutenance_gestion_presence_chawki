@@ -100,7 +100,7 @@
         <!-- Liste des professeurs -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-6">
-                <h2 class="text-xl font-semibold mb-4">Liste des Professeurs</h2>
+                <h3 class="text-xl font-semibold mb-4">Liste des Professeurs</h3>
 
                 @if($professeurs->count() > 0)
                     <div class="overflow-x-auto">

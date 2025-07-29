@@ -171,7 +171,7 @@
             @else
                 <div class="text-center py-12">
                     <i class="fas fa-calendar-alt text-4xl text-gray-400 mb-4"></i>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Aucune séance trouvée</h3>
+                    <p class="text-lg font-medium text-gray-900 mb-2">Aucune séance trouvée</p>
                     <a href="{{ route('seances.create') }}"
                         class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>

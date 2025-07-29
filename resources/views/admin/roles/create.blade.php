@@ -34,7 +34,7 @@
                         <input type="text" id="nom" name="nom" required
                                value="{{ old('nom') }}"
                                placeholder="Ex: Administrateur, Professeur..."
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nom') border-red-500 @enderror">
+                               class="w-full px-4 py-3 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nom') border-red-500 @enderror">
                         @error('nom')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -47,7 +47,7 @@
                         </label>
                         <textarea id="description" name="description" rows="4" required
                                   placeholder="Décrivez le rôle et ses fonctions"
-                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                                  class="w-full px-4 py-3 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
                         @error('description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -59,27 +59,27 @@
 
                 <!-- Partie 2 : Exemples de rôles -->
                 <div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-lightbulb mr-3 text-yellow-600"></i>
                         Exemples de Rôles
-                    </h2>
+                    </h3>
 
                     <!-- Quatre exemples disposés en grille -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 bg-red-50 rounded-lg">
-                            <h4 class="font-semibold text-red-900 mb-1">Administrateur</h4>
+                            <p class="font-semibold text-red-900 mb-1">Administrateur</p>
                             <p class="text-sm text-red-700">Accès complet au système, gestion globale.</p>
                         </div>
                         <div class="p-4 bg-blue-50 rounded-lg">
-                            <h4 class="font-semibold text-blue-900 mb-1">Professeur</h4>
+                            <p class="font-semibold text-blue-900 mb-1">Professeur</p>
                             <p class="text-sm text-blue-700">Gestion des séances, suivi des présences.</p>
                         </div>
                         <div class="p-4 bg-green-50 rounded-lg">
-                            <h4 class="font-semibold text-green-900 mb-1">Coordinateur</h4>
+                            <p class="font-semibold text-green-900 mb-1">Coordinateur</p>
                             <p class="text-sm text-green-700">Coordination et gestion des classes.</p>
                         </div>
                         <div class="p-4 bg-purple-50 rounded-lg">
-                            <h4 class="font-semibold text-purple-900 mb-1">Étudiant</h4>
+                            <p class="font-semibold text-purple-900 mb-1">Étudiant</p>
                             <p class="text-sm text-purple-700">Accès personnel aux séances et suivi.</p>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
 
                 <!-- Boutons d'action -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                    <a href="{{ route('roles.index') }}" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                    <a href="{{ route('roles.index') }}" class="px-6 py-3 border  text-gray-700 rounded-lg hover:bg-gray-50">
                         Annuler
                     </a>
                     <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-2">

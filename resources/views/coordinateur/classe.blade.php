@@ -39,12 +39,12 @@
     <!-- Affichage de la classe selectionnee -->
     @if ($selectedClasse)
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">Classe : {{ $selectedClasse->classe->nom }}</h2>
+            <p class="text-2xl font-bold text-blue-800 mb-2">Classe : {{ $selectedClasse->classe->nom }}</p>
             <p class="text-sm text-gray-600 mb-4">Année : {{ $selectedClasse->anneeAcademique->libelle }} | Ajoutée le {{ $selectedClasse->created_at->format('d/m/Y') }}</p>
 
             <!-- Etudiants -->
             <div class="mt-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Étudiants inscrits :</h3>
+                <p class="text-lg font-semibold text-gray-800 mb-4">Étudiants inscrits :</p>
                 @php $etudiants = $selectedClasse->etudiants ?? collect(); @endphp
 
                 @if ($etudiants->count())

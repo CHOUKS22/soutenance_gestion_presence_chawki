@@ -75,11 +75,11 @@
 
             <!-- Liste des etudiants pour les presences -->
             <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <h1 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="fas fa-users mr-3 text-blue-600"></i>
                     Liste de Présence
                     <span class="ml-2 text-sm font-normal text-gray-500">({{ $etudiants->count() }} étudiants)</span>
-                </h2>
+                </h1>
 
                 @if ($etudiants->count() > 0)
                     <!-- Table des étudiants -->
@@ -222,7 +222,7 @@
                         <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-users text-3xl text-gray-400"></i>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun étudiant inscrit</h3>
+                        <h2 class="text-lg font-medium text-gray-900 mb-2">Aucun étudiant inscrit</h2>
                         <p class="text-gray-500 mb-4">
                             Il n'y a aucun étudiant inscrit dans la classe
                             <strong>{{ $seance->anneeClasse->classe->nom ?? 'N/A' }}</strong>

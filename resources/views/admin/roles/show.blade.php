@@ -73,7 +73,7 @@
 
             <!-- Statistiques -->
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Statistiques</h2>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Statistiques</h3>
                 <div class="space-y-4">
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <div class="text-2xl font-bold text-blue-600">{{ $role->users_count ?? 0 }}</div>
@@ -85,7 +85,7 @@
             <!-- Liste des utilisateurs (si présents) -->
             @if($role->users && $role->users->count() > 0)
             <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Utilisateurs Assignés</h2>
+                <h4 class="text-xl font-semibold mb-4 text-gray-800">Utilisateurs Assignés</h4>
                 <div class="space-y-2 max-h-64 overflow-y-auto">
                     @foreach($role->users as $user)
                     <div class="flex items-center p-2 bg-gray-50 rounded">

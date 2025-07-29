@@ -17,7 +17,7 @@
                     <i class="fas fa-user text-4xl text-gray-400 flex items-center justify-center h-full w-full"></i>
                 @endif
             </div>
-            <h2 class="text-lg font-semibold">{{ auth()->user()->prenom }} {{ auth()->user()->nom }}</h2>
+            <p class="text-lg font-semibold">{{ auth()->user()->prenom }} {{ auth()->user()->nom }}</p>
             <p class="text-sm text-gray-600">{{ auth()->user()->email }}</p>
         </div>
 
@@ -44,7 +44,7 @@
         {{-- Emploi du temps --}}
         <div class="bg-white p-6 rounded-2xl shadow">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl font-bold text-gray-800">Emploi du temps</h3>
+                <p class="text-xl font-bold text-gray-800">Emploi du temps</p>
                 <form method="GET" action="{{ route('etudiant.dashboard') }}" class="flex items-center space-x-2">
                     <label for="semaine" class="text-sm text-gray-600">Semaine :</label>
                     <input type="week" name="semaine" id="semaine" value="{{ request('semaine', now()->format('Y-\WW')) }}"

@@ -23,9 +23,9 @@
 
                     {{-- infos en lecture seule --}}
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-user mr-2"></i>Informations personnelles
-                        </h3>
+                        </h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {{-- nom --}}

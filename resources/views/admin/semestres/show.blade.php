@@ -106,7 +106,7 @@
                         <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
                     </div>
                     <div class="ml-3">
-                        <h3 class="text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                        <h4 class="text-lg font-medium text-gray-900">Confirmer la suppression</h4>
                     </div>
                 </div>
                 <p class="text-gray-500 mb-6">

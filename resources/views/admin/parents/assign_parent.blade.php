@@ -5,7 +5,7 @@
 @section('content')
 <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-xl font-semibold mb-4">Assigner un Étudiant à un Parent</h2>
+        <h1 class="text-xl font-semibold mb-4">Assigner un Étudiant à un Parent</h1>
 
         {{-- verifie qu'il y a des parents et des etudiants --}}
         @if($parents->count() > 0 && $etudiants->count() > 0)

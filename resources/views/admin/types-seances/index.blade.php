@@ -13,7 +13,7 @@
             </a>
         </div>
 
-        <!-- Liste des types de séances -->
+        <!-- Liste des types de seances -->
         <div class="bg-white rounded-xl shadow-md">
             <div class="p-6 border-b border-gray-200">
                 <h2 class="text-xl font-bold text-gray-800">Liste des Types de Séances</h2>
@@ -91,7 +91,7 @@
                     <div class="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                         <i class="fas fa-tags text-gray-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun type de séance</h3>
+                    <h4 class="text-lg font-medium text-gray-900 mb-2">Aucun type de séance</h4>
                     <p class="text-gray-500 mb-6">Commencez par créer votre premier type de séance.</p>
                     <a href="{{ route('types-seances.create') }}"
                        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center space-x-2">

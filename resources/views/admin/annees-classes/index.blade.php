@@ -126,8 +126,8 @@
                                                     <i class="fas fa-calendar-alt text-blue-600"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="font-medium text-gray-900">
-                                                        {{ $anneeClasse->anneeAcademique->libelle ?? 'N/A' }}</h3>
+                                                    <p class="font-medium text-gray-900">
+                                                        {{ $anneeClasse->anneeAcademique->libelle ?? 'N/A' }}</p>
                                                     <p class="text-sm text-gray-500">
                                                         {{ optional($anneeClasse->anneeAcademique->date_debut)->format('d/m/Y') }}
                                                         -
@@ -143,8 +143,8 @@
                                                     <i class="fas fa-school text-green-600"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="font-medium text-gray-900">
-                                                        {{ $anneeClasse->classe->nom ?? 'N/A' }}</h3>
+                                                    <p class="font-medium text-gray-900">
+                                                        {{ $anneeClasse->classe->nom ?? 'N/A' }}</p>
                                                     <p class="text-sm text-gray-500">
                                                         {{ $anneeClasse->classe->niveau ?? '' }}</p>
                                                 </div>
@@ -157,10 +157,10 @@
                                                     <i class="fas fa-user-tie text-purple-600"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="font-medium text-gray-900">
+                                                    <p class="font-medium text-gray-900">
                                                         {{ $anneeClasse->coordinateur->user->nom ?? 'N/A' }}
                                                         {{ $anneeClasse->coordinateur->user->prenom ?? '' }}
-                                                    </h3>
+                                                    </p>
                                                     <p class="text-sm text-gray-500">
                                                         {{ $anneeClasse->coordinateur->user->email ?? '' }}</p>
                                                 </div>
@@ -221,7 +221,7 @@
                         <div class="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                             <i class="fas fa-link text-gray-400 text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Aucune association annee-classe</h3>
+                        <p class="text-lg font-medium text-gray-900 mb-2">Aucune association annee-classe</p>
                         <p class="text-gray-500 mb-6">Ajoutez votre premiere association ici.</p>
                         <a href="{{ route('annees-classes.create') }}"
                             class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center space-x-2">

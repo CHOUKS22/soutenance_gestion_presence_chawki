@@ -19,7 +19,7 @@
         </div>
         @if (!empty($etudiantsDroppes) && count($etudiantsDroppes) > 0)
             <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-                <h3 class="text-xl font-semibold text-red-600 mb-4">Étudiants Droppés (≤ 70% de présence)</h3>
+                <h2 class="text-xl font-semibold text-red-600 mb-4">Étudiants Droppés (≤ 70% de présence)</h2>
                 <ul class="space-y-2">
                     @foreach ($etudiantsDroppes as $drop)
                         <li class="text-gray-800">
@@ -136,7 +136,7 @@
             </div>
             <!-- Séances du jour -->
             <div class="bg-white rounded-2xl shadow p-6 col-span-2">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Séances du jour</h3>
+                <p class="text-lg font-bold text-gray-800 mb-4">Séances du jour</p>
                 @forelse($seancesAujourdhui as $seance)
                     <div class="border rounded-lg p-4 mb-4 hover:bg-gray-50 transition">
                         <div class="flex justify-between items-center mb-1">
@@ -161,7 +161,7 @@
             </div>
         </div>
         <div class="bg-white rounded-2xl shadow p-6 max-h-[300px] overflow-auto">
-            <h3 class="text-lg font-bold text-gray-800 mb-4">Taux de présence par classe</h3>
+            <p class="text-lg font-bold text-gray-800 mb-4">Taux de présence par classe</p>
             <canvas id="presenceChart" class="w-full max-h-52"></canvas>
         </div>
 

@@ -64,7 +64,7 @@
                         <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
                     </div>
                     <div class="ml-3">
-                        <h3 class="text-sm font-medium text-yellow-800">Impact des modifications</h3>
+                        <h2 class="text-sm font-medium text-yellow-800">Impact des modifications</h2>
                         <div class="mt-2 text-sm text-yellow-700">
                             <p>Ce statut est utilisé pour <strong>{{ $statutPresence->presences->count() }} présence(s)</strong>.</p>
                             <p>La modification du libellé affectera l'affichage de toutes ces présences.</p>

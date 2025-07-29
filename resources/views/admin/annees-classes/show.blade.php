@@ -81,7 +81,7 @@
         <div>
             {{-- stats --}}
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Statistiques</h2>
+                <p class="text-xl font-semibold mb-4 text-gray-800">Statistiques</p>
                 <div class="space-y-4">
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <div class="text-2xl font-bold text-blue-600">{{ $anneeClasse->etudiants->count() }}</div>
@@ -93,7 +93,7 @@
             {{-- liste des etudiants --}}
             @if($anneeClasse->etudiants->count() > 0)
             <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Étudiants Inscrits</h2>
+                <p class="text-xl font-semibold mb-4 text-gray-800">Étudiants Inscrits</p>
                 <div class="space-y-2 max-h-64 overflow-y-auto">
                     @foreach($anneeClasse->etudiants as $etudiant)
                     <div class="flex items-center p-2 bg-gray-50 rounded">

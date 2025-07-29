@@ -63,7 +63,7 @@
 
                 <!-- liste des semestres -->
                 <div class="mt-6 bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Semestres associes</h2>
+                    <h4 class="text-xl font-semibold mb-4 text-gray-800">Semestres associes</h4>
 
                     @if ($anneeAcademique->semestres && $anneeAcademique->semestres->count() > 0)
                         <div class="space-y-3">
@@ -71,7 +71,7 @@
                                 <div class="border border-gray-200 rounded-lg p-4">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h4 class="font-medium text-gray-900">{{ $semestre->libelle }}</h4>
+                                            <p class="font-medium text-gray-900">{{ $semestre->libelle }}</p>
                                             <p class="text-sm text-gray-500">
                                                 Du
                                                 {{ $semestre->date_debut ? \Carbon\Carbon::parse($semestre->date_debut)->format('d/m/Y') : 'N/A' }}
@@ -92,7 +92,7 @@
                             <div class="mx-auto h-12 w-12 text-gray-400">
                                 <i class="fas fa-calendar-alt text-2xl"></i>
                             </div>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun semestre</h3>
+                            <p class="mt-2 text-sm font-medium text-gray-900">Aucun semestre</p>
                             <p class="mt-1 text-sm text-gray-500">Aucun semestre n'est encore associe a cette annee
                                 academique.</p>
                         </div>
@@ -103,7 +103,7 @@
             <!-- colonne de droite pour les actions et stats -->
             <div>
                 <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Actions rapides</h2>
+                    <p class="text-xl font-semibold mb-4 text-gray-800">Actions rapides</p>
 
                     <div class="space-y-3">
                         <a href="{{ route('annees-academiques.edit', $anneeAcademique) }}"
@@ -120,7 +120,7 @@
 
                 <!-- bloc avec les stats et infos systeme -->
                 <div class="mt-6 bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Statistiques</h2>
+                    <p class="text-xl font-semibold mb-4 text-gray-800">Statistiques</p>
 
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
@@ -139,7 +139,7 @@
                     </div>
 
                     <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-sm font-medium text-gray-500 mb-3">Informations systeme</h3>
+                        <p class="text-sm font-medium text-gray-500 mb-3">Informations systeme</p>
                         <div class="space-y-2 text-sm text-gray-600">
                             <div>
                                 <span class="font-medium">ID:</span> {{ $anneeAcademique->id }}
@@ -165,7 +165,7 @@
             <div class="bg-white rounded-lg p-6 max-w-md w-full">
                 <div class="flex items-center mb-4">
                     <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
-                    <h3 class="ml-3 text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                    <p class="ml-3 text-lg font-medium text-gray-900">Confirmer la suppression</p>
                 </div>
                 <p class="text-gray-500 mb-6">
                     Etes-vous sur de vouloir supprimer cette annee academique ? Cela supprimera aussi tous les semestres et

@@ -37,7 +37,7 @@
                 <div class="flex items-start">
                     <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
                     <div>
-                        <h4 class="text-sm font-medium text-blue-900 mb-1">Information</h4>
+                        <p class="text-sm font-medium text-blue-900 mb-1">Information</p>
                         <p class="text-sm text-blue-700">
                             Apres avoir cree la classe, vous pourrez :
                         </p>

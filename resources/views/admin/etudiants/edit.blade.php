@@ -66,9 +66,9 @@
             @csrf
             @method('PUT')
 
-            <h2 class="text-lg font-semibold mb-4 flex items-center">
+            <h3 class="text-lg font-semibold mb-4 flex items-center">
                 <i class="fas fa-edit mr-2"></i> Modifier les champs personnels
-            </h2>
+            </h3>
 
             <div class="grid md:grid-cols-2 gap-4">
                 <!-- Date de naissance -->

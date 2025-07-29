@@ -5,7 +5,7 @@
 @section('content')
     <div class="max-w-6xl mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">
         @if ($classe)
-            <h2 class="text-2xl font-bold mb-6">Classe : {{ $classe->nom }} – Taux de présence</h2>
+            <h1 class="text-2xl font-bold mb-6">Classe : {{ $classe->nom }} – Taux de présence</h1>
         @endif
         <a href="{{ route('coordinateur.presences.statistiques') }}"
             class="text-gray-600 hover:text-gray-800 transition-colors">

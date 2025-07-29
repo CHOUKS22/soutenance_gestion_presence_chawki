@@ -79,7 +79,7 @@
         {{-- tableau des parents --}}
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-6">
-                <h2 class="text-xl font-semibold mb-4">Liste des Parents</h2>
+                <h3 class="text-xl font-semibold mb-4">Liste des Parents</h3>
 
                 @if($parents->count() > 0)
                     <div class="overflow-x-auto">

@@ -49,9 +49,9 @@
 
                     <!-- Bloc editable : changer le role admin -->
                     <section class="mb-8">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-shield-alt mr-2"></i> Parametres Admin
-                        </h2>
+                        </h3>
 
                         <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
                             <!-- Choix du type d'admin -->

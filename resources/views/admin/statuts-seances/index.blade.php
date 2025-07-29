@@ -42,7 +42,7 @@
                                                     <i class="fas fa-flag text-blue-600"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="font-medium text-gray-900">{{ $statut->libelle }}</h3>
+                                                    <4h43 class="font-medium text-gray-900">{{ $statut->libelle }}</4h43>
                                                 </div>
                                             </div>
                                         </td>
@@ -96,7 +96,7 @@
                         <div class="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                             <i class="fas fa-flag text-gray-400 text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun statut de séance</h3>
+                        <h4 class="text-lg font-medium text-gray-900 mb-2">Aucun statut de séance</h4>
                         <p class="text-gray-500 mb-6">Commencez par créer votre premier statut de séance.</p>
                         <a href="{{ route('statuts-seances.create') }}"
                             class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center space-x-2">

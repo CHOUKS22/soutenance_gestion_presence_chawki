@@ -62,7 +62,7 @@
         <!-- Bloc droit : actions et stats -->
         <div class="space-y-6">
             <div class="bg-white shadow rounded-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Actions rapides</h3>
+                <h4 class="text-lg font-semibold text-gray-800 mb-4">Actions rapides</h4>
                 <div class="space-y-3">
                     <a href="{{ route('classes.edit', $classe) }}" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center">
                         <i class="fas fa-edit mr-2"></i>Modifier la classe
@@ -74,7 +74,7 @@
             </div>
 
             <div class="bg-white shadow rounded-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Statistiques</h3>
+                <p class="text-lg font-semibold text-gray-800 mb-4">Statistiques</p>
                 <div class="space-y-4">
                     <div class="flex justify-between text-sm text-gray-600">
                         <span>Étudiants inscrits</span>
@@ -102,7 +102,7 @@
             <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-red-100">
                 <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirmer la suppression</h3>
+            <p class="text-lg font-medium text-gray-900 mt-4">Confirmer la suppression</p>
             <p class="text-sm text-gray-500 mt-2">
                 Vous êtes sur le point de supprimer la classe "{{ $classe->nom }}". Cette action ne peut pas être annulée.
             </p>

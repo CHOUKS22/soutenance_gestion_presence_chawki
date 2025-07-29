@@ -31,7 +31,7 @@
         @empty
             <div class="text-center py-10 bg-white rounded shadow">
                 <i class="fas fa-users-slash text-4xl text-gray-400 mb-4"></i>
-                <h2 class="text-xl font-semibold text-gray-700">Aucune classe trouvée</h2>
+                <h3 class="text-xl font-semibold text-gray-700">Aucune classe trouvée</h3>
                 <p class="text-gray-500 mt-2">Vous n'avez pas encore de classes associées.</p>
             </div>
         @endforelse

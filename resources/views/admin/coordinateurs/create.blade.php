@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="bg-white rounded-lg shadow-md p-6 mb-6 ">
-    <h2 class="text-xl font-semibold mb-4">Ajouter les informations d'un Coordinateur</h2>
+    <h1 class="text-xl font-semibold mb-4">Ajouter les informations d'un Coordinateur</h1>
 
     @if($usersCoordinateurs->count() > 0)
         <form method="POST" action="{{ route('coordinateurs.store') }}">

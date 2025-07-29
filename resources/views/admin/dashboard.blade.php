@@ -5,7 +5,7 @@
 @section('content')
 <div class="space-y-10">
 
-    <!-- Hero / Bienvenue -->
+    <!-- En-tete -->
     <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-2xl p-8 shadow-lg flex flex-col md:flex-row justify-between items-center">
         <div>
             <h1 class="text-3xl font-bold mb-2">Bienvenue, {{ auth()->user()->nom }} {{ auth()->user()->prenom }}</h1>

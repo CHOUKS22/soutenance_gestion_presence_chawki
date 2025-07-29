@@ -82,7 +82,7 @@
 
             <!-- informations complementaires -->
             <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                <h3 class="text-sm font-medium text-gray-800 mb-2">Informations de modification</h3>
+                <h2 class="text-sm font-medium text-gray-800 mb-2">Informations de modification</h2>
                 <p><span class="font-medium">Creee le :</span> {{ $anneeAcademique->created_at ? $anneeAcademique->created_at->format('d/m/Y a H:i') : 'Non disponible' }}</p>
                 <p><span class="font-medium">Derniere modification :</span> {{ $anneeAcademique->updated_at ? $anneeAcademique->updated_at->format('d/m/Y a H:i') : 'Non disponible' }}</p>
             </div>

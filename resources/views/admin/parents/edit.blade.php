@@ -32,7 +32,7 @@
 
                 {{-- infos utilisateur (non modifiables) --}}
                 <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Informations de l'utilisateur</h3>
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Informations de l'utilisateur</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-600">Nom</label>

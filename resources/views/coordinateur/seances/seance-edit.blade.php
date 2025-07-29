@@ -145,7 +145,7 @@
                     <!-- Champs de report -->
                     <div id="reportFields"
                         class="border-t pt-6 {{ $seance->statutSeance->libelle === 'Reportée' ? '' : 'hidden' }}">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informations de report</h3>
+                        <p class="text-lg font-semibold text-gray-800 mb-4">Informations de report</p>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label for="date_reportee" class="block text-sm font-medium text-gray-700">Date

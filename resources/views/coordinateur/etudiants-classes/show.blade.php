@@ -14,10 +14,10 @@
         <div class="grid md:grid-cols-2 gap-6">
             <!-- Informations de l'etudiant -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <h1 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-user mr-2 text-blue-500"></i>
                     Informations de l'étudiant
-                </h3>
+                </h1>
                 <div class="space-y-3">
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Nom complet</label>
@@ -36,10 +36,10 @@
 
             <!-- Informations de la classe -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-school mr-2 text-green-500"></i>
                     Informations de la classe
-                </h3>
+                </h2>
                 <div class="space-y-3">
                     <div>
                         <label class="block text-sm font-medium text-gray-600">Classe</label>

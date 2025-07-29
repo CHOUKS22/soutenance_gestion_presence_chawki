@@ -6,7 +6,7 @@
 @section('content')
     @if (!isset($seance) || !$seance)
         <div class="alert alert-danger">
-            <h4>Erreur</h4>
+            <p>Erreur</p>
             <p>La séance demandée n'a pas été trouvée.</p>
             <a href="{{ route('professeur.seances.index') }}" class="btn btn-primary">Retour à la liste</a>
         </div>
@@ -97,7 +97,7 @@
                         </div>
 
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Planning</h3>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-4">Planning</h4>
                             <div class="space-y-4">
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">Date :</span>

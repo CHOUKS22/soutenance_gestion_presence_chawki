@@ -65,9 +65,9 @@
 
                     <!-- Infos de contact -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <p class="text-lg font-semibold mb-4 flex items-center">
                             <i class="fas fa-address-book mr-2"></i> Informations de contact
-                        </h3>
+                        </p>
                         <div class="space-y-2">
                             <p><span class="text-sm text-gray-600">Email : </span><span class="text-sm text-gray-900">{{ $etudiant->user->email }}</span></p>
                             <p><span class="text-sm text-gray-600">Téléphone : </span><span class="text-sm text-gray-900">{{ $etudiant->telephone ?: 'Non défini' }}</span></p>
@@ -76,9 +76,9 @@
 
                     <!-- Infos système -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <p class="text-lg font-semibold mb-4 flex items-center">
                             <i class="fas fa-cog mr-2"></i> Informations système
-                        </h3>
+                        </p>
                         <div class="space-y-2">
                             <p><span class="text-sm text-gray-600">Rôle : </span><span class="text-sm text-gray-900">{{ $etudiant->user->role->nom ?? 'Non défini' }}</span></p>
                             <p><span class="text-sm text-gray-600">Créé le : </span><span class="text-sm text-gray-900">{{ $etudiant->created_at->format('d/m/Y à H:i') }}</span></p>
@@ -88,9 +88,9 @@
 
                     <!-- Statistiques -->
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <p class="text-lg font-semibold mb-4 flex items-center">
                             <i class="fas fa-chart-bar mr-2"></i> Statistiques
-                        </h3>
+                        </p>
                         <div class="space-y-2">
                             <p><span class="text-sm text-gray-600">Compte créé depuis : </span><span class="text-sm text-gray-900">{{ $etudiant->created_at->diffForHumans() }}</span></p>
                         </div>

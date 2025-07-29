@@ -156,7 +156,7 @@
                     <div class="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                         <i class="fas fa-user-tag text-gray-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun rôle</h3>
+                    <h4 class="text-lg font-medium text-gray-900 mb-2">Aucun rôle</h4>
                     <p class="text-gray-500 mb-6">Commencez par créer votre premier rôle utilisateur.</p>
                     <a href="{{ route('roles.create') }}"
                        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 inline-flex items-center space-x-2">
