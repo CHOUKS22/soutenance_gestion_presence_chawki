@@ -54,7 +54,7 @@
         </div>
     @endif
 
-    {{-- Absences déjà justifiées --}}
+    {{-- Absences déjà justifiees --}}
     <h2 class="text-2xl font-bold text-gray-700 mt-12">Absences déjà justifiées</h2>
     @if($absencesJustifiees->isEmpty())
         <p class="text-gray-500 italic">Aucune justification enregistrée.</p>

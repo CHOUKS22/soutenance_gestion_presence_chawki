@@ -11,7 +11,7 @@
             <a href="{{ route('professeur.seances.index') }}" class="btn btn-primary">Retour à la liste</a>
         </div>
     @else
-        <!-- Header -->
+        <!-- En-tete -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
                 <a href="{{ route('professeur.seances.index') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
@@ -30,7 +30,7 @@
             <div class="flex space-x-3">
             </div>
         </div>
-
+        <!-- Informations de la seance -->
         <div class="min-h-screen bg-gray-50">
             <div class="p-6">
                 <div class="bg-white rounded-xl shadow-md p-6">

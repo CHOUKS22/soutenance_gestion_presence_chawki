@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    <!-- Bloc Profil -->
+    <!-- Affichage Profil -->
     <div class="bg-white p-6 rounded-xl shadow flex flex-col items-center justify-center">
         <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mb-4">
             @if (auth()->user()->photo)
@@ -18,21 +18,21 @@
         <p class="text-sm text-gray-500">{{ $user->email }}</p>
     </div>
 
-    <!-- Statistique: Total Séances -->
+    <!-- Statistique: Total Seances -->
     <div class="bg-blue-100 p-6 rounded-xl shadow">
         <h3 class="text-lg font-semibold text-blue-800 mb-2">Séances totales</h3>
         <p class="text-3xl font-bold text-blue-700">{{ $totalSeances }}</p>
         <p class="text-sm text-blue-600 mt-2">Depuis le début du semestre</p>
     </div>
 
-    <!-- Statistique: Séances à venir -->
+    <!-- Statistique: Seances à venir -->
     <div class="bg-yellow-100 p-6 rounded-xl shadow">
         <h3 class="text-lg font-semibold text-yellow-800 mb-2">Séances à venir</h3>
         <p class="text-3xl font-bold text-yellow-700">{{ $seancesAVenir }}</p>
         <p class="text-sm text-yellow-600 mt-2">Cette semaine</p>
     </div>
 
-    <!-- Statistique: Absences non justifiées -->
+    <!-- Statistique: Absences non justifiees -->
     <div class="bg-red-100 p-6 rounded-xl shadow">
         <h3 class="text-lg font-semibold text-red-800 mb-2">Absences non justifiées</h3>
         <p class="text-3xl font-bold text-red-700">{{ $absencesNonJustifiees }}</p>
@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<!-- Deuxième section : Liens et Rappels -->
+<!-- Deuxieme section : Liens et Rappels -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
     <div class="bg-white p-6 rounded-xl shadow">
         <h3 class="text-lg font-bold text-gray-800 mb-4">Raccourcis utiles</h3>
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<!-- Troisième section : Graphique ou résumé -->
+<!-- Troisieme section : Graphique ou resume -->
 <div class="bg-white p-6 rounded-xl shadow">
     <h3 class="text-lg font-bold text-gray-800 mb-4">Récapitulatif rapide</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -3,6 +3,7 @@
 @section('title', 'Volume cumulé de cours par classe')
 
 @section('content')
+{{-- Page d'affichages pour le volume cumule de cours par classe --}}
     <a href="{{ route('coordinateur.presences.statistiques') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
         <i class="fas fa-arrow-left text-xl"></i>
     </a>

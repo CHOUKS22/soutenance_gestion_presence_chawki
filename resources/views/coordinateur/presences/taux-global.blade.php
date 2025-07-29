@@ -3,6 +3,7 @@
 @section('title', 'Taux de présence global par classe')
 
 @section('content')
+{{-- Page d'affichages pour le taux de présence global par classe --}}
     <a href="{{ route('coordinateur.presences.statistiques') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
         <i class="fas fa-arrow-left text-xl"></i>
     </a>
@@ -35,7 +36,7 @@
                         <td class="px-6 py-4 text-center">{{ $data->presences }}</td>
                         <td class="px-6 py-4 text-center">{{ $data->absences }}</td>
                         <td
-                            class="px-6 py-4 text-center font-bold {{ $data->taux < 50 ? 'text-red-600' : ($data->taux < 80 ? 'text-yellow-500' : 'text-green-600') }}">
+                            class="px-6 py-4 text-center font-bold {{ $data->taux < 30 ? 'text-red-600' : ($data->taux < 80 ? 'text-yellow-500' : 'text-green-600') }}">
                             {{ $data->taux }}%
                         </td>
                     </tr>

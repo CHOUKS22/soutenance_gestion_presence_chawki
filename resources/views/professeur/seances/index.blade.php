@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <!-- Liste des Séances -->
+        <!-- Liste des Seances -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden mt-6">
             @if ($seances->count() > 0)
                 <div class="overflow-x-auto">

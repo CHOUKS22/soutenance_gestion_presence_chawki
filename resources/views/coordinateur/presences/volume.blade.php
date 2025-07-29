@@ -3,6 +3,7 @@
 @section('title', 'Volume d’heures de cours dispensés par classe')
 
 @section('content')
+{{-- Page d'affichages pour le volume d’heures de cours dispenses par classe --}}
     <a href="{{ route('coordinateur.presences.statistiques') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
         <i class="fas fa-arrow-left text-xl"></i>
     </a>

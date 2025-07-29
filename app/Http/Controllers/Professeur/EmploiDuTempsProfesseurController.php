@@ -12,24 +12,30 @@ class EmploiDuTempsProfesseurController extends Controller
 {
     public function index(Request $request)
     {
+        // Recuperer l'id du professeur connecte
         $professeurId = Auth::user()->professeur->id;
 
-        // On récupère toutes les séances du professeur
-        $seancesQuery = Seance::with(['anneeClasse.classe', 'matiere', 'typeSeance'])
-            ->where('professeur_id', $professeurId);
+        // Recuperer les seances du professeur avec les relations necessaires
+        $seancesQuery = Seance::with([
+            'anneeClasse.classe',
+            'matiere',
+            'typeSeance'
+        ])->where('professeur_id', $professeurId);
 
-        // Si l'utilisateur filtre par semaine
+        // Si une semaine est selectionnee via le formulaire
         if ($request->filled('semaine')) {
-            // On récupère les dates de début et de fin de la semaine
+            // On calcule les dates de debut et fin de la semaine
             $startOfWeek = Carbon::parse($request->semaine)->startOfWeek();
             $endOfWeek = Carbon::parse($request->semaine)->endOfWeek();
 
+            // On filtre les seances entre ces deux dates
             $seancesQuery->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
         }
 
-        // Trier les séances par date croissante
+        // Recuperer les seances triees par date
         $seances = $seancesQuery->orderBy('date_debut', 'asc')->get();
 
+        // Retourner la vue avec les seances du professeur
         return view('professeur.emploi_du_temps.index', compact('seances'));
     }
 }

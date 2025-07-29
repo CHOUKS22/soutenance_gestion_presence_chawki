@@ -32,10 +32,6 @@
                 </span>
             </div>
             <div class="flex justify-between">
-                <span class="font-medium">Matières</span>
-                <span class="text-green-700 font-semibold">{{ $etudiant->matieres_count ?? 0 }}</span>
-            </div>
-            <div class="flex justify-between">
                 <span class="font-medium">Note d’assiduité</span>
                 <span class="text-yellow-700 font-semibold">{{ $noteAssiduite !== null ? $noteAssiduite : '—' }} / 20</span>
             </div>
@@ -100,7 +96,12 @@
             @else
                 <ul class="list-disc ml-5 text-sm text-green-800 space-y-1">
                     @foreach($presences as $presence)
-                        <li>{{ $presence->seance->matiere->nom ?? 'Matière' }} – {{ \Carbon\Carbon::parse($presence->seance->date_debut)->translatedFormat('l d M') }} ({{ $presence->statutPresence->libelle ?? 'Présent' }})</li>
+                        <li>
+                            {{ $presence->seance->matiere->nom ?? 'Matière' }} –
+                            {{ \Carbon\Carbon::parse($presence->seance->date_debut)->translatedFormat('l d M') }}
+                            de {{ \Carbon\Carbon::parse($presence->seance->date_debut)->format('H:i') }} à {{ \Carbon\Carbon::parse($presence->seance->date_fin)->format('H:i') }}
+                            ({{ $presence->statutPresence->libelle ?? 'Présent' }})
+                        </li>
                     @endforeach
                 </ul>
             @endif
@@ -116,7 +117,11 @@
                 @else
                     <ul class="list-disc ml-5 text-sm text-blue-800 space-y-1">
                         @foreach($absencesJustifiees as $absence)
-                            <li>{{ $absence->seance->matiere->nom ?? 'Matière' }} – {{ \Carbon\Carbon::parse($absence->seance->date_debut)->translatedFormat('l d M') }}</li>
+                            <li>
+                                {{ $absence->seance->matiere->nom ?? 'Matière' }} –
+                                {{ \Carbon\Carbon::parse($absence->seance->date_debut)->translatedFormat('l d M') }}
+                                de {{ \Carbon\Carbon::parse($absence->seance->date_debut)->format('H:i') }} à {{ \Carbon\Carbon::parse($absence->seance->date_fin)->format('H:i') }}
+                            </li>
                         @endforeach
                     </ul>
                 @endif
@@ -130,7 +135,11 @@
                 @else
                     <ul class="list-disc ml-5 text-sm text-red-800 space-y-1">
                         @foreach($absencesNonJustifiees as $absence)
-                            <li>{{ $absence->seance->matiere->nom ?? 'Matière' }} – {{ \Carbon\Carbon::parse($absence->seance->date_debut)->translatedFormat('l d M') }}</li>
+                            <li>
+                                {{ $absence->seance->matiere->nom ?? 'Matière' }} –
+                                {{ \Carbon\Carbon::parse($absence->seance->date_debut)->translatedFormat('l d M') }}
+                                de {{ \Carbon\Carbon::parse($absence->seance->date_debut)->format('H:i') }} à {{ \Carbon\Carbon::parse($absence->seance->date_fin)->format('H:i') }}
+                            </li>
                         @endforeach
                     </ul>
                 @endif

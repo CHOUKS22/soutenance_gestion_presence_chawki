@@ -41,7 +41,7 @@
 
         const backgroundColors = data.map(taux => {
             const t = parseFloat(taux ?? 0);
-            if (t >= 70) return '#007500'; // Vert foncé
+            if (t >= 70) return '#007500'; // Vert fonce
             if (t > 50) return '#66bb6a'; // Vert clair
             if (t > 30) return '#ffa500'; // Orange
             return '#e53935'; // Rouge

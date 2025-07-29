@@ -37,7 +37,7 @@
                             </select>
                         </div>
 
-                        <!-- Matière -->
+                        <!-- Matiere -->
                         <div>
                             <label for="matiere_id" class="block text-sm font-medium text-gray-700">Matière *</label>
                             <select name="matiere_id" id="matiere_id" required
@@ -67,7 +67,7 @@
                             </select>
                         </div>
 
-                        <!-- Type de séance -->
+                        <!-- Type de seance -->
                         <div>
                             <label for="type_seance_id" class="block text-sm font-medium text-gray-700">Type de Séance
                                 *</label>

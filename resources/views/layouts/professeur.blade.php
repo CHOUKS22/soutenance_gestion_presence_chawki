@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }} - @yield('title', 'Dashboard')</title>
+    <title>{{ config('IFRAN', 'IFRAN') }} - @yield('title', 'Dashboard')</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -60,10 +60,10 @@
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <button class="relative p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                        {{-- <button class="relative p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
                             <i class="fas fa-bell text-lg"></i>
                             <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
+                        </button> --}}
                         <div class="text-sm text-gray-600">
                             <i class="fas fa-calendar-day mr-2"></i>
                             {{ \Carbon\Carbon::now()->format('d/m/Y') }}
@@ -92,7 +92,7 @@
                                         </p>
                                         <p class="text-xs text-gray-500">{{ auth()->user()->email ?? '' }}</p>
                                     </div>
-                                    <div class="border-t border-gray-200 my-1"></div>
+                                    {{-- <div class="border-t border-gray-200 my-1"></div> --}}
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit"

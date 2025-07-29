@@ -7,7 +7,7 @@
 <div class="min-h-screen bg-gray-50">
     <div class="p-6">
 
-        <!-- En-tête -->
+        <!-- En-tete -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
                 <a href="{{ route('seances.index') }}" class="text-gray-600 hover:text-gray-800">
@@ -22,7 +22,7 @@
             <form method="POST" action="{{ route('seances.store') }}" class="space-y-8">
                 @csrf
 
-                <!-- Informations de la séance -->
+                <!-- Informations de la seance -->
                 <div class="pb-6 border-b">
                     <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-info-circle mr-2 text-blue-500"></i>
@@ -49,7 +49,7 @@
                             @enderror
                         </div>
 
-                        <!-- Matière -->
+                        <!-- Matiere -->
                         <div>
                             <label for="matiere_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Matière <span class="text-red-500">*</span>
@@ -87,7 +87,7 @@
                             @enderror
                         </div>
 
-                        <!-- Type de séance -->
+                        <!-- Type de seance -->
                         <div>
                             <label for="type_seance_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Type <span class="text-red-500">*</span>

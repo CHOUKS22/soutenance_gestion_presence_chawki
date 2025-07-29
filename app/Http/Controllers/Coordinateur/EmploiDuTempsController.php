@@ -16,29 +16,30 @@ class EmploiDuTempsController extends Controller
     {
         Carbon::setLocale('fr');
 
+        // ID du coordinateur connecte
         $coordinateurId = Auth::user()->coordinateur->id;
 
-        // Récupération des associations année-classe du coordinateur
+        // Liste des annees/classes liees au coordinateur
         $anneesClasses = AnneeClasse::with('classe')
             ->where('coordinateur_id', $coordinateurId)
             ->get();
 
-        // Liste des classes disponibles (pour le select)
+        // Recuperer les classes disponibles
         $classes = $anneesClasses->pluck('classe')->unique('id');
 
-        // Semaine courante ou sélectionnée
+        // Date de la semaine (aujourd'hui ou selection)
         $date = $request->input('date') ? Carbon::parse($request->input('date')) : Carbon::now();
         $startOfWeek = $date->copy()->startOfWeek(Carbon::MONDAY);
         $endOfWeek = $date->copy()->endOfWeek(Carbon::SUNDAY);
 
-        // ID de la classe sélectionnée
+        // ID de la classe selectionnee
         $selectedClasseId = $request->input('classe_id') ?? ($classes->first()->id ?? null);
 
-        // Récupérer l'annee_classe_id correspondant à la classe sélectionnée
+        // ID de l'entree annee_classe correspondante
         $anneeClasseId = $anneesClasses
             ->firstWhere('classe_id', $selectedClasseId)?->id;
 
-        // Récupération des séances pour cette semaine et cette année-classe
+        // Recuperer les seances de la semaine pour cette classe
         $seances = Seance::with(['matiere', 'typeSeance', 'professeur.user', 'anneeClasse.classe'])
             ->whereBetween('date_debut', [$startOfWeek, $endOfWeek])
             ->when($anneeClasseId, function ($query) use ($anneeClasseId) {
@@ -47,6 +48,7 @@ class EmploiDuTempsController extends Controller
             ->orderBy('date_debut')
             ->get();
 
+        // Envoyer les donnees a la vue
         return view('coordinateur.emploie', compact(
             'seances',
             'classes',

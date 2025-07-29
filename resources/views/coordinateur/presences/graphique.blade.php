@@ -11,7 +11,7 @@
             class="text-gray-600 hover:text-gray-800 transition-colors">
             <i class="fas fa-arrow-left text-xl"></i>
         </a>
-        {{-- Formulaire de période --}}
+        {{-- Formulaire de periode --}}
         <form action="{{ route('presence.graphique', $classe->id) }}" method="GET" class="mb-6 flex items-end gap-4">
             <div>
                 <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début</label>
@@ -43,7 +43,7 @@
 
         const backgroundColors = data.map(taux => {
             const t = parseFloat(taux ?? 0);
-            if (t >= 70) return '#007500'; // Vert foncé
+            if (t >= 70) return '#007500'; // Vert fonce
             if (t > 50) return '#66bb6a'; // Vert clair
             if (t > 30) return '#ffa500'; // Orange
             if (t < 30) return '#e53935'; // Rouge

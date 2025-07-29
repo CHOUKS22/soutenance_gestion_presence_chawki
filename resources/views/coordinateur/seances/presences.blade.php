@@ -7,7 +7,7 @@
 
     <div class="min-h-screen bg-gray-50">
         <div class="p-6">
-            <!-- Header -->
+            <!-- En-tete -->
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('seances.index') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
@@ -29,7 +29,7 @@
             </div> --}}
             </div>
 
-            <!-- Statistiques de présence -->
+            <!-- Statistiques de presence -->
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
                 <div class="bg-blue-50 rounded-lg p-4 text-center">
                     <div class="text-2xl font-bold text-blue-600">{{ $statistiques['total'] }}</div>
@@ -72,7 +72,7 @@
                 </div>
             </div> --}}
 
-            <!-- Liste des étudiants pour les présences -->
+            <!-- Liste des etudiants pour les présences -->
             <div class="bg-white rounded-xl shadow-md p-6 mb-8">
                 <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                     <i class="fas fa-users mr-3 text-blue-600"></i>

@@ -8,29 +8,34 @@ use App\Models\Absence;
 use App\Models\Etudiant;
 use App\Models\Seance;
 use App\Models\Statut_presence;
-use App\Models\StatutPresence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PresenceAbsenceProfesseurController extends Controller
 {
     /**
-     * Afficher la page de gestion des présences pour une séance
+     * Affiche la liste des etudiants d'une seance
+     * avec leurs presences/absences
      */
     public function index($seanceId)
     {
+        // Recuperer la seance avec les infos utiles
         $seance = Seance::with(['anneeClasse.classe', 'matiere', 'professeur'])
             ->findOrFail($seanceId);
 
+        // Recuperer tous les etudiants lies a la classe (meme sur plusieurs annees)
         $etudiants = collect();
         foreach ($seance->anneeClasse->classe->anneesClasses as $anneeClasse) {
             $etudiants = $etudiants->merge($anneeClasse->etudiants);
         }
+
+        // Supprimer les doublons et charger les infos des utilisateurs
         $etudiants = $etudiants->unique('id')->load('user');
 
+        // Tous les statuts disponibles (Present, En retard, etc.)
         $statutsPresence = Statut_presence::all();
 
-        // Récupérer les présences et absences déjà marquées
+        // Recuperer les presences et absences deja enregistrees
         $presences = Presence::where('seance_id', $seanceId)
             ->with('statutPresence')
             ->get()
@@ -40,24 +45,24 @@ class PresenceAbsenceProfesseurController extends Controller
             ->get()
             ->keyBy('etudiant_id');
 
-        // Ajouter le champ "statut_presence" à chaque étudiant
+        // On ajoute une propriete "statut_presence" a chaque etudiant
         foreach ($etudiants as $etudiant) {
             if (isset($presences[$etudiant->id])) {
                 $etudiant->statut_presence = $presences[$etudiant->id]->statutPresence->libelle;
             } elseif (isset($absences[$etudiant->id])) {
                 $etudiant->statut_presence = 'Absent';
             } else {
-                $etudiant->statut_presence = 'Non défini';
+                $etudiant->statut_presence = 'Non defini';
             }
         }
 
-        // Statistiques
+        // Calcul de quelques statistiques pour la seance
         $statistiques = [
             'total' => $etudiants->count(),
             'presents' => $etudiants->where('statut_presence', 'Présent')->count(),
             'retards' => $etudiants->where('statut_presence', 'En retard')->count(),
             'absents' => $etudiants->where('statut_presence', 'Absent')->count(),
-            'non_definis' => $etudiants->where('statut_presence', 'Non défini')->count(),
+            'non_definis' => $etudiants->where('statut_presence', 'Non defini')->count(),
         ];
 
         return view('professeur.seances.index', compact(
@@ -68,9 +73,8 @@ class PresenceAbsenceProfesseurController extends Controller
         ));
     }
 
-
     /**
-     * Marquer un étudiant comme présent
+     * Marque un etudiant comme present
      */
     public function marquerPresent(Request $request)
     {
@@ -79,28 +83,28 @@ class PresenceAbsenceProfesseurController extends Controller
             'seance_id' => 'required|exists:seances,id',
         ]);
 
-        // Supprimer toute absence existante
+        // Supprimer une absence si elle existe
         Absence::where('etudiant_id', $request->etudiant_id)
             ->where('seance_id', $request->seance_id)
             ->delete();
 
-        // Créer ou mettre à jour la présence avec statut "Présent"
+        // Ajouter ou mettre a jour la presence avec le statut "Present"
         Presence::updateOrCreate(
             [
                 'etudiant_id' => $request->etudiant_id,
                 'seance_id' => $request->seance_id,
             ],
             [
-                'statuts_presence_id' => 1, // "Présent"
+                'statuts_presence_id' => 1, // Present
                 'created_by' => Auth::id(),
             ]
         );
 
-        return redirect()->back()->with('success', 'Étudiant marqué présent avec succès');
+        return redirect()->back()->with('success', 'Etudiant marque present avec succes');
     }
 
     /**
-     * Marquer un étudiant en retard
+     * Marque un etudiant en retard
      */
     public function marquerRetard(Request $request)
     {
@@ -109,28 +113,28 @@ class PresenceAbsenceProfesseurController extends Controller
             'seance_id' => 'required|exists:seances,id',
         ]);
 
-        // Supprimer toute absence existante
+        // Supprimer une absence si elle existe
         Absence::where('etudiant_id', $request->etudiant_id)
             ->where('seance_id', $request->seance_id)
             ->delete();
 
-        // Créer ou mettre à jour la présence avec statut "En retard"
+        // Ajouter ou mettre a jour la presence avec le statut "En retard"
         Presence::updateOrCreate(
             [
                 'etudiant_id' => $request->etudiant_id,
                 'seance_id' => $request->seance_id,
             ],
             [
-                'statuts_presence_id' => 3, // "En retard"
+                'statuts_presence_id' => 3, // En retard
                 'created_by' => Auth::id(),
             ]
         );
 
-        return redirect()->back()->with('success', 'Étudiant marqué en retard avec succès');
+        return redirect()->back()->with('success', 'Etudiant marque en retard avec succes');
     }
 
     /**
-     * Marquer un étudiant comme absent
+     * Marque un etudiant comme absent
      */
     public function marquerAbsent(Request $request)
     {
@@ -139,12 +143,12 @@ class PresenceAbsenceProfesseurController extends Controller
             'seance_id' => 'required|exists:seances,id',
         ]);
 
-        // Supprimer toute présence existante
+        // Supprimer une presence si elle existe
         Presence::where('etudiant_id', $request->etudiant_id)
             ->where('seance_id', $request->seance_id)
             ->delete();
 
-        // Créer l'absence
+        // Ajouter l'absence
         Absence::updateOrCreate(
             [
                 'etudiant_id' => $request->etudiant_id,
@@ -155,137 +159,6 @@ class PresenceAbsenceProfesseurController extends Controller
             ]
         );
 
-        return redirect()->back()->with('success', 'Étudiant marqué absent avec succès');
+        return redirect()->back()->with('success', 'Etudiant marque absent avec succes');
     }
-
-    /**
-     * Marquer plusieurs étudiants comme présents
-     */
-
-    // public function marquerPlusieursPresents(Request $request)
-    // {
-    //     $request->validate([
-    //         'etudiant_ids' => 'required|array',
-    //         'etudiant_ids.*' => 'exists:etudiants,id',
-    //         'seance_id' => 'required|exists:seances,id',
-    //     ]);
-
-    //     $nombre = 0;
-
-    //     foreach ($request->etudiant_ids as $etudiantId) {
-    //         // Supprimer toute absence existante
-    //         Absence::where('etudiant_id', $etudiantId)
-    //                ->where('seance_id', $request->seance_id)
-    //                ->delete();
-
-    //         // Créer ou mettre à jour la présence
-    //         Presence::updateOrCreate(
-    //             [
-    //                 'etudiant_id' => $etudiantId,
-    //                 'seance_id' => $request->seance_id,
-    //             ],
-    //             [
-    //                 'statuts_presence_id' => 1, // "Présent"
-    //                 'created_by' => Auth::id(),
-    //             ]
-    //         );
-    //         $nombre++;
-    //     }
-
-    //     return redirect()->back()->with('success', "{$nombre} étudiants marqués présents avec succès");
-    // }
-
-    // /**
-    //  * Marquer plusieurs étudiants comme absents
-    //  */
-    // public function marquerPlusieursAbsents(Request $request)
-    // {
-    //     $request->validate([
-    //         'etudiant_ids' => 'required|array',
-    //         'etudiant_ids.*' => 'exists:etudiants,id',
-    //         'seance_id' => 'required|exists:seances,id',
-    //     ]);
-
-    //     $nombre = 0;
-
-    //     foreach ($request->etudiant_ids as $etudiantId) {
-    //         // Supprimer toute présence existante
-    //         Presence::where('etudiant_id', $etudiantId)
-    //                 ->where('seance_id', $request->seance_id)
-    //                 ->delete();
-
-    //         // Créer l'absence
-    //         Absence::updateOrCreate(
-    //             [
-    //                 'etudiant_id' => $etudiantId,
-    //                 'seance_id' => $request->seance_id,
-    //             ],
-    //             [
-    //                 'created_by' => Auth::id(),
-    //             ]
-    //         );
-    //         $nombre++;
-    //     }
-
-    //     return redirect()->back()->with('success', "{$nombre} étudiants marqués absents avec succès");
-    // }
-
-    /**
-     * Afficher les statistiques de présence
-     */
-    // public function statistiques()
-    // {
-    //     // Statistiques générales
-    //     $totalPresences = Presence::count();
-    //     $totalAbsences = Absence::count();
-    //     $presentsToday = Presence::whereHas('seance', function($query) {
-    //         $query->whereDate('date_debut', today());
-    //     })->count();
-
-    //     $statistiquesParClasse = Seance::with(['classe', 'presences.statutPresence', 'absences'])
-    //                                   ->get()
-    //                                   ->groupBy('classe_id')
-    //                                   ->map(function($seances, $classeId) {
-    //                                       $classe = $seances->first()->classe;
-    //                                       $totalPresences = $seances->sum(function($seance) {
-    //                                           return $seance->presences->count();
-    //                                       });
-    //                                       $totalAbsences = $seances->sum(function($seance) {
-    //                                           return $seance->absences->count();
-    //                                       });
-
-    //                                       $presents = $seances->sum(function($seance) {
-    //                                           return $seance->presences->filter(function($presence) {
-    //                                               return $presence->statutPresence &&
-    //                                                      $presence->statutPresence->libelle === 'Présent';
-    //                                           })->count();
-    //                                       });
-
-    //                                       $retards = $seances->sum(function($seance) {
-    //                                           return $seance->presences->filter(function($presence) {
-    //                                               return $presence->statutPresence &&
-    //                                                      $presence->statutPresence->libelle === 'En retard';
-    //                                           })->count();
-    //                                       });
-
-    //                                       $total = $totalPresences + $totalAbsences;
-
-    //                                       return [
-    //                                           'classe' => $classe,
-    //                                           'total_presences' => $totalPresences,
-    //                                           'total_absences' => $totalAbsences,
-    //                                           'presents' => $presents,
-    //                                           'retards' => $retards,
-    //                                           'taux_presence' => $total > 0 ?
-    //                                               round(($presents / $total) * 100, 1) : 0
-    //                                       ];
-    //                                   });
-
-    //     return view('coordinateur.presences.statistiques', compact(
-    //         'totalPresences',
-    //         'totalAbsences',
-    //         'presentsToday',
-    //         'statistiquesParClasse'
-    //     ));
-    // }
 }

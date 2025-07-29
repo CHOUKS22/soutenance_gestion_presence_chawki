@@ -80,12 +80,12 @@
 </div>
 
 <script>
-    // Améliorer l'UX avec une recherche dans les selects
+    // Ameliorer l'UX avec une recherche dans les selects
     document.addEventListener('DOMContentLoaded', function() {
         const etudiantSelect = document.getElementById('etudiant_id');
         const classeSelect = document.getElementById('annee_classe_id');
 
-        // Vous pouvez ajouter des fonctionnalités de recherche ici si nécessaire
+        // Vous pouvez ajouter des fonctionnalites de recherche ici si nécessaire
     });
 </script>
 @endsection

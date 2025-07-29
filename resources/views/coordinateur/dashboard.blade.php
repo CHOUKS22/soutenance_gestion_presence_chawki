@@ -6,7 +6,7 @@
 @section('content')
     <div class="space-y-10">
 
-        <!-- Hero - Bienvenue -->
+        <!-- En-tete -->
         <div
             class="bg-gradient-to-r from-indigo-700 to-blue-600 text-white p-8 rounded-2xl shadow-lg flex justify-between items-center">
             <div>

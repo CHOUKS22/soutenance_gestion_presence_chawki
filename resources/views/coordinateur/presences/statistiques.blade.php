@@ -3,11 +3,8 @@
 @section('title', 'Statistiques')
 
 @section('content')
+{{-- Page d'affichages pour les statistiques --}}
     <div class="max-w-4xl mx-auto mt-10 space-y-6">
-        {{-- <a href="{{ route('coordinateur.presences.statistiques') }}"
-            class="text-gray-600 hover:text-gray-800 transition-colors">
-            <i class="fas fa-arrow-left text-xl"></i>
-        </a> --}}
         {{-- Bouton 1 --}}
         <div>
             <h2 class="text-lg font-bold text-gray-800 mb-2">Assiduité par matière</h2>

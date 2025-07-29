@@ -6,10 +6,10 @@
 <div class="container mx-auto px-4">
     <div class="flex justify-between items-center mb-6">
         <div class="flex space-x-2">
-            <a href="{{ route('etudiants-classes.inscrire-plusieurs') }}"
+            {{-- <a href="{{ route('etudiants-classes.inscrire-plusieurs') }}"
                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                 <i class="fas fa-users mr-2"></i>Inscription groupée
-            </a>
+            </a> --}}
             <a href="{{ route('etudiants-classes.create') }}"
                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 <i class="fas fa-plus mr-2"></i>Nouvelle inscription

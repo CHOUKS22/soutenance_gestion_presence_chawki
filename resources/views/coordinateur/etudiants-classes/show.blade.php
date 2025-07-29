@@ -12,7 +12,7 @@
 
     <div class="bg-white rounded-lg shadow-sm p-6">
         <div class="grid md:grid-cols-2 gap-6">
-            <!-- Informations de l'étudiant -->
+            <!-- Informations de l'etudiant -->
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-user mr-2 text-blue-500"></i>

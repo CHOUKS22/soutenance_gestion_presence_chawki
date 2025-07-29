@@ -3,6 +3,7 @@
 @section('title', 'Sélection de classe')
 
 @section('content')
+{{--Selectionnez la classe--}}
     <a href="{{ route('coordinateur.presences.statistiques') }}" class="text-gray-600 hover:text-gray-800 transition-colors">
         <i class="fas fa-arrow-left text-xl"></i>
     </a>

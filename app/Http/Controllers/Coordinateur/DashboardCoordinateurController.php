@@ -18,34 +18,44 @@ class DashboardCoordinateurController extends Controller
 {
     public function index()
     {
+        // Utilisateur connecte
         $user = Auth::user();
         $coordinateur = $user->coordinateur;
 
+        // Recuperer les annees/classes du coordinateur
         $anneesClasses = $coordinateur->anneesClasses()->with(['classe', 'anneeAcademique'])->get();
 
+        // IDs des classes et annees_classes
         $classeIds = $anneesClasses->pluck('classe_id')->unique();
         $anneeClasseIds = $anneesClasses->pluck('id');
 
+        // Nombre total de classes
         $totalClasses = $classeIds->count();
 
+        // ID du statut "Annulee"
         $statutAnnuleeId = Statut_seance::where('libelle', 'Annulée')->value('id');
 
+        // Nombre total de seances (hors annulees)
         $totalSeances = Seance::whereIn('annee_classe_id', $anneeClasseIds)
             ->where('statut_seance_id', '!=', $statutAnnuleeId)
             ->count();
 
+        // Recuperer les matieres utilisees dans les seances valides
         $matiereIds = Seance::whereIn('annee_classe_id', $anneeClasseIds)
             ->where('statut_seance_id', '!=', $statutAnnuleeId)
             ->pluck('matiere_id')
             ->unique();
 
+        // Nombre de matieres
         $totalMatieres = $matiereIds->count();
 
+        // Nombre d'etudiants inscrits
         $totalEtudiants = DB::table('annee_classe_etudiant')
             ->whereIn('annee_classe_id', $anneeClasseIds)
             ->distinct('etudiant_id')
             ->count();
 
+        // Dernieres seances ajoutees
         $seancesRecentes = Seance::whereIn('annee_classe_id', $anneeClasseIds)
             ->where('statut_seance_id', '!=', $statutAnnuleeId)
             ->with(['anneeClasse.classe', 'matiere', 'professeur'])
@@ -53,11 +63,13 @@ class DashboardCoordinateurController extends Controller
             ->limit(5)
             ->get();
 
+        // Dernieres matieres ajoutees
         $matieresRecentes = Matiere::whereIn('id', $matiereIds)
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
 
+        // Seances du jour
         $seancesAujourdhui = Seance::whereIn('annee_classe_id', $anneeClasseIds)
             ->whereDate('date_debut', now()->toDateString())
             ->where('statut_seance_id', '!=', $statutAnnuleeId)
@@ -65,26 +77,33 @@ class DashboardCoordinateurController extends Controller
             ->orderBy('date_debut')
             ->get();
 
+        // Recuperer toutes les seances valides
         $seanceIds = Seance::whereIn('annee_classe_id', $anneeClasseIds)
             ->where('statut_seance_id', '!=', $statutAnnuleeId)
             ->pluck('id');
 
+        // Comptage des presences et absences
         $nombrePresences = Presence::whereIn('seance_id', $seanceIds)->count();
         $nombreAbsences = Absence::whereIn('seance_id', $seanceIds)->count();
 
+        // Total pour le calcul du taux
         $totalEnregistrements = $nombrePresences + $nombreAbsences;
 
+        // Taux de presence global
         $tauxPresence = $totalEnregistrements > 0
             ? round(($nombrePresences / $totalEnregistrements) * 100, 1)
             : 0;
 
+        // Donnees pour le graphique
         $labels = [];
         $data = [];
 
+        // Recuperer les classes avec leurs seances
         $classes = Classe::whereIn('id', $classeIds)
             ->with('anneesClasses.seances')
             ->get();
 
+        // Calcul du taux de chaque classe
         foreach ($classes as $classe) {
             $totalClassePresences = 0;
             $totalClasseAbsences = 0;
@@ -108,6 +127,7 @@ class DashboardCoordinateurController extends Controller
             $data[] = $tauxClasse;
         }
 
+        // Envoyer les donnees a la vue
         return view('coordinateur.dashboard', [
             'user' => $user,
             'totalMatieres' => $totalMatieres,

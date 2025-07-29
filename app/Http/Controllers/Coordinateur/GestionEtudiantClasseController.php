@@ -12,6 +12,7 @@ class GestionEtudiantClasseController extends Controller
 {
     public function index()
     {
+        // Liste des inscriptions avec les infos liees
         $inscriptions = AnneeClasseEtudiant::with(['anneeClasse.classe', 'anneeClasse.anneeAcademique', 'etudiant.user'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
@@ -21,6 +22,7 @@ class GestionEtudiantClasseController extends Controller
 
     public function create()
     {
+        // Donnees pour le formulaire d'ajout
         $anneeClasses = AnneeClasse::with(['classe', 'anneeAcademique'])->get();
         $etudiants = Etudiant::with('user')->get();
 
@@ -34,29 +36,30 @@ class GestionEtudiantClasseController extends Controller
             'etudiant_id' => 'required|exists:etudiants,id',
         ]);
 
-        // Vérifier si l'étudiant est déjà inscrit dans une classe pour la même année académique
+        // On recupere l'annee pour verifier les doublons
         $anneeClasse = AnneeClasse::with('anneeAcademique')->findOrFail($request->annee_classe_id);
 
+        // Verifie si l'etudiant est deja inscrit dans une autre classe la meme annee
         $existe = AnneeClasseEtudiant::whereHas('anneeClasse', function ($query) use ($anneeClasse) {
             $query->where('annee_academique_id', $anneeClasse->annee_academique_id);
         })->where('etudiant_id', $request->etudiant_id)->exists();
 
         if ($existe) {
-            return back()->withErrors(['etudiant_id' => 'Cet étudiant est déjà inscrit dans une autre classe pour cette année académique.'])->withInput();
+            return back()->withErrors(['etudiant_id' => 'Cet etudiant est deja inscrit dans une autre classe pour cette annee.'])->withInput();
         }
 
-        // Inscription
+        // Creation de l'inscription
         AnneeClasseEtudiant::create([
             'annee_classe_id' => $request->annee_classe_id,
             'etudiant_id' => $request->etudiant_id,
         ]);
 
-        return redirect()->route('etudiants-classes.index')->with('success', 'Inscription créée avec succès.');
+        return redirect()->route('etudiants-classes.index')->with('success', 'Inscription enregistree avec succes.');
     }
-
 
     public function show($id)
     {
+        // Affichage d'une inscription
         $inscription = AnneeClasseEtudiant::with(['anneeClasse.classe', 'anneeClasse.anneeAcademique', 'etudiant.user'])
             ->findOrFail($id);
 
@@ -65,6 +68,7 @@ class GestionEtudiantClasseController extends Controller
 
     public function edit($id)
     {
+        // Edition d'une inscription
         $inscription = AnneeClasseEtudiant::findOrFail($id);
         $anneeClasses = AnneeClasse::with(['classe', 'anneeAcademique'])->get();
         $etudiants = Etudiant::with('user')->get();
@@ -81,35 +85,37 @@ class GestionEtudiantClasseController extends Controller
             'etudiant_id' => 'required|exists:etudiants,id',
         ]);
 
-        // Vérifier si l'inscription existe déjà (sauf celle en cours de modification)
+        // Verifie si la nouvelle inscription existe deja (hors celle en cours)
         $existingInscription = AnneeClasseEtudiant::where('annee_classe_id', $request->annee_classe_id)
             ->where('etudiant_id', $request->etudiant_id)
             ->where('id', '!=', $id)
             ->first();
 
         if ($existingInscription) {
-            return back()->withErrors(['error' => 'Cet étudiant est déjà inscrit dans cette classe pour cette année.']);
+            return back()->withErrors(['error' => 'Cet etudiant est deja inscrit dans cette classe.']);
         }
 
+        // Mise a jour
         $inscription->update([
             'annee_classe_id' => $request->annee_classe_id,
             'etudiant_id' => $request->etudiant_id,
         ]);
 
         return redirect()->route('etudiants-classes.index')
-            ->with('success', 'Inscription modifiée avec succès.');
+            ->with('success', 'Inscription modifiee avec succes.');
     }
 
     public function destroy($id)
     {
+        // Suppression d'une inscription
         $inscription = AnneeClasseEtudiant::findOrFail($id);
         $inscription->delete();
 
         return redirect()->route('etudiants-classes.index')
-            ->with('success', 'Inscription supprimée avec succès.');
+            ->with('success', 'Inscription supprimee avec succes.');
     }
 
-    // Méthode pour inscrire plusieurs étudiants à la fois
+    // Formulaire pour ajouter plusieurs etudiants
     public function inscrirePlusieurs()
     {
         $anneeClasses = AnneeClasse::with(['classe', 'anneeAcademique'])->get();
@@ -118,6 +124,7 @@ class GestionEtudiantClasseController extends Controller
         return view('coordinateur.etudiants-classes.inscrire-plusieurs', compact('anneeClasses', 'etudiants'));
     }
 
+    // Enregistrement de plusieurs inscriptions
     public function enregistrerPlusieurs(Request $request)
     {
         $request->validate([
@@ -129,6 +136,7 @@ class GestionEtudiantClasseController extends Controller
         $successCount = 0;
         $errorCount = 0;
 
+        // Pour chaque etudiant, on verifie et on inscrit s'il n'est pas deja present
         foreach ($request->etudiant_ids as $etudiantId) {
             $existingInscription = AnneeClasseEtudiant::where('annee_classe_id', $request->annee_classe_id)
                 ->where('etudiant_id', $etudiantId)
@@ -145,9 +153,10 @@ class GestionEtudiantClasseController extends Controller
             }
         }
 
-        $message = "Inscriptions traitées: {$successCount} créées";
+        // Message recapitulatif
+        $message = "Inscriptions traitees: {$successCount} creees";
         if ($errorCount > 0) {
-            $message .= ", {$errorCount} déjà existantes";
+            $message .= ", {$errorCount} deja existantes";
         }
 
         return redirect()->route('etudiants-classes.index')

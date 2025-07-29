@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="space-y-6">
-    <!-- Informations de la séance -->
+    <!-- Informations de la seance -->
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-bold text-gray-800 mb-4">
             Séance du {{ \Carbon\Carbon::parse($seance->date_debut)->format('d/m/Y H:i') }}
@@ -14,7 +14,7 @@
         <p><strong>Matière :</strong> {{ $seance->matiere->nom ?? 'N/A' }}</p>
     </div>
 
-    <!-- Table des étudiants -->
+    <!-- Table des etudiants -->
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h3 class="text-lg font-semibold text-gray-700 mb-4">Liste des étudiants</h3>
 

@@ -11,25 +11,24 @@ class ClasseCoordinateur extends Controller
 {
     public function classe(Request $request)
     {
-        // On récupère l'ID du coordinateur connecté
+        // ID du coordinateur connecte
         $coordinateurId = Auth::user()->coordinateur->id;
 
-        // On récupère toutes les classes associées à ce coordinateur, avec la classe et l'année
+        // Classes liees au coordinateur, groupees par annee
         $classes = AnneeClasse::with(['classe', 'anneeAcademique'])
             ->where('coordinateur_id', $coordinateurId)
             ->get()
-            ->groupBy('annee_academique_id'); // On groupe par année pour l'affichage des filtres
+            ->groupBy('annee_academique_id');
 
-        // Récupération des filtres sélectionnés dans la requête
+        // Filtres choisis (annee et classe)
         $anneeId = $request->input('annee_id');
         $classeId = $request->input('classe_id');
 
-        // Variable pour contenir la classe sélectionnée
+        // Classe selectionnee (si filtres valides)
         $selectedClasse = null;
 
-        // Si une année et une classe ont été sélectionnées
         if ($anneeId && $classeId) {
-            // On essaie de retrouver la classe associée dans les classes du coordinateur
+            // Recuperer la classe correspondante
             $selectedClasse = AnneeClasse::with(['classe', 'anneeAcademique', 'etudiants.user'])
                 ->where('coordinateur_id', $coordinateurId)
                 ->where('annee_academique_id', $anneeId)
@@ -37,7 +36,7 @@ class ClasseCoordinateur extends Controller
                 ->first();
         }
 
-        // On envoie les données à la vue
+        // Envoyer les donnees a la vue
         return view('coordinateur.classe', [
             'classes' => $classes,
             'annees' => $classes,

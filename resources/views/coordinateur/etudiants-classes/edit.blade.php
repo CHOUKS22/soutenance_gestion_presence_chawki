@@ -46,7 +46,7 @@
                     @enderror
                 </div>
 
-                <!-- Étudiant -->
+                <!-- Etudiant -->
                 <div>
                     <label for="etudiant_id" class="block text-sm font-medium text-gray-700 mb-2">
                         Étudiant <span class="text-red-500">*</span>
