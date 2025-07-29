@@ -8,6 +8,8 @@ use App\Models\Matiere;
 use App\Models\Classe;
 use App\Models\Presence;
 use App\Models\Absence;
+use App\Models\Etudiant;
+use App\Models\Statut_presence;
 use App\Models\Statut_seance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

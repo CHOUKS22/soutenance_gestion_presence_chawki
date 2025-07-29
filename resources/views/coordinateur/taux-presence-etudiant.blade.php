@@ -65,12 +65,12 @@
                             <td class="px-4 py-2 border">{{ $dateDebut->format('d/m/Y') }} au {{ $dateFin->format('d/m/Y') }}</td>
                             <td class="px-4 py-2 border">{{ $totalSeances }}</td>
                             <td class="px-4 py-2 border">{{ $totalPresences }}</td>
-                            <td class="px-4 py-2 border font-bold {{ $taux < 70 ? 'text-red-600' : 'text-green-600' }}">{{ $taux }}%</td>
+                            <td class="px-4 py-2 border font-bold {{ $taux < 30 ? 'text-red-600' : 'text-green-600' }}">{{ $taux }}%</td>
                         </tr>
                     </tbody>
                 </table>
 
-                @if ($taux < 70)
+                @if ($taux < 30)
                     <div class="mt-4 p-4 bg-red-100 text-red-700 rounded">
                         ⚠️ L'étudiant est considéré comme <strong>droppé</strong> pour cette période.
                     </div>

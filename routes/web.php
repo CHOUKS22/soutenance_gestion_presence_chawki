@@ -3,8 +3,8 @@
 //  Controlleurs des utilisateurs
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Etudiant\DashboardController as EtudiantDashboardController;
-use App\Http\Controllers\Parent\DashboardController as ParentDashboardController;
+// use App\Http\Controllers\Etudiant\DashboardEtudiantController;
+// use App\Http\Controllers\Parent\DashboardParentController;
 use App\Http\Controllers\DashboardController;
 
 //Controlleurs Coordinateur
@@ -45,6 +45,9 @@ use App\Http\Controllers\Admin\AnneeClasseController;
 use App\Http\Controllers\Admin\StatutSeanceController;
 use App\Http\Controllers\Admin\TypeSeanceController;
 use App\Http\Controllers\Admin\MatiereController;
+use App\Http\Controllers\Etudiant\DashboardEtudiantController;
+use App\Http\Controllers\Parent\DashboardParentController;
+use App\Http\Controllers\Professeur\EmploiDuTempsProfesseurController;
 use App\Http\Controllers\Professeur\PresenceAbsenceProfesseurController;
 use App\Models\AnneeAcademique;
 use Illuminate\Support\Facades\Route;
@@ -58,12 +61,15 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+
     // Dashboards par role
     Route::middleware(['Etudiant'])->group(function () {
-        Route::get('/etudiant/dashboard', [EtudiantDashboardController::class, 'dashboard'])->name('etudiant.dashboard');
+        Route::get('/etudiant/dashboard', [DashboardEtudiantController::class, 'index'])->name('etudiant.dashboard');
     });
 
-
+    Route::middleware(['Parent'])->group(function () {
+        Route::get('/parent/dashboard', [DashboardParentController::class, 'index'])->name('parent.dashboard');
+    });
 
 
 
@@ -76,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/professeur/presence/present', [PresenceAbsenceProfesseurController::class, 'marquerPresent'])->name('professeur.presence.present');
         Route::post('/professeur/presence/retard', [PresenceAbsenceProfesseurController::class, 'marquerRetard'])->name('professeur.presence.retard');
         Route::post('/professeur/presence/absent', [PresenceAbsenceProfesseurController::class, 'marquerAbsent'])->name('professeur.presence.absent');
+        Route::get('/emploi-du-temps', [EmploiDuTempsProfesseurController::class, 'index'])->name('professeur.emploi_du_temps');
+        Route::get('/absences-non-justifiees', [DashboardProfesseurController::class, 'absencesNonJustifiees'])->name('absences.non_justifiees');
     });
 
 
@@ -109,6 +117,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/coordinateur/classes/volume-cours', [StatistiquesPresenceController::class, 'volumeCoursParSemestre'])->name('coordinateur.presences.volumeCours');
         Route::get('/coordinateur/classes/volume-cours-cumule', [StatistiquesPresenceController::class, 'volumeCoursCumule'])
             ->name('coordinateur.presences.volumeCoursCumule');
+        Route::get('/coordinateur/presences/classe-global', [StatistiquesPresenceController::class, 'tauxPresenceGlobalParClasse'])
+            ->name('coordinateur.presences.globalParClasse');
+        Route::get('/coordinateur/statistiques', function () {
+            return view('coordinateur.presences.statistiques');
+        })->name('coordinateur.presences.statistiques');
     });
 
 
@@ -117,9 +130,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    Route::middleware(['Parent'])->group(function () {
-        Route::get('/parent/dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
-    });
+
 
 
 

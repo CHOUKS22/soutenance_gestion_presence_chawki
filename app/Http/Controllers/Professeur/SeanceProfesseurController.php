@@ -9,47 +9,46 @@ use App\Models\Presence;
 use App\Models\Seance;
 use App\Models\Statut_presence;
 use App\Models\Statut_seance;
-use App\Models\Type_seance;
 use Illuminate\Support\Facades\Auth;
 
 class SeanceProfesseurController extends Controller
 {
-    /**
-     * Affiche la liste des séances présentielles du professeur connecté.
-     */
-     public function index()
+    public function index()
     {
-        // Récupère l'ID du professeur lié à l'utilisateur connecté
         $professeur = Auth::user()->professeur;
 
-        // Vérifie si l'utilisateur est bien lié à un professeur
         if (!$professeur) {
             abort(403, 'Vous n\'êtes pas autorisé à accéder à ces séances');
         }
 
-        // Optionnel : ID du statut "Annulée", à utiliser si filtrage nécessaire
-        $statutAnnuleeId = Statut_seance::where('libelle', 'Annulée')->value('id');
-
-        // Récupère uniquement les séances du professeur connecté
         $seances = Seance::with([
-                'anneeClasse.classe',
-                'matiere',
-                'professeur',
-                'statutSeance',
-                'semestre',
-                'typeSeance',
-                'presences',
-                'absences'
-            ])
+            'anneeClasse.classe',
+            'matiere',
+            'professeur',
+            'statutSeance',
+            'semestre',
+            'typeSeance',
+            'presences',
+            'absences'
+        ])
             ->where('professeur_id', $professeur->id)
             ->orderBy('date_debut', 'desc')
             ->paginate(10);
 
         return view('professeur.seances.index', compact('seances'));
     }
+
     public function show($id)
     {
-        $seance = Seance::with(['anneeClasse.classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])->findOrFail($id);
+        $seance = Seance::with([
+            'anneeClasse.classe',
+            'matiere',
+            'professeur',
+            'statutSeance',
+            'semestre',
+            'typeSeance'
+        ])->findOrFail($id);
+
         $etudiants = collect();
 
         if ($seance->annee_classe_id) {
@@ -69,13 +68,7 @@ class SeanceProfesseurController extends Controller
             ->toArray();
 
         $etudiants = $etudiants->map(function ($etudiant) use ($presences, $absences) {
-            if (isset($presences[$etudiant->id])) {
-                $etudiant->statut_presence = $presences[$etudiant->id];
-            } elseif (in_array($etudiant->id, $absences)) {
-                $etudiant->statut_presence = 'Absent';
-            } else {
-                $etudiant->statut_presence = 'Non défini';
-            }
+            $etudiant->statut_presence = $presences[$etudiant->id] ?? (in_array($etudiant->id, $absences) ? 'Absent' : 'Non défini');
             return $etudiant;
         });
 
@@ -94,9 +87,29 @@ class SeanceProfesseurController extends Controller
 
     public function presences($id)
     {
-        $seance = Seance::with(['anneeClasse.classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])->findOrFail($id);
-        $etudiants = collect();
+        $seance = Seance::with([
+            'anneeClasse.classe',
+            'matiere',
+            'professeur',
+            'statutSeance',
+            'semestre',
+            'typeSeance'
+        ])->findOrFail($id);
 
+        // Règle 1 : vérifier si la séance est bien de type "Présentiel"
+        if ($seance->typeSeance->nom !== 'Présentiel') {
+            abort(403, 'Cette séance n\'est pas de type présentiel. Vous ne pouvez pas marquer les présences.');
+        }
+
+        // Règle 2 : vérifier si la séance est encore dans le délai de modification (14 jours max après début)
+        $dateDebut = \Carbon\Carbon::parse($seance->date_debut);
+        $dateLimite = $dateDebut->copy()->addDays(14);
+
+        if (now()->greaterThan($dateLimite)) {
+            abort(403, 'Le délai de 14 jours pour marquer les présences est dépassé.');
+        }
+
+        $etudiants = collect();
         if ($seance->annee_classe_id) {
             $etudiants = Etudiant::whereHas('anneeClasseEtudiants', function ($query) use ($seance) {
                 $query->where('annee_classe_id', $seance->annee_classe_id);
@@ -114,13 +127,7 @@ class SeanceProfesseurController extends Controller
             ->toArray();
 
         $etudiants = $etudiants->map(function ($etudiant) use ($presences, $absences) {
-            if (isset($presences[$etudiant->id])) {
-                $etudiant->statut_presence = $presences[$etudiant->id];
-            } elseif (in_array($etudiant->id, $absences)) {
-                $etudiant->statut_presence = 'Absent';
-            } else {
-                $etudiant->statut_presence = 'Non défini';
-            }
+            $etudiant->statut_presence = $presences[$etudiant->id] ?? (in_array($etudiant->id, $absences) ? 'Absent' : 'Non défini');
             return $etudiant;
         });
 
@@ -139,6 +146,12 @@ class SeanceProfesseurController extends Controller
 
         $statutsPresence = Statut_presence::all();
 
-        return view('professeur.seances.presences', compact('seance', 'etudiants', 'statistiques', 'presences', 'statutsPresence'));
+        return view('professeur.seances.presences', compact(
+            'seance',
+            'etudiants',
+            'statistiques',
+            'presences',
+            'statutsPresence'
+        ));
     }
 }

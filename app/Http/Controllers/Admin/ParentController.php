@@ -65,8 +65,8 @@ class ParentController extends Controller
         ]);
 
         // Verifier si ce user est deja parent
-        $existingParent = Parent_model::where('user_id', $request->user_id)->first();
-        if ($existingParent) {
+        $parentexiste = Parent_model::where('user_id', $request->user_id)->first();
+        if ($parentexiste) {
             return redirect()->back()->with('error', 'Cet utilisateur a deja des informations de parent.');
         }
 

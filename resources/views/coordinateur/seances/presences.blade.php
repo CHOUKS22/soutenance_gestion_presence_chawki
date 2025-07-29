@@ -142,9 +142,9 @@
                                                 </div>
                                             </td> --}}
                                         @php
-                                            $presence = $presences[$etudiant->id] ?? null;
-                                            $statut = $presence->statutPresence->libelle ?? null;
+                                            $statut = $etudiant->statut_presence;
                                         @endphp
+
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
                                             @if ($statut === 'Présent')
                                                 <span
@@ -156,19 +156,19 @@
                                                     class="inline-flex px-2 py-1 text-xs font-semibold bg-orange-100 text-orange-800 rounded-full">
                                                     <i class="fas fa-clock mr-1"></i>En retard
                                                 </span>
-                                            @elseif($statut === '')
+                                            @elseif($statut === 'Absent')
+                                                <span
+                                                    class="inline-flex px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
+                                                    <i class="fas fa-times-circle mr-1"></i>Absent
+                                                </span>
+                                            @else
                                                 <span
                                                     class="inline-flex px-2 py-1 text-xs font-semibold text-gray-500 rounded-full">
                                                     <i class="fas fa-question-circle mr-1"></i>Non défini
                                                 </span>
-                                            @else
-                                            <span
-                                                    class="inline-flex px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
-                                                    <i class="fas fa-times-circle mr-1"></i>Absent
-                                                </span>
-
                                             @endif
                                         </td>
+
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
                                             <div class="flex justify-center space-x-1">
                                                 <!-- Formulaire pour Présent -->
@@ -201,8 +201,7 @@
                                                 <form method="POST" action="{{ route('presence.absent') }}"
                                                     class="inline">
                                                     @csrf
-                                                    <input type="hidden" name="etudiant_id"
-                                                        value="{{ $etudiant->id }}">
+                                                    <input type="hidden" name="etudiant_id" value="{{ $etudiant->id }}">
                                                     <input type="hidden" name="seance_id" value="{{ $seance->id }}">
                                                     <button type="submit"
                                                         class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm transition-colors"
@@ -233,7 +232,7 @@
             </div>
         </div>
     </div>
-{{-- <script>
+    {{-- <script>
         function marquerTousPresents() {
             if (confirm('Êtes-vous sûr de vouloir marquer tous les étudiants comme présents ?')) {
                 document.querySelectorAll('form[action="{{ route('presence.present') }}"] button').forEach(btn => {

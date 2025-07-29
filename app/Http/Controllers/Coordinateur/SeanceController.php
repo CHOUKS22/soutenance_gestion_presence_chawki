@@ -98,6 +98,26 @@ class SeanceController extends Controller
             'commentaire_report' => 'nullable|string|max:1000',
         ]);
 
+        // Vérification des conflits pour la classe
+        $classeConflit = Seance::where('annee_classe_id', $request->annee_classe_id)
+            ->where('date_debut', '<', $request->date_fin)
+            ->where('date_fin', '>', $request->date_debut)
+            ->exists();
+
+        if ($classeConflit) {
+            return back()->withErrors(['date_debut' => 'Cette classe a déjà une séance à cette date et heure.'])->withInput();
+        }
+
+        // Vérification des conflits pour le professeur
+        $professeurConflit = Seance::where('professeur_id', $request->professeur_id)
+            ->where('date_debut', '<', $request->date_fin)
+            ->where('date_fin', '>', $request->date_debut)
+            ->exists();
+
+        if ($professeurConflit) {
+            return back()->withErrors(['professeur_id' => 'Ce professeur est déjà assigné à une autre séance à ce moment.'])->withInput();
+        }
+
         Seance::create($request->only([
             'annee_classe_id',
             'matiere_id',
@@ -115,7 +135,6 @@ class SeanceController extends Controller
 
         return redirect()->route('seances.index')->with('success', 'Séance créée avec succès.');
     }
-
     public function show($id)
     {
         $seance = Seance::with(['anneeClasse.classe', 'matiere', 'professeur', 'statutSeance', 'semestre', 'typeSeance'])->findOrFail($id);
@@ -240,6 +259,28 @@ class SeanceController extends Controller
             'commentaire_report' => 'nullable|string|max:1000',
         ]);
 
+        // Vérification des conflits pour la classe (sauf la séance en cours)
+        $classeConflit = Seance::where('annee_classe_id', $request->annee_classe_id)
+            ->where('id', '!=', $seance->id)
+            ->where('date_debut', '<', $request->date_fin)
+            ->where('date_fin', '>', $request->date_debut)
+            ->exists();
+
+        if ($classeConflit) {
+            return back()->withErrors(['date_debut' => 'Cette classe a déjà une séance à cette date et heure.'])->withInput();
+        }
+
+        // Vérification des conflits pour le professeur (sauf la séance en cours)
+        $professeurConflit = Seance::where('professeur_id', $request->professeur_id)
+            ->where('id', '!=', $seance->id)
+            ->where('date_debut', '<', $request->date_fin)
+            ->where('date_fin', '>', $request->date_debut)
+            ->exists();
+
+        if ($professeurConflit) {
+            return back()->withErrors(['professeur_id' => 'Ce professeur est déjà assigné à une autre séance à ce moment.'])->withInput();
+        }
+
         $seance->update($request->only([
             'annee_classe_id',
             'matiere_id',
@@ -257,6 +298,7 @@ class SeanceController extends Controller
 
         return redirect()->route('seances.index')->with('success', 'Séance mise à jour avec succès.');
     }
+
 
     public function destroy(Seance $seance)
     {

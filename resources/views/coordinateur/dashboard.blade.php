@@ -17,6 +17,19 @@
                 <i class="fas fa-user-cog text-5xl opacity-60"></i>
             </div>
         </div>
+        @if (!empty($etudiantsDroppes) && count($etudiantsDroppes) > 0)
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h3 class="text-xl font-semibold text-red-600 mb-4">Étudiants Droppés (≤ 70% de présence)</h3>
+                <ul class="space-y-2">
+                    @foreach ($etudiantsDroppes as $drop)
+                        <li class="text-gray-800">
+                            <strong>{{ $drop->etudiant }}</strong> – {{ $drop->matiere }} :
+                            <span class="text-red-500 font-semibold">{{ $drop->taux }}%</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <!-- Statistiques -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -86,15 +99,15 @@
                             'color' => 'bg-blue-600',
                         ],
                         [
-                            'label' => 'Gérer les matières',
+                            'label' => 'Gérer les emplois du temps',
                             'icon' => 'fa-book',
-                            'route' => route('matieres.index'),
+                            'route' => route('emploi.index'),
                             'color' => 'bg-green-600',
                         ],
                         [
-                            'label' => 'Liste des étudiants',
+                            'label' => 'Liste des classes',
                             'icon' => 'fa-user-graduate',
-                            'route' => route('etudiants.index'),
+                            'route' => route('classes.classe'),
                             'color' => 'bg-purple-600',
                         ],
                         [
@@ -135,7 +148,7 @@
                             </span>
                         </div>
                         <div class="text-sm text-gray-500">
-                            {{ $seance->classe->nom ?? 'Classe inconnue' }} |
+                            {{ $seance->anneeClasse->classe->nom ?? 'Classe inconnue' }} |
                             {{ \Carbon\Carbon::parse($seance->date_debut)->format('d/m/Y') }}
                         </div>
                     </div>
@@ -151,6 +164,7 @@
             <h3 class="text-lg font-bold text-gray-800 mb-4">Taux de présence par classe</h3>
             <canvas id="presenceChart" class="w-full max-h-52"></canvas>
         </div>
+
 
     </div>
 @endsection
@@ -207,4 +221,3 @@
         });
     </script>
 @endsection
-

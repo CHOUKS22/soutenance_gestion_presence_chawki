@@ -30,7 +30,7 @@ class GestionEtudiantClasseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-             'annee_classe_id' => 'required|exists:annees_classes,id',
+            'annee_classe_id' => 'required|exists:annee_classes,id',
             'etudiant_id' => 'required|exists:etudiants,id',
         ]);
 
@@ -77,7 +77,7 @@ class GestionEtudiantClasseController extends Controller
         $inscription = AnneeClasseEtudiant::findOrFail($id);
 
         $request->validate([
-            'annee_classe_id' => 'required|exists:annee_classes,id',
+            'annee_classe_id' => 'required|exists:annees_classes,id',
             'etudiant_id' => 'required|exists:etudiants,id',
         ]);
 

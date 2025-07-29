@@ -39,7 +39,7 @@
                         <i class="fas fa-tachometer-alt mr-4"></i> <!-- icône décalé -->
                         <span class="text-base">Dashboard</span>
                     </a> --}}
-                {{--</nav>
+              {{--  </nav>
             </div>
         </aside> --}}
         <!-- Contenu principal -->

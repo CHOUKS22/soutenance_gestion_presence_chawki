@@ -267,9 +267,10 @@ class StatistiquesPresenceController extends Controller
         $statutAnnuleeId = Statut_seance::where('libelle', 'Annulée')->value('id');
         $typesSeances = Type_seance::all()->keyBy('id');
 
-        $annee = now()->year;
-        $semestre1 = [Carbon::create($annee, 1, 1), Carbon::create($annee, 6, 30)];
-        $semestre2 = [Carbon::create($annee, 7, 1), Carbon::create($annee, 12, 31)];
+        $semestreIds = [
+            's1' => 1, // ID du Semestre 1
+            's2' => 2, // ID du Semestre 2
+        ];
 
         $classes = Classe::all();
         $dataSemestre1 = [];
@@ -285,17 +286,19 @@ class StatistiquesPresenceController extends Controller
             foreach ($typesSeances as $typeId => $type) {
                 if (!in_array($type->nom, $types)) continue;
 
-                $minutesSem1 = Seance::whereIn('annee_classe_id', $anneeClasseIds)
+                // SEMESTRE 1 (semestre_id = 1)
+                $minutesSem1 = \App\Models\Seance::whereIn('annee_classe_id', $anneeClasseIds)
                     ->where('type_seance_id', $typeId)
                     ->where('statut_seance_id', '!=', $statutAnnuleeId)
-                    ->whereBetween('date_debut', $semestre1)
+                    ->where('semestre_id', $semestreIds['s1'])
                     ->select(DB::raw('SUM(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) as minutes'))
                     ->value('minutes');
 
-                $minutesSem2 = Seance::whereIn('annee_classe_id', $anneeClasseIds)
+                // SEMESTRE 2 (semestre_id = 2)
+                $minutesSem2 = \App\Models\Seance::whereIn('annee_classe_id', $anneeClasseIds)
                     ->where('type_seance_id', $typeId)
                     ->where('statut_seance_id', '!=', $statutAnnuleeId)
-                    ->whereBetween('date_debut', $semestre2)
+                    ->where('semestre_id', $semestreIds['s2'])
                     ->select(DB::raw('SUM(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) as minutes'))
                     ->value('minutes');
 
@@ -323,48 +326,99 @@ class StatistiquesPresenceController extends Controller
             'dataSemestre2' => $dataSemestre2,
         ]);
     }
+
     public function volumeCoursCumule()
-{
-    $statutAnnuleeId = Statut_seance::where('libelle', 'Annulée')->value('id');
-    $typePresentielId = Type_seance::where('nom', 'Présentiel')->value('id');
+    {
+        $statutAnnuleeId = Statut_seance::where('libelle', 'Annulée')->value('id');
 
-    $semestre1 = [Carbon::create(null, 1, 1), Carbon::create(null, 3, 31)];
-    $semestre2 = [Carbon::create(null, 4, 1), Carbon::create(null, 6, 30)];
-
-    $classes = Classe::all();
-    $donnees = [];
-
-    foreach ($classes as $classe) {
-        $anneeClasseIds = AnneeClasse::where('classe_id', $classe->id)->pluck('id');
-
-        $minutesS1 = Seance::whereIn('annee_classe_id', $anneeClasseIds)
-            ->where('type_seance_id', $typePresentielId)
-            ->where('statut_seance_id', '!=', $statutAnnuleeId)
-            ->whereBetween('date_debut', $semestre1)
-            ->select(DB::raw('SUM(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) as minutes'))
-            ->value('minutes') ?? 0;
-
-        $minutesS2 = Seance::whereIn('annee_classe_id', $anneeClasseIds)
-            ->where('type_seance_id', $typePresentielId)
-            ->where('statut_seance_id', '!=', $statutAnnuleeId)
-            ->whereBetween('date_debut', $semestre2)
-            ->select(DB::raw('SUM(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) as minutes'))
-            ->value('minutes') ?? 0;
-
-        $heuresS1 = round($minutesS1 / 60);
-        $heuresS2 = round($minutesS2 / 60);
-
-        $donnees[] = (object)[
-            'classe' => $classe->nom,
-            's1' => $heuresS1,
-            's2' => $heuresS2,
-            'total' => $heuresS1 + $heuresS2
+        $semestres = [
+            's1' => 1, // ID du Semestre 1
+            's2' => 2  // ID du Semestre 2
         ];
+
+        $classes = Classe::all();
+        $donnees = [];
+
+        foreach ($classes as $classe) {
+            $anneeClasseIds = AnneeClasse::where('classe_id', $classe->id)->pluck('id');
+
+            $heures = [];
+
+            foreach ($semestres as $cle => $semestreId) {
+                $minutes = Seance::whereIn('annee_classe_id', $anneeClasseIds)
+                    ->where('semestre_id', $semestreId)
+                    ->where('statut_seance_id', '!=', $statutAnnuleeId)
+                    ->select(DB::raw('SUM(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) as minutes'))
+                    ->value('minutes') ?? 0;
+
+                $heures[$cle] = round($minutes / 60); // conversion en heures
+            }
+
+            $donnees[] = (object)[
+                'classe' => $classe->nom,
+                's1' => $heures['s1'] ?? 0,
+                's2' => $heures['s2'] ?? 0,
+                'total' => ($heures['s1'] ?? 0) + ($heures['s2'] ?? 0)
+            ];
+        }
+
+        $donnees = collect($donnees)->sortByDesc('total')->values();
+
+        return view('coordinateur.presences.volume-cumule', compact('donnees'));
     }
 
-    $donnees = collect($donnees)->sortByDesc('total')->values();
+    public function tauxPresenceGlobalParClasse(Request $request)
+    {
+        $periode = $request->input('periode', 'annee');
 
-    return view('coordinateur.presences.volume-cumule', compact('donnees'));
-}
+        $dateFin = now();
+        switch ($periode) {
+            case 'semaine':
+                $dateDebut = now()->startOfWeek();
+                break;
+            case 'semestre':
+                $dateDebut = now()->subMonths(6);
+                break;
+            default:
+                $dateDebut = now()->startOfYear();
+        }
 
+        $classes = Classe::with('anneesClasses')->get();
+        $donnees = [];
+
+        foreach ($classes as $classe) {
+            $anneeClasseIds = $classe->anneesClasses->pluck('id');
+
+            $etudiantIds = DB::table('annee_classe_etudiant')
+                ->whereIn('annee_classe_id', $anneeClasseIds)
+                ->pluck('etudiant_id');
+
+            if ($etudiantIds->isEmpty()) {
+                continue;
+            }
+
+            $presences = Presence::whereIn('etudiant_id', $etudiantIds)
+                ->whereBetween('created_at', [$dateDebut, $dateFin])
+                ->count();
+
+            $absences = Absence::whereIn('etudiant_id', $etudiantIds)
+                ->whereBetween('created_at', [$dateDebut, $dateFin])
+                ->count();
+
+            $total = $presences + $absences;
+            $taux = $total > 0 ? round(($presences / $total) * 100, 1) : 0;
+
+            $donnees[] = (object)[
+                'classe' => $classe->nom,
+                'presences' => $presences,
+                'absences' => $absences,
+                'taux' => $taux,
+            ];
+        }
+
+        return view('coordinateur.presences.taux-global', [
+            'donnees' => collect($donnees)->sortByDesc('taux')->values(),
+            'periode' => $periode,
+        ]);
+    }
 }

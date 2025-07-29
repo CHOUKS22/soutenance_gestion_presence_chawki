@@ -19,35 +19,55 @@ class PresenceAbsenceProfesseurController extends Controller
      */
     public function index($seanceId)
     {
-        $seance = Seance::with(['classe.anneesClasses.etudiants', 'matiere', 'professeur'])
-                        ->findOrFail($seanceId);
+        $seance = Seance::with(['anneeClasse.classe', 'matiere', 'professeur'])
+            ->findOrFail($seanceId);
 
         $etudiants = collect();
-        foreach ($seance->classe->anneesClasses as $anneeClasse) {
+        foreach ($seance->anneeClasse->classe->anneesClasses as $anneeClasse) {
             $etudiants = $etudiants->merge($anneeClasse->etudiants);
         }
-        $etudiants = $etudiants->unique('id');
+        $etudiants = $etudiants->unique('id')->load('user');
 
         $statutsPresence = Statut_presence::all();
 
         // Récupérer les présences et absences déjà marquées
-        $presencesMarquees = Presence::where('seance_id', $seanceId)
-                                   ->with('statutPresence')
-                                   ->get()
-                                   ->keyBy('etudiant_id');
+        $presences = Presence::where('seance_id', $seanceId)
+            ->with('statutPresence')
+            ->get()
+            ->keyBy('etudiant_id');
 
-        $absencesMarquees = Absence::where('seance_id', $seanceId)
-                                  ->get()
-                                  ->keyBy('etudiant_id');
+        $absences = Absence::where('seance_id', $seanceId)
+            ->get()
+            ->keyBy('etudiant_id');
+
+        // Ajouter le champ "statut_presence" à chaque étudiant
+        foreach ($etudiants as $etudiant) {
+            if (isset($presences[$etudiant->id])) {
+                $etudiant->statut_presence = $presences[$etudiant->id]->statutPresence->libelle;
+            } elseif (isset($absences[$etudiant->id])) {
+                $etudiant->statut_presence = 'Absent';
+            } else {
+                $etudiant->statut_presence = 'Non défini';
+            }
+        }
+
+        // Statistiques
+        $statistiques = [
+            'total' => $etudiants->count(),
+            'presents' => $etudiants->where('statut_presence', 'Présent')->count(),
+            'retards' => $etudiants->where('statut_presence', 'En retard')->count(),
+            'absents' => $etudiants->where('statut_presence', 'Absent')->count(),
+            'non_definis' => $etudiants->where('statut_presence', 'Non défini')->count(),
+        ];
 
         return view('professeur.seances.index', compact(
             'seance',
             'etudiants',
             'statutsPresence',
-            'presencesMarquees',
-            'absencesMarquees'
+            'statistiques'
         ));
     }
+
 
     /**
      * Marquer un étudiant comme présent
@@ -61,8 +81,8 @@ class PresenceAbsenceProfesseurController extends Controller
 
         // Supprimer toute absence existante
         Absence::where('etudiant_id', $request->etudiant_id)
-               ->where('seance_id', $request->seance_id)
-               ->delete();
+            ->where('seance_id', $request->seance_id)
+            ->delete();
 
         // Créer ou mettre à jour la présence avec statut "Présent"
         Presence::updateOrCreate(
@@ -91,8 +111,8 @@ class PresenceAbsenceProfesseurController extends Controller
 
         // Supprimer toute absence existante
         Absence::where('etudiant_id', $request->etudiant_id)
-               ->where('seance_id', $request->seance_id)
-               ->delete();
+            ->where('seance_id', $request->seance_id)
+            ->delete();
 
         // Créer ou mettre à jour la présence avec statut "En retard"
         Presence::updateOrCreate(
@@ -121,8 +141,8 @@ class PresenceAbsenceProfesseurController extends Controller
 
         // Supprimer toute présence existante
         Presence::where('etudiant_id', $request->etudiant_id)
-                ->where('seance_id', $request->seance_id)
-                ->delete();
+            ->where('seance_id', $request->seance_id)
+            ->delete();
 
         // Créer l'absence
         Absence::updateOrCreate(

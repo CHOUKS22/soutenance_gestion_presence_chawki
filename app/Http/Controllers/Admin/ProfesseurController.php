@@ -64,8 +64,8 @@ class ProfesseurController extends Controller
         ]);
 
         // Verifie si ce user est deja professeur
-        $existingProfesseur = Professeur::where('user_id', $request->user_id)->first();
-        if ($existingProfesseur) {
+        $professeurexiste = Professeur::where('user_id', $request->user_id)->first();
+        if ($professeurexiste) {
             return redirect()->back()->with('error', 'Cet utilisateur a deja des informations de professeur.');
         }
 
