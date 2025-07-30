@@ -127,17 +127,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     Route::middleware(['Administrateur'])->group(function () {
         Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
         Route::resource('admins', AdminDashboardController::class);

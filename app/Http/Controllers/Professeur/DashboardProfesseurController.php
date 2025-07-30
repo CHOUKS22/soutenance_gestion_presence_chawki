@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Professeur;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
+use App\Models\Matiere;
 use App\Models\Presence;
 use App\Models\Seance;
+use App\Models\Etudiant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardProfesseurController extends Controller
 {
@@ -70,6 +73,50 @@ class DashboardProfesseurController extends Controller
             ? gmdate("H\h i\m", ($totalMinutes / count($seances)) * 60)
             : '0h 0m';
 
+        // Recuperer les matieres enseignees
+        $matiereIds = Seance::where('professeur_id', $professeurId)->pluck('matiere_id')->unique();
+        $matieres = Matiere::whereIn('id', $matiereIds)->get();
+
+        // Recuperer les etudiants
+        $etudiants = Etudiant::with('user')->get();
+        $droppages = [];
+
+        // Verifier le taux de presence par matiere
+        foreach ($etudiants as $etudiant) {
+            foreach ($matieres as $matiere) {
+                // Recuperer les seances de cette matiere par ce professeur
+                $seancesMatiere = Seance::where('professeur_id', $professeurId)
+                    ->where('matiere_id', $matiere->id)
+                    ->pluck('id');
+
+                if ($seancesMatiere->isEmpty()) continue;
+
+                // Compter les presences
+                $nbPresences = Presence::whereIn('seance_id', $seancesMatiere)
+                    ->where('etudiant_id', $etudiant->id)
+                    ->count();
+
+                // Compter uniquement les absences non justifiees
+                $nbAbsences = Absence::whereIn('seance_id', $seancesMatiere)
+                    ->where('etudiant_id', $etudiant->id)
+                    ->whereDoesntHave('justifications')
+                    ->count();
+
+                $total = $nbPresences + $nbAbsences;
+                if ($total === 0) continue;
+
+                $taux = ($nbPresences / $total) * 100;
+
+                if ($taux <= 30) {
+                    $droppages[] = [
+                        'etudiant' => $etudiant,
+                        'matiere' => $matiere,
+                        'taux' => $taux,
+                    ];
+                }
+            }
+        }
+
         // Afficher la vue du dashboard professeur avec les donnees calculees
         return view('professeur.dashboard', compact(
             'user',
@@ -78,7 +125,8 @@ class DashboardProfesseurController extends Controller
             'absencesNonJustifiees',
             'tauxPresence',
             'moyenneParSemaine',
-            'dureeMoyenne'
+            'dureeMoyenne',
+            'droppages' // Etudiants droppés à afficher
         ));
     }
 

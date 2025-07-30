@@ -17,7 +17,7 @@
                 <i class="fas fa-user-cog text-5xl opacity-60"></i>
             </div>
         </div>
-        @if (!empty($etudiantsDroppes) && count($etudiantsDroppes) > 0)
+        {{-- @if (!empty($etudiantsDroppes) && count($etudiantsDroppes) > 0)
             <div class="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h2 class="text-xl font-semibold text-red-600 mb-4">Étudiants Droppés (≤ 70% de présence)</h2>
                 <ul class="space-y-2">
@@ -28,6 +28,21 @@
                         </li>
                     @endforeach
                 </ul>
+            </div>
+        @endif --}}
+        @if (count($droppages) > 0)
+            <div
+                class="bg-red-100 border border-red-400 text-red-800 px-6 py-4 rounded-xl shadow mb-6 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                    <div>
+                        <p class="font-semibold">⚠ Attention : des étudiants ont été droppés de certaines matières.</p>
+                        <p class="text-sm">Ils ne sont plus autorisés à suivre ces modules. Consultez les détails ci-dessous.
+                        </p>
+                    </div>
+                </div>
+                <span class="text-sm bg-red-500 text-white px-3 py-1 rounded-full">{{ count($droppages) }}
+                    étudiant(s)</span>
             </div>
         @endif
 
@@ -160,6 +175,43 @@
                 @endforelse
             </div>
         </div>
+        @if (count($droppages) > 0)
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mt-4">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user-slash text-red-600 mr-2"></i> Étudiants droppés par matière
+                </h2>
+
+                <table class="w-full table-auto text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-gray-700">
+                            <th class="px-4 py-2 border-b">Étudiant</th>
+                            <th class="px-4 py-2 border-b">Matière</th>
+                            <th class="px-4 py-2 border-b text-center">Taux de présence</th>
+                            <th class="px-4 py-2 border-b text-center">Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($droppages as $drop)
+                            <tr class="hover:bg-red-50 transition">
+                                <td class="px-4 py-2 border-b font-medium text-gray-800">
+                                    {{ $drop['etudiant']->user->nom }} {{ $drop['etudiant']->user->prenom }}
+                                </td>
+                                <td class="px-4 py-2 border-b text-gray-700">{{ $drop['matiere']->nom }}</td>
+                                <td class="px-4 py-2 border-b text-center text-red-600 font-bold">
+                                    {{ round($drop['taux'], 2) }}%
+                                </td>
+                                <td class="px-4 py-2 border-b text-center">
+                                    <span class="bg-red-200 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                        Droppé
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+
         <div class="bg-white rounded-2xl shadow p-6 max-h-[300px] overflow-auto">
             <p class="text-lg font-bold text-gray-800 mb-4">Taux de présence par classe</p>
             <canvas id="presenceChart" class="w-full max-h-52"></canvas>

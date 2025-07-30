@@ -127,6 +127,48 @@ class DashboardCoordinateurController extends Controller
             $data[] = $tauxClasse;
         }
 
+        // Liste des etudiants droppés (taux de presence <= 30%)
+        $etudiants = Etudiant::with('user')->get();
+        $matieres = Matiere::whereIn('id', $matiereIds)->get();
+        $droppages = [];
+
+        foreach ($etudiants as $etudiant) {
+            foreach ($matieres as $matiere) {
+                // Recuperer les seances valides de cette matiere
+                $seancesMatiere = Seance::where('matiere_id', $matiere->id)
+                    ->whereIn('annee_classe_id', $anneeClasseIds)
+                    ->where('statut_seance_id', '!=', $statutAnnuleeId)
+                    ->pluck('id');
+
+                if ($seancesMatiere->isEmpty()) continue;
+
+                // Compter les presences
+                $nbPresences = Presence::whereIn('seance_id', $seancesMatiere)
+                    ->where('etudiant_id', $etudiant->id)
+                    ->count();
+
+                // Compter uniquement les absences non justifiees
+                $nbAbsences = Absence::whereIn('seance_id', $seancesMatiere)
+                    ->where('etudiant_id', $etudiant->id)
+                    ->whereDoesntHave('justifications')
+                    ->count();
+
+
+                $total = $nbPresences + $nbAbsences;
+                if ($total === 0) continue;
+
+                $taux = ($nbPresences / $total) * 100;
+
+                if ($taux <= 30) {
+                    $droppages[] = [
+                        'etudiant' => $etudiant,
+                        'matiere' => $matiere,
+                        'taux' => $taux,
+                    ];
+                }
+            }
+        }
+
         // Envoyer les donnees a la vue
         return view('coordinateur.dashboard', [
             'user' => $user,
@@ -140,6 +182,7 @@ class DashboardCoordinateurController extends Controller
             'tauxPresence' => $tauxPresence,
             'chartLabels' => json_encode($labels),
             'chartData' => json_encode($data),
+            'droppages' => $droppages
         ]);
     }
 }

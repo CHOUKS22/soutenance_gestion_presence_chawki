@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
         }
     </style>
 </head>
+
 <body class="h-screen w-screen overflow-hidden flex">
 
     <!-- Côté gauche - Formulaire -->
@@ -20,7 +22,7 @@
         <!-- Logo -->
         <div class="p-8 pb-0">
             <div class="flex items-center">
-                @if(file_exists(public_path('images/logos/ifran.jpeg')))
+                @if (file_exists(public_path('images/logos/ifran.jpeg')))
                     <img src="{{ asset('images/logos/ifran.jpeg') }}" alt="IFRAN Logo" class="h-28">
                 @else
                     <div class="flex items-center">
@@ -29,7 +31,6 @@
                         </div>
                         <div>
                             <h1 class="text-xl font-bold text-gray-900">IFRAN</h1>
-                            <p class="text-xs text-gray-600">École Supérieure</p>
                         </div>
                     </div>
                 @endif
@@ -48,7 +49,7 @@
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
                 <!-- Erreur personnalisée -->
-                @if(session('error'))
+                @if (session('error'))
                     <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
                         <div class="flex items-center">
                             <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -64,9 +65,10 @@
                     <!-- Email -->
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                               class="block w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 @error('email') border-red-500 @enderror"
-                               placeholder="votre@email.com">
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                            autofocus
+                            class="block w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 @error('email') border-red-500 @enderror"
+                            placeholder="votre@email.com">
                         @error('email')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -76,8 +78,8 @@
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
                         <input id="password" type="password" name="password" required
-                               class="block w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 @error('password') border-red-500 @enderror"
-                               placeholder="••••••••">
+                            class="block w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 @error('password') border-red-500 @enderror"
+                            placeholder="••••••••">
                         @error('password')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -86,20 +88,21 @@
                     <!-- Souvenir + lien -->
                     <div class="flex items-center justify-between">
                         <label class="flex items-center">
-                            <input type="checkbox" name="remember" class="rounded text-blue-600 shadow-sm focus:ring-blue-500">
+                            <input type="checkbox" name="remember"
+                                class="rounded text-blue-600 shadow-sm focus:ring-blue-500">
                             <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
                         </label>
-
+                        {{--
                         @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-500 hover:underline">
                                 Mot de passe oublié ?
                             </a>
-                        @endif
+                        @endif --}}
                     </div>
 
                     <!-- Bouton -->
                     <button type="submit"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 transform hover:scale-105">
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 transform hover:scale-105">
                         Se connecter
                     </button>
                 </form>
@@ -109,7 +112,7 @@
 
     <!-- Côté droit - Image -->
     <div class="hidden md:flex md:w-1/2 h-full gradient-bg items-center justify-center relative overflow-hidden">
-        @if(file_exists(public_path('images/image_ifran.jpg')))
+        @if (file_exists(public_path('images/image_ifran.jpg')))
             <img src="{{ asset('images/image_ifran.jpg') }}" alt="Étudiants IFRAN" class="w-full h-full object-cover">
         @else
             <div class="text-white text-center p-8">
@@ -120,4 +123,5 @@
     </div>
 
 </body>
+
 </html>
